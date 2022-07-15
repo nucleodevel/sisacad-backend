@@ -13,8 +13,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 public class OfertaDisciplina extends AbstractEntity<Integer> {
 
@@ -32,20 +30,16 @@ public class OfertaDisciplina extends AbstractEntity<Integer> {
 	@JoinColumn(name = "id_docente")
 	private Docente docente;
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "ofertaDisciplina")
 	private List<Aula> listaAula = new ArrayList<>();
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "ofertaDisciplina")
 	private List<Avaliacao> listaAvaliacao = new ArrayList<>();
 
-	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "oferta_disciplina_turma", joinColumns = @JoinColumn(name = "id_oferta_disciplina"), inverseJoinColumns = @JoinColumn(name = "id_turma"))
 	private List<Turma> listaTurma = new ArrayList<>();
 
-	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "oferta_disciplina_discente", joinColumns = @JoinColumn(name = "id_oferta_disciplina"), inverseJoinColumns = @JoinColumn(name = "id_discente"))
 	private List<Discente> listaDiscente = new ArrayList<>();
@@ -80,16 +74,8 @@ public class OfertaDisciplina extends AbstractEntity<Integer> {
 		return listaAula;
 	}
 
-	public void setListaAula(List<Aula> listaAula) {
-		this.listaAula = listaAula;
-	}
-
 	public List<Avaliacao> getListaAvaliacao() {
 		return listaAvaliacao;
-	}
-
-	public void setListaAvaliacao(List<Avaliacao> listaAvaliacao) {
-		this.listaAvaliacao = listaAvaliacao;
 	}
 
 	public List<Turma> getListaTurma() {

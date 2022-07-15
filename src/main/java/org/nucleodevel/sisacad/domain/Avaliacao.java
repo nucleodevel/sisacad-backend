@@ -13,8 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 public class Avaliacao extends AbstractEntity<Integer> {
 
@@ -37,7 +35,6 @@ public class Avaliacao extends AbstractEntity<Integer> {
 	@JoinColumn(name = "id_oferta_disciplina")
 	private OfertaDisciplina ofertaDisciplina;
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "avaliacao")
 	private List<ParticipacaoAvaliacao> listaParticipacaoAvaliacao = new ArrayList<>();
 
@@ -85,10 +82,6 @@ public class Avaliacao extends AbstractEntity<Integer> {
 
 	public List<ParticipacaoAvaliacao> getListaParticipacaoAvaliacao() {
 		return listaParticipacaoAvaliacao;
-	}
-
-	public void setListaParticipacaoAvaliacao(List<ParticipacaoAvaliacao> listaParticipacaoAvaliacao) {
-		this.listaParticipacaoAvaliacao = listaParticipacaoAvaliacao;
 	}
 
 }

@@ -8,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 public class Vestibulando extends AbstractEntity<Integer> {
 
@@ -26,11 +24,9 @@ public class Vestibulando extends AbstractEntity<Integer> {
 	@JoinColumn(name = "id_oferta_turma")
 	private OfertaCurso ofertaCurso;
 
-	@JsonIgnore
 	@OneToOne(mappedBy = "vestibulando")
 	private AvaliacaoVestibulando avaliacaoVestibulando;
 
-	@JsonIgnore
 	@OneToOne(mappedBy = "vestibulando")
 	private Discente discente;
 
@@ -64,16 +60,8 @@ public class Vestibulando extends AbstractEntity<Integer> {
 		return avaliacaoVestibulando;
 	}
 
-	public void setAvaliacaoVestibulando(AvaliacaoVestibulando avaliacaoVestibulando) {
-		this.avaliacaoVestibulando = avaliacaoVestibulando;
-	}
-
 	public Discente getDiscente() {
 		return discente;
-	}
-
-	public void setDiscente(Discente discente) {
-		this.discente = discente;
 	}
 
 }

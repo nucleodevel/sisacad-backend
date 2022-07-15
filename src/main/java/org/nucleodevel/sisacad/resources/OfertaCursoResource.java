@@ -5,7 +5,6 @@ import org.nucleodevel.sisacad.dto.OfertaCursoDto;
 import org.nucleodevel.sisacad.repositories.OfertaCursoRepository;
 import org.nucleodevel.sisacad.services.EstruturaCurricularService;
 import org.nucleodevel.sisacad.services.OfertaCursoService;
-import org.nucleodevel.sisacad.services.TurmaService;
 import org.nucleodevel.sisacad.services.VestibularService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,8 +21,6 @@ public class OfertaCursoResource
 	private EstruturaCurricularService estruturaCurricularService;
 	@Autowired
 	private VestibularService vestibularService;
-	@Autowired
-	private TurmaService turmaService;
 
 	@Override
 	public OfertaCurso mergeDtoIntoEntity(OfertaCursoDto dto, OfertaCurso entity) {
@@ -31,7 +28,6 @@ public class OfertaCursoResource
 		entity.setAno(dto.getAno());
 		entity.setEstruturaCurricular(estruturaCurricularService.find(dto.getEstruturaCurricular()));
 		entity.setVestibular(vestibularService.find(dto.getVestibular()));
-		entity.setTurma(turmaService.find(dto.getTurma()));
 
 		return entity;
 	}

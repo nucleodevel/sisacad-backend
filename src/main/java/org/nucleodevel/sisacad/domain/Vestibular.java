@@ -10,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 public class Vestibular extends AbstractEntity<Integer> {
 
@@ -24,7 +22,6 @@ public class Vestibular extends AbstractEntity<Integer> {
 	@Column(name = "ano")
 	private Integer ano;
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "vestibular")
 	private List<OfertaCurso> listaOfertaCurso = new ArrayList<>();
 
@@ -48,10 +45,6 @@ public class Vestibular extends AbstractEntity<Integer> {
 
 	public List<OfertaCurso> getListaOfertaCurso() {
 		return listaOfertaCurso;
-	}
-
-	public void setListaOfertaCurso(List<OfertaCurso> listaOfertaCurso) {
-		this.listaOfertaCurso = listaOfertaCurso;
 	}
 
 }
