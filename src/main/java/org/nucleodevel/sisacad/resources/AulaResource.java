@@ -1,13 +1,21 @@
 package org.nucleodevel.sisacad.resources;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
 import org.nucleodevel.sisacad.domain.Aula;
+import org.nucleodevel.sisacad.domain.ParticipacaoAula;
 import org.nucleodevel.sisacad.dto.AulaDto;
+import org.nucleodevel.sisacad.dto.ParticipacaoAulaDto;
 import org.nucleodevel.sisacad.repositories.AulaRepository;
 import org.nucleodevel.sisacad.services.AulaService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,6 +34,14 @@ public class AulaResource extends AbstractResource<Aula, Integer, AulaDto, AulaR
 		entity.setOfertaDisciplina(ofertaDisciplinaService.find(dto.getOfertaDisciplina()));
 
 		return entity;
+	}
+
+	@RequestMapping(value = "/{id}/participacao-aula", method = RequestMethod.GET)
+	public ResponseEntity<List<ParticipacaoAulaDto>> findAllParticipacaoAula(@PathVariable Integer id)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		return findAllItem(ParticipacaoAula.class, ParticipacaoAulaDto.class, id, "getListaParticipacaoAula");
 	}
 
 }

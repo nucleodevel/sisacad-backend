@@ -1,13 +1,21 @@
 package org.nucleodevel.sisacad.resources;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
+import org.nucleodevel.sisacad.domain.OfertaDisciplina;
 import org.nucleodevel.sisacad.domain.Turma;
+import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
 import org.nucleodevel.sisacad.dto.TurmaDto;
 import org.nucleodevel.sisacad.repositories.TurmaRepository;
 import org.nucleodevel.sisacad.services.OfertaCursoService;
 import org.nucleodevel.sisacad.services.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -24,6 +32,14 @@ public class TurmaResource extends AbstractResource<Turma, Integer, TurmaDto, Tu
 		entity.setOfertaCurso(ofertaCursoService.find(dto.getOfertaCurso()));
 
 		return entity;
+	}
+
+	@RequestMapping(value = "/{id}/oferta-disciplina", method = RequestMethod.GET)
+	public ResponseEntity<List<OfertaDisciplinaDto>> findAllOfertaDisciplina(@PathVariable Integer id)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		return findAllItem(OfertaDisciplina.class, OfertaDisciplinaDto.class, id, "getListaOfertaDisciplina");
 	}
 
 }

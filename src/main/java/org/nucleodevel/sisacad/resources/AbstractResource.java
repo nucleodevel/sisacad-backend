@@ -2,7 +2,9 @@ package org.nucleodevel.sisacad.resources;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +25,10 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, ID, DTO ext
 
 	@Autowired
 	protected S service;
+
+	protected S getService() {
+		return service;
+	}
 
 	public E makeEntityFromDto(DTO dto) {
 		try {
@@ -115,8 +121,30 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, ID, DTO ext
 	public ResponseEntity<List<DTO>> findAll() {
 		List<E> lista = service.findAll();
 
-		List<DTO> listaDto = lista.stream().map(entity -> getDtoFromEntity(entity)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listaDto);
+		List<DTO> listDto = lista.stream().map(entity -> getDtoFromEntity(entity)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <IE extends AbstractEntity<?>, IDTO extends AbstractDto<IE, ?>> ResponseEntity<List<IDTO>> findAllItem(
+			Class<IE> itemEntityClass, Class<IDTO> itemDtoClass, ID id, String itemListMethodName)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		E entity = service.find(id);
+		Method itemListMethod = entity.getClass().getMethod(itemListMethodName);
+		List<IE> itemList = (List<IE>) itemListMethod.invoke(entity);
+
+		List<IDTO> listDto = new ArrayList<>();
+		Constructor<IDTO> idtoConstructor = itemDtoClass.getDeclaredConstructor();
+
+		for (IE item : itemList) {
+			IDTO itemDto = idtoConstructor.newInstance();
+			itemDto.copyFromEntity(item);
+			listDto.add(itemDto);
+		}
+
+		return ResponseEntity.ok().body(listDto);
 	}
 
 }

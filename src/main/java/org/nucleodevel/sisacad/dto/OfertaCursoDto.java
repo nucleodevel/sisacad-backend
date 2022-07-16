@@ -9,6 +9,7 @@ public class OfertaCursoDto extends AbstractDto<OfertaCurso, Integer> {
 	private Integer ano;
 	private Integer estruturaCurricular;
 	private Integer vestibular;
+	private Integer turma;
 
 	@Override
 	public void copyFromEntity(OfertaCurso entity) {
@@ -16,6 +17,7 @@ public class OfertaCursoDto extends AbstractDto<OfertaCurso, Integer> {
 		this.ano = entity.getAno();
 		this.estruturaCurricular = entity.getEstruturaCurricular().getId();
 		this.vestibular = entity.getVestibular().getId();
+		this.turma = entity.getTurma().getId();
 	}
 
 	public Integer getAno() {
@@ -40,6 +42,14 @@ public class OfertaCursoDto extends AbstractDto<OfertaCurso, Integer> {
 
 	public void setVestibular(Integer vestibular) {
 		this.vestibular = vestibular;
+	}
+
+	public Integer getTurma() {
+		return turma;
+	}
+
+	public void setTurma(Integer turma) {
+		this.turma = turma;
 	}
 
 }
