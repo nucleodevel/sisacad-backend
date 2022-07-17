@@ -7,4 +7,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class OfertaCursoService extends AbstractService<OfertaCurso, Integer, OfertaCursoRepository> {
 
+	@Override
+	public void validadeForInsertUpdate(OfertaCurso entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

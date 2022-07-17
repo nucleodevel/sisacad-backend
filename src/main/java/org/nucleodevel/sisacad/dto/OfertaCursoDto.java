@@ -17,7 +17,7 @@ public class OfertaCursoDto extends AbstractDto<OfertaCurso, Integer> {
 		this.ano = entity.getAno();
 		this.estruturaCurricular = entity.getEstruturaCurricular().getId();
 		this.vestibular = entity.getVestibular().getId();
-		this.turma = entity.getTurma().getId();
+		this.turma = entity.getTurma() == null? null: entity.getTurma().getId();
 	}
 
 	public Integer getAno() {

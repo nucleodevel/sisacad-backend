@@ -7,4 +7,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class VestibularService extends AbstractService<Vestibular, Integer, VestibularRepository> {
 
+	@Override
+	public void validadeForInsertUpdate(Vestibular entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

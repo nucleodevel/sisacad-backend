@@ -15,6 +15,8 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, R extend
 
 	@Autowired
 	protected R repo;
+	
+	public abstract void validadeForInsertUpdate(E entity);
 
 	@SuppressWarnings("unchecked")
 	public Class<E> getEntityClass() {
@@ -23,18 +25,20 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, R extend
 	}
 
 	public E find(ID id) {
-		Optional<E> obj = repo.findById(id);
-		return obj.orElseThrow(() -> new ObjetoNaoEncontradoException((Integer) id, getEntityClass()));
+		Optional<E> entity = repo.findById(id);
+		return entity.orElseThrow(() -> new ObjetoNaoEncontradoException((Integer) id, getEntityClass()));
 	}
 
-	public E insert(E obj) {
-		obj.setId(null);
-		return repo.save(obj);
+	public E insert(E entity) {
+		validadeForInsertUpdate(entity);
+		entity.setId(null);
+		return repo.save(entity);
 	}
 
-	public E update(E obj) {
-		find(obj.getId());
-		return repo.save(obj);
+	public E update(E entity) {
+		validadeForInsertUpdate(entity);
+		find(entity.getId());
+		return repo.save(entity);
 	}
 
 	public void delete(ID id) {

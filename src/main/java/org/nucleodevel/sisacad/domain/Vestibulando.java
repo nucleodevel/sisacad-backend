@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -20,8 +21,8 @@ public class Vestibulando extends AbstractEntity<Integer> {
 	@Column(name = "nome")
 	private String nome;
 
-	@OneToOne
-	@JoinColumn(name = "id_oferta_turma")
+	@ManyToOne
+	@JoinColumn(name = "id_oferta_curso")
 	private OfertaCurso ofertaCurso;
 
 	@OneToOne(mappedBy = "vestibulando")

@@ -7,4 +7,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class AvaliacaoService extends AbstractService<Avaliacao, Integer, AvaliacaoRepository> {
 
+	@Override
+	public void validadeForInsertUpdate(Avaliacao entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

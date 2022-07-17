@@ -8,4 +8,10 @@ import org.springframework.stereotype.Service;
 public class EstruturaCurricularService
 		extends AbstractService<EstruturaCurricular, Integer, EstruturaCurricularRepository> {
 
+	@Override
+	public void validadeForInsertUpdate(EstruturaCurricular entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
