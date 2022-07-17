@@ -11,6 +11,7 @@ import org.nucleodevel.sisacad.dto.EstruturaCurricularDto;
 import org.nucleodevel.sisacad.dto.OfertaCursoDto;
 import org.nucleodevel.sisacad.repositories.EstruturaCurricularRepository;
 import org.nucleodevel.sisacad.services.CursoService;
+import org.nucleodevel.sisacad.services.DisciplinaService;
 import org.nucleodevel.sisacad.services.EstruturaCurricularService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,8 @@ public class EstruturaCurricularResource extends
 
 	@Autowired
 	private CursoService cursoService;
+	@Autowired
+	private DisciplinaService disciplinaService;
 
 	@Override
 	public EstruturaCurricular mergeDtoIntoEntity(EstruturaCurricularDto dto, EstruturaCurricular entity) {
@@ -39,6 +42,14 @@ public class EstruturaCurricularResource extends
 		return entity;
 	}
 
+	@RequestMapping(value = "/{id}/oferta-curso", method = RequestMethod.GET)
+	public ResponseEntity<List<OfertaCursoDto>> findAllOfertaCurso(@PathVariable Integer id)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		return findAllItem(OfertaCurso.class, OfertaCursoDto.class, id, "getListaOfertaCurso");
+	}
+
 	@RequestMapping(value = "/{id}/disciplina", method = RequestMethod.GET)
 	public ResponseEntity<List<DisciplinaDto>> findAllDisciplina(@PathVariable Integer id)
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
@@ -47,12 +58,22 @@ public class EstruturaCurricularResource extends
 		return findAllItem(Disciplina.class, DisciplinaDto.class, id, "getListaDisciplina");
 	}
 
-	@RequestMapping(value = "/{id}/oferta-curso", method = RequestMethod.GET)
-	public ResponseEntity<List<OfertaCursoDto>> findAllOfertaCurso(@PathVariable Integer id)
+	@RequestMapping(value = "/{id}/disciplina/{itemId}", method = RequestMethod.POST)
+	public ResponseEntity<Void> insertDisciplina(@PathVariable Integer id, @PathVariable Integer itemId)
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(OfertaCurso.class, OfertaCursoDto.class, id, "getListaOfertaCurso");
+		return insertItem(Disciplina.class, DisciplinaDto.class, id, "getListaDisciplina",
+				disciplinaService.find(itemId));
+	}
+
+	@RequestMapping(value = "/{id}/disciplina/{itemId}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteDisciplina(@PathVariable Integer id, @PathVariable Integer itemId)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		return deleteItem(Disciplina.class, DisciplinaDto.class, id, "getListaDisciplina",
+				disciplinaService.find(itemId));
 	}
 
 }

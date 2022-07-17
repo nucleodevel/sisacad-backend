@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -31,7 +32,8 @@ public class Discente extends AbstractEntity<Integer> {
 	@OneToMany(mappedBy = "discente")
 	private List<ParticipacaoAvaliacao> listaParticipacaoAvaliacao = new ArrayList<>();
 
-	@ManyToMany(mappedBy = "listaDiscente")
+	@ManyToMany
+	@JoinTable(name = "oferta_disciplina_discente", joinColumns = @JoinColumn(name = "id_discente"), inverseJoinColumns = @JoinColumn(name = "id_oferta_disciplina"))
 	private List<OfertaDisciplina> listaOfertaDisciplina = new ArrayList<>();
 
 	@Override

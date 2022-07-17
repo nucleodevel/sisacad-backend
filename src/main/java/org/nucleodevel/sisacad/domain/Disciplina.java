@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -26,7 +28,8 @@ public class Disciplina extends AbstractEntity<Integer> {
 	@OneToMany(mappedBy = "disciplina")
 	private List<OfertaDisciplina> listaOfertaDisciplina = new ArrayList<>();
 
-	@ManyToMany(mappedBy = "listaDisciplina")
+	@ManyToMany
+	@JoinTable(name = "estrutura_curricular_disciplina", joinColumns = @JoinColumn(name = "id_disciplina"), inverseJoinColumns = @JoinColumn(name = "id_estrutura_curricular"))
 	private List<EstruturaCurricular> listaEstruturaCurricular = new ArrayList<>();
 
 	@Override
@@ -53,6 +56,10 @@ public class Disciplina extends AbstractEntity<Integer> {
 
 	public List<EstruturaCurricular> getListaEstruturaCurricular() {
 		return listaEstruturaCurricular;
+	}
+
+	public void setListaEstruturaCurricular(List<EstruturaCurricular> listaEstruturaCurricular) {
+		this.listaEstruturaCurricular = listaEstruturaCurricular;
 	}
 
 }

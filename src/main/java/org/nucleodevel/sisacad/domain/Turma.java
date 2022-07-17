@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
@@ -24,7 +25,8 @@ public class Turma extends AbstractEntity<Integer> {
 	@JoinColumn(name = "id_oferta_curso")
 	private OfertaCurso ofertaCurso;
 
-	@ManyToMany(mappedBy = "listaTurma")
+	@ManyToMany
+	@JoinTable(name = "oferta_disciplina_turma", joinColumns = @JoinColumn(name = "id_turma"), inverseJoinColumns = @JoinColumn(name = "id_oferta_disciplina"))
 	private List<OfertaDisciplina> listaOfertaDisciplina = new ArrayList<>();
 
 	@Override

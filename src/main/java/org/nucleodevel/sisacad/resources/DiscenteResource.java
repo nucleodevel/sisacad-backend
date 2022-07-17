@@ -13,6 +13,7 @@ import org.nucleodevel.sisacad.dto.ParticipacaoAulaDto;
 import org.nucleodevel.sisacad.dto.ParticipacaoAvaliacaoDto;
 import org.nucleodevel.sisacad.repositories.DiscenteRepository;
 import org.nucleodevel.sisacad.services.DiscenteService;
+import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
 import org.nucleodevel.sisacad.services.VestibulandoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,8 @@ public class DiscenteResource
 
 	@Autowired
 	private VestibulandoService vestibulandoService;
+	@Autowired
+	private OfertaDisciplinaService ofertaDisciplinaService;
 
 	@Override
 	public Discente mergeDtoIntoEntity(DiscenteDto dto, Discente entity) {
@@ -45,6 +48,24 @@ public class DiscenteResource
 			IllegalArgumentException, InvocationTargetException {
 
 		return findAllItem(OfertaDisciplina.class, OfertaDisciplinaDto.class, id, "getListaOfertaDisciplina");
+	}
+
+	@RequestMapping(value = "/{id}/oferta-disciplina/{itemId}", method = RequestMethod.POST)
+	public ResponseEntity<Void> insertOfertaDisciplina(@PathVariable Integer id, @PathVariable Integer itemId)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		return insertItem(OfertaDisciplina.class, OfertaDisciplinaDto.class, id, "getListaOfertaDisciplina",
+				ofertaDisciplinaService.find(itemId));
+	}
+
+	@RequestMapping(value = "/{id}/oferta-disciplina/{itemId}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteOfertaDisciplina(@PathVariable Integer id, @PathVariable Integer itemId)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		return deleteItem(OfertaDisciplina.class, OfertaDisciplinaDto.class, id, "getListaOfertaDisciplina",
+				ofertaDisciplinaService.find(itemId));
 	}
 
 	@RequestMapping(value = "/{id}/participacao-aula", method = RequestMethod.GET)

@@ -9,6 +9,7 @@ import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
 import org.nucleodevel.sisacad.dto.TurmaDto;
 import org.nucleodevel.sisacad.repositories.TurmaRepository;
 import org.nucleodevel.sisacad.services.OfertaCursoService;
+import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
 import org.nucleodevel.sisacad.services.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,8 @@ public class TurmaResource extends AbstractResource<Turma, Integer, TurmaDto, Tu
 
 	@Autowired
 	private OfertaCursoService ofertaCursoService;
+	@Autowired
+	private OfertaDisciplinaService ofertaDisciplinaService;
 
 	@Override
 	public Turma mergeDtoIntoEntity(TurmaDto dto, Turma entity) {
@@ -40,6 +43,24 @@ public class TurmaResource extends AbstractResource<Turma, Integer, TurmaDto, Tu
 			IllegalArgumentException, InvocationTargetException {
 
 		return findAllItem(OfertaDisciplina.class, OfertaDisciplinaDto.class, id, "getListaOfertaDisciplina");
+	}
+
+	@RequestMapping(value = "/{id}/oferta-disciplina/{itemId}", method = RequestMethod.POST)
+	public ResponseEntity<Void> insertOfertaDisciplina(@PathVariable Integer id, @PathVariable Integer itemId)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		return insertItem(OfertaDisciplina.class, OfertaDisciplinaDto.class, id, "getListaOfertaDisciplina",
+				ofertaDisciplinaService.find(itemId));
+	}
+
+	@RequestMapping(value = "/{id}/oferta-disciplina/{itemId}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteOfertaDisciplina(@PathVariable Integer id, @PathVariable Integer itemId)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		return deleteItem(OfertaDisciplina.class, OfertaDisciplinaDto.class, id, "getListaOfertaDisciplina",
+				ofertaDisciplinaService.find(itemId));
 	}
 
 }

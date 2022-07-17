@@ -5,14 +5,20 @@ import java.util.List;
 
 import org.nucleodevel.sisacad.domain.Aula;
 import org.nucleodevel.sisacad.domain.Avaliacao;
+import org.nucleodevel.sisacad.domain.Discente;
 import org.nucleodevel.sisacad.domain.OfertaDisciplina;
+import org.nucleodevel.sisacad.domain.Turma;
 import org.nucleodevel.sisacad.dto.AulaDto;
 import org.nucleodevel.sisacad.dto.AvaliacaoDto;
+import org.nucleodevel.sisacad.dto.DiscenteDto;
 import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
+import org.nucleodevel.sisacad.dto.TurmaDto;
 import org.nucleodevel.sisacad.repositories.OfertaDisciplinaRepository;
+import org.nucleodevel.sisacad.services.DiscenteService;
 import org.nucleodevel.sisacad.services.DisciplinaService;
 import org.nucleodevel.sisacad.services.DocenteService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
+import org.nucleodevel.sisacad.services.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,6 +37,10 @@ public class OfertaDisciplinaResource extends
 	private DisciplinaService disciplinaService;
 	@Autowired
 	private DocenteService docenteService;
+	@Autowired
+	private DiscenteService discenteService;
+	@Autowired
+	private TurmaService turmaService;
 
 	@Override
 	public OfertaDisciplina mergeDtoIntoEntity(OfertaDisciplinaDto dto, OfertaDisciplina entity) {
@@ -55,6 +65,54 @@ public class OfertaDisciplinaResource extends
 			IllegalArgumentException, InvocationTargetException {
 
 		return findAllItem(Avaliacao.class, AvaliacaoDto.class, id, "getListaAvaliacao");
+	}
+
+	@RequestMapping(value = "/{id}/discente", method = RequestMethod.GET)
+	public ResponseEntity<List<DiscenteDto>> findAllDiscente(@PathVariable Integer id)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		return findAllItem(Discente.class, DiscenteDto.class, id, "getListaDiscente");
+	}
+
+	@RequestMapping(value = "/{id}/discente/{itemId}", method = RequestMethod.POST)
+	public ResponseEntity<Void> insertDiscente(@PathVariable Integer id, @PathVariable Integer itemId)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		return insertItem(Discente.class, DiscenteDto.class, id, "getListaDiscente", discenteService.find(itemId));
+	}
+
+	@RequestMapping(value = "/{id}/discente/{itemId}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteDiscente(@PathVariable Integer id, @PathVariable Integer itemId)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		return deleteItem(Discente.class, DiscenteDto.class, id, "getListaDiscente", discenteService.find(itemId));
+	}
+
+	@RequestMapping(value = "/{id}/turma", method = RequestMethod.GET)
+	public ResponseEntity<List<TurmaDto>> findAllTurma(@PathVariable Integer id)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		return findAllItem(Turma.class, TurmaDto.class, id, "getListaTurma");
+	}
+
+	@RequestMapping(value = "/{id}/turma/{itemId}", method = RequestMethod.POST)
+	public ResponseEntity<Void> insertTurma(@PathVariable Integer id, @PathVariable Integer itemId)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		return insertItem(Turma.class, TurmaDto.class, id, "getListaTurma", turmaService.find(itemId));
+	}
+
+	@RequestMapping(value = "/{id}/turma/{itemId}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteTurma(@PathVariable Integer id, @PathVariable Integer itemId)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		return deleteItem(Turma.class, TurmaDto.class, id, "getListaTurma", turmaService.find(itemId));
 	}
 
 }

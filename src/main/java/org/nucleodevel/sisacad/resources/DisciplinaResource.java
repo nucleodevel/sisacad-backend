@@ -11,6 +11,8 @@ import org.nucleodevel.sisacad.dto.EstruturaCurricularDto;
 import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
 import org.nucleodevel.sisacad.repositories.DisciplinaRepository;
 import org.nucleodevel.sisacad.services.DisciplinaService;
+import org.nucleodevel.sisacad.services.EstruturaCurricularService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/disciplina")
 public class DisciplinaResource
 		extends AbstractResource<Disciplina, Integer, DisciplinaDto, DisciplinaRepository, DisciplinaService> {
+
+	@Autowired
+	private EstruturaCurricularService estruturaCurricularService;
 
 	@Override
 	public Disciplina mergeDtoIntoEntity(DisciplinaDto dto, Disciplina entity) {
@@ -38,6 +43,24 @@ public class DisciplinaResource
 			IllegalArgumentException, InvocationTargetException {
 
 		return findAllItem(EstruturaCurricular.class, EstruturaCurricularDto.class, id, "getListaEstruturaCurricular");
+	}
+
+	@RequestMapping(value = "/{id}/estrutura-curricular/{itemId}", method = RequestMethod.POST)
+	public ResponseEntity<Void> insertEstruturaCurricular(@PathVariable Integer id, @PathVariable Integer itemId)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		return insertItem(EstruturaCurricular.class, EstruturaCurricularDto.class, id, "getListaEstruturaCurricular",
+				estruturaCurricularService.find(itemId));
+	}
+
+	@RequestMapping(value = "/{id}/estrutura-curricular/{itemId}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteEstruturaCurricular(@PathVariable Integer id, @PathVariable Integer itemId)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		return deleteItem(EstruturaCurricular.class, EstruturaCurricularDto.class, id, "getListaEstruturaCurricular",
+				estruturaCurricularService.find(itemId));
 	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina", method = RequestMethod.GET)

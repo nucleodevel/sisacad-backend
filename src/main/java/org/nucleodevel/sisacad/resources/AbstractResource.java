@@ -147,4 +147,55 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, ID, DTO ext
 		return ResponseEntity.ok().body(listDto);
 	}
 
+	@SuppressWarnings("unchecked")
+	public <IE extends AbstractEntity<?>, IDTO extends AbstractDto<IE, ?>> ResponseEntity<Void> insertItem(
+			Class<IE> itemEntityClass, Class<IDTO> itemDtoClass, ID id, String itemListMethodName, IE itemEntity)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		E entity = service.find(id);
+		Method itemListMethod = entity.getClass().getMethod(itemListMethodName);
+		List<IE> itemList = (List<IE>) itemListMethod.invoke(entity);
+
+		boolean exists = false;
+		for (IE item : itemList) {
+			if (item.getId() == itemEntity.getId()) {
+				exists = true;
+			}
+		}
+
+		if (!exists) {
+			itemList.add(itemEntity);
+			service.update(entity);
+		}
+
+		return ResponseEntity.noContent().build();
+	}
+
+	@SuppressWarnings("unchecked")
+	public <IE extends AbstractEntity<?>, IDTO extends AbstractDto<IE, ?>> ResponseEntity<Void> deleteItem(
+			Class<IE> itemEntityClass, Class<IDTO> itemDtoClass, ID id, String itemListMethodName, IE itemEntity)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		E entity = service.find(id);
+		Method itemListMethod = entity.getClass().getMethod(itemListMethodName);
+		List<IE> itemList = (List<IE>) itemListMethod.invoke(entity);
+
+		Integer itemPosition = null;
+		for (int i = 0; i < itemList.size(); i++) {
+			IE item = itemList.get(i);
+			if (item.getId() == itemEntity.getId()) {
+				itemPosition = i;
+			}
+		}
+
+		if (itemPosition != null) {
+			itemList.remove(itemPosition.intValue());
+			service.update(entity);
+		}
+
+		return ResponseEntity.noContent().build();
+	}
+
 }
