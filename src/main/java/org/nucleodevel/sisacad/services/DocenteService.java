@@ -10,7 +10,7 @@ public class DocenteService extends AbstractService<Docente, Integer, DocenteRep
 	@Override
 	public void validadeForInsertUpdate(Docente entity) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

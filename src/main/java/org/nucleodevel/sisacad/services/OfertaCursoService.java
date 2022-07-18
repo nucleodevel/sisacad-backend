@@ -10,7 +10,7 @@ public class OfertaCursoService extends AbstractService<OfertaCurso, Integer, Of
 	@Override
 	public void validadeForInsertUpdate(OfertaCurso entity) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

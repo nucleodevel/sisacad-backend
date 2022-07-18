@@ -6,6 +6,8 @@ import org.nucleodevel.sisacad.repositories.ParticipacaoAvaliacaoRepository;
 import org.nucleodevel.sisacad.services.AvaliacaoService;
 import org.nucleodevel.sisacad.services.DiscenteService;
 import org.nucleodevel.sisacad.services.ParticipacaoAvaliacaoService;
+import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
+import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,35 @@ public class ParticipacaoAvaliacaoResource extends
 		entity.setDiscente(discenteService.find(dto.getDiscente()));
 
 		return entity;
+	}
+
+	@Override
+	public void validadeForInsertUpdate(ParticipacaoAvaliacaoDto dto) {
+		String error = "";
+
+		if (dto.getAvaliacao() == null) {
+			error += "Avaliação pendente; ";
+		} else {
+			try {
+				avaliacaoService.find(dto.getAvaliacao());
+			} catch (ObjectNotFoundException e) {
+				error += "Avaliação com ID " + dto.getAvaliacao() + " não existente; ";
+			}
+		}
+
+		if (dto.getDiscente() == null) {
+			error += "Discente pendente; ";
+		} else {
+			try {
+				discenteService.find(dto.getDiscente());
+			} catch (ObjectNotFoundException e) {
+				error += "Discente com ID " + dto.getDiscente() + " não existente; ";
+			}
+		}
+
+		if (!error.isEmpty()) {
+			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
+		}
 	}
 
 }

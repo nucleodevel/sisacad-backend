@@ -10,7 +10,7 @@ public class ParticipacaoAulaService extends AbstractService<ParticipacaoAula, I
 	@Override
 	public void validadeForInsertUpdate(ParticipacaoAula entity) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

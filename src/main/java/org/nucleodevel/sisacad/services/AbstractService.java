@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.nucleodevel.sisacad.domain.AbstractEntity;
 import org.nucleodevel.sisacad.repositories.AbstractRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
-import org.nucleodevel.sisacad.services.exceptions.ObjetoNaoEncontradoException;
+import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.nucleodevel.sisacad.utils.ReflectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,7 +15,7 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, R extend
 
 	@Autowired
 	protected R repo;
-	
+
 	public abstract void validadeForInsertUpdate(E entity);
 
 	@SuppressWarnings("unchecked")
@@ -26,7 +26,7 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, R extend
 
 	public E find(ID id) {
 		Optional<E> entity = repo.findById(id);
-		return entity.orElseThrow(() -> new ObjetoNaoEncontradoException((Integer) id, getEntityClass()));
+		return entity.orElseThrow(() -> new ObjectNotFoundException((Integer) id, getEntityClass()));
 	}
 
 	public E insert(E entity) {

@@ -10,7 +10,7 @@ public class AulaService extends AbstractService<Aula, Integer, AulaRepository> 
 	@Override
 	public void validadeForInsertUpdate(Aula entity) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

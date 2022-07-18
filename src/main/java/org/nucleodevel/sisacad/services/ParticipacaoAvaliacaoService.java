@@ -11,7 +11,7 @@ public class ParticipacaoAvaliacaoService
 	@Override
 	public void validadeForInsertUpdate(ParticipacaoAvaliacao entity) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

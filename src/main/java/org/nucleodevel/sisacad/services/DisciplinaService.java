@@ -10,7 +10,7 @@ public class DisciplinaService extends AbstractService<Disciplina, Integer, Disc
 	@Override
 	public void validadeForInsertUpdate(Disciplina entity) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

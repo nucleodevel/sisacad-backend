@@ -15,6 +15,8 @@ import org.nucleodevel.sisacad.repositories.DiscenteRepository;
 import org.nucleodevel.sisacad.services.DiscenteService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
 import org.nucleodevel.sisacad.services.VestibulandoService;
+import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
+import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,6 +42,25 @@ public class DiscenteResource
 		entity.setVestibulando(vestibulandoService.find(dto.getVestibulando()));
 
 		return entity;
+	}
+
+	@Override
+	public void validadeForInsertUpdate(DiscenteDto dto) {
+		String error = "";
+
+		if (dto.getVestibulando() == null) {
+			error += "Vestibulando pendente; ";
+		} else {
+			try {
+				vestibulandoService.find(dto.getVestibulando());
+			} catch (ObjectNotFoundException e) {
+				error += "Vestibulando com ID " + dto.getVestibulando() + " não existente; ";
+			}
+		}
+
+		if (!error.isEmpty()) {
+			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
+		}
 	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina", method = RequestMethod.GET)

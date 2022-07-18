@@ -30,6 +30,10 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, ID, DTO ext
 		return service;
 	}
 
+	public abstract E mergeDtoIntoEntity(DTO dto, E entity);
+
+	public abstract void validadeForInsertUpdate(DTO dto);
+
 	public E makeEntityFromDto(DTO dto) {
 		try {
 			E entity = getEntityContructor().newInstance();
@@ -41,8 +45,6 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, ID, DTO ext
 		}
 		return null;
 	}
-
-	public abstract E mergeDtoIntoEntity(DTO dto, E entity);
 
 	@SuppressWarnings("unchecked")
 	public Class<E> getEntityClass() {
@@ -96,7 +98,9 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, ID, DTO ext
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<DTO> insert(@RequestBody DTO dto) {
+		validadeForInsertUpdate(dto);
 		E entity = makeEntityFromDto(dto);
+
 		entity = service.insert(entity);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(entity.getId()).toUri();
 		return ResponseEntity.created(uri).build();
@@ -105,6 +109,8 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, ID, DTO ext
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody DTO dto, @PathVariable ID id) {
 		E oldEntity = service.find(id);
+		validadeForInsertUpdate(dto);
+
 		E entity = mergeDtoIntoEntity(dto, oldEntity);
 		entity.setId(id);
 		entity = service.update(entity);

@@ -11,6 +11,8 @@ import org.nucleodevel.sisacad.repositories.TurmaRepository;
 import org.nucleodevel.sisacad.services.OfertaCursoService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
 import org.nucleodevel.sisacad.services.TurmaService;
+import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
+import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,6 +37,25 @@ public class TurmaResource extends AbstractResource<Turma, Integer, TurmaDto, Tu
 		entity.setOfertaCurso(ofertaCursoService.find(dto.getOfertaCurso()));
 
 		return entity;
+	}
+
+	@Override
+	public void validadeForInsertUpdate(TurmaDto dto) {
+		String error = "";
+
+		if (dto.getOfertaCurso() == null) {
+			error += "Oferta de curso pendente; ";
+		} else {
+			try {
+				ofertaCursoService.find(dto.getOfertaCurso());
+			} catch (ObjectNotFoundException e) {
+				error += "Oferta de curso com ID " + dto.getOfertaCurso() + " não existente; ";
+			}
+		}
+
+		if (!error.isEmpty()) {
+			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
+		}
 	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina", method = RequestMethod.GET)

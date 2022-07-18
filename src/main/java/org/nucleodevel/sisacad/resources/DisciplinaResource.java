@@ -12,6 +12,7 @@ import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
 import org.nucleodevel.sisacad.repositories.DisciplinaRepository;
 import org.nucleodevel.sisacad.services.DisciplinaService;
 import org.nucleodevel.sisacad.services.EstruturaCurricularService;
+import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,6 +36,19 @@ public class DisciplinaResource
 		entity.setNome(dto.getNome());
 
 		return entity;
+	}
+
+	@Override
+	public void validadeForInsertUpdate(DisciplinaDto dto) {
+		String error = "";
+
+		if (dto.getNome() == null) {
+			error += "Nome pendente; ";
+		}
+
+		if (!error.isEmpty()) {
+			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
+		}
 	}
 
 	@RequestMapping(value = "/{id}/estrutura-curricular", method = RequestMethod.GET)

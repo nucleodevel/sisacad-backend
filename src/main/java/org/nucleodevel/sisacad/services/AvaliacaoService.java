@@ -10,7 +10,7 @@ public class AvaliacaoService extends AbstractService<Avaliacao, Integer, Avalia
 	@Override
 	public void validadeForInsertUpdate(Avaliacao entity) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

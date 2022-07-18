@@ -10,7 +10,7 @@ public class VestibulandoService extends AbstractService<Vestibulando, Integer, 
 	@Override
 	public void validadeForInsertUpdate(Vestibulando entity) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

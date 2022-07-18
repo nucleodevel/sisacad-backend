@@ -6,6 +6,8 @@ import org.nucleodevel.sisacad.repositories.ParticipacaoAulaRepository;
 import org.nucleodevel.sisacad.services.AulaService;
 import org.nucleodevel.sisacad.services.DiscenteService;
 import org.nucleodevel.sisacad.services.ParticipacaoAulaService;
+import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
+import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,35 @@ public class ParticipacaoAulaResource extends
 		entity.setDiscente(discenteService.find(dto.getDiscente()));
 
 		return entity;
+	}
+
+	@Override
+	public void validadeForInsertUpdate(ParticipacaoAulaDto dto) {
+		String error = "";
+
+		if (dto.getAula() == null) {
+			error += "Aula pendente; ";
+		} else {
+			try {
+				aulaService.find(dto.getAula());
+			} catch (ObjectNotFoundException e) {
+				error += "Aula com ID " + dto.getAula() + " não existente; ";
+			}
+		}
+
+		if (dto.getDiscente() == null) {
+			error += "Discente pendente; ";
+		} else {
+			try {
+				discenteService.find(dto.getDiscente());
+			} catch (ObjectNotFoundException e) {
+				error += "Discente com ID " + dto.getDiscente() + " não existente; ";
+			}
+		}
+
+		if (!error.isEmpty()) {
+			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
+		}
 	}
 
 }

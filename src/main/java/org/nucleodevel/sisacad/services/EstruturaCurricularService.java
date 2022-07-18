@@ -11,7 +11,7 @@ public class EstruturaCurricularService
 	@Override
 	public void validadeForInsertUpdate(EstruturaCurricular entity) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -1,22 +1,22 @@
 package org.nucleodevel.sisacad.services.exceptions;
 
-public class ObjetoNaoEncontradoException extends RuntimeException {
+public class ObjectNotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = -1103990811718585957L;
 
-	public ObjetoNaoEncontradoException(String msg) {
+	public ObjectNotFoundException(String msg) {
 		super(msg);
 	}
 
-	public ObjetoNaoEncontradoException(String msg, Throwable cause) {
+	public ObjectNotFoundException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
 
-	public ObjetoNaoEncontradoException(Object entityId, Class<?> entityClass) {
+	public ObjectNotFoundException(Object entityId, Class<?> entityClass) {
 		super(makeMsg(entityId, entityClass));
 	}
 
-	public ObjetoNaoEncontradoException(Object entityId, Class<?> entityClass, Throwable cause) {
+	public ObjectNotFoundException(Object entityId, Class<?> entityClass, Throwable cause) {
 		super(makeMsg(entityId, entityClass), cause);
 	}
 
