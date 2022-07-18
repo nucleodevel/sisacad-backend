@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import org.nucleodevel.sisacad.domain.AbstractEntity;
 import org.nucleodevel.sisacad.dto.AbstractDto;
-import org.nucleodevel.sisacad.repositories.AbstractRepository;
 import org.nucleodevel.sisacad.services.AbstractService;
 import org.nucleodevel.sisacad.utils.ReflectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-public abstract class AbstractResource<E extends AbstractEntity<ID>, ID, DTO extends AbstractDto<E, ID>, R extends AbstractRepository<E, ID>, S extends AbstractService<E, ID, R>> {
+public abstract class AbstractResource<E extends AbstractEntity<ID>, ID, DTO extends AbstractDto<E, ID>, S extends AbstractService<E, ID, DTO, ?>> {
 
 	@Autowired
 	protected S service;
@@ -31,8 +30,6 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, ID, DTO ext
 	}
 
 	public abstract E mergeDtoIntoEntity(DTO dto, E entity);
-
-	public abstract void validadeForInsertUpdate(DTO dto);
 
 	public E makeEntityFromDto(DTO dto) {
 		try {
@@ -98,7 +95,7 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, ID, DTO ext
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<DTO> insert(@RequestBody DTO dto) {
-		validadeForInsertUpdate(dto);
+		service.validadeForInsertUpdate(dto);
 		E entity = makeEntityFromDto(dto);
 
 		entity = service.insert(entity);
@@ -109,7 +106,7 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, ID, DTO ext
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody DTO dto, @PathVariable ID id) {
 		E oldEntity = service.find(id);
-		validadeForInsertUpdate(dto);
+		service.validadeForInsertUpdate(dto);
 
 		E entity = mergeDtoIntoEntity(dto, oldEntity);
 		entity.setId(id);

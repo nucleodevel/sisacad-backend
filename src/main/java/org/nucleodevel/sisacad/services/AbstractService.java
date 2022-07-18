@@ -4,19 +4,23 @@ import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.AbstractEntity;
+import org.nucleodevel.sisacad.dto.AbstractDto;
 import org.nucleodevel.sisacad.repositories.AbstractRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
+import org.nucleodevel.sisacad.services.exceptions.NotGivenIdException;
 import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.nucleodevel.sisacad.utils.ReflectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
-public abstract class AbstractService<E extends AbstractEntity<ID>, ID, R extends AbstractRepository<E, ID>> {
+public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO extends AbstractDto<E, ID>, R extends AbstractRepository<E, ID>> {
 
 	@Autowired
 	protected R repo;
 
 	public abstract void validadeForInsertUpdate(E entity);
+
+	public abstract void validadeForInsertUpdate(DTO dto);
 
 	@SuppressWarnings("unchecked")
 	public Class<E> getEntityClass() {
@@ -25,6 +29,9 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, R extend
 	}
 
 	public E find(ID id) {
+		if (id == null) {
+			throw new NotGivenIdException(getEntityClass());
+		}
 		Optional<E> entity = repo.findById(id);
 		return entity.orElseThrow(() -> new ObjectNotFoundException((Integer) id, getEntityClass()));
 	}

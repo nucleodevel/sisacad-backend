@@ -13,14 +13,11 @@ import org.nucleodevel.sisacad.dto.AvaliacaoDto;
 import org.nucleodevel.sisacad.dto.DiscenteDto;
 import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
 import org.nucleodevel.sisacad.dto.TurmaDto;
-import org.nucleodevel.sisacad.repositories.OfertaDisciplinaRepository;
 import org.nucleodevel.sisacad.services.DiscenteService;
 import org.nucleodevel.sisacad.services.DisciplinaService;
 import org.nucleodevel.sisacad.services.DocenteService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
 import org.nucleodevel.sisacad.services.TurmaService;
-import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
-import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,8 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/oferta-disciplina")
-public class OfertaDisciplinaResource extends
-		AbstractResource<OfertaDisciplina, Integer, OfertaDisciplinaDto, OfertaDisciplinaRepository, OfertaDisciplinaService> {
+public class OfertaDisciplinaResource
+		extends AbstractResource<OfertaDisciplina, Integer, OfertaDisciplinaDto, OfertaDisciplinaService> {
 
 	@Autowired
 	private DisciplinaService disciplinaService;
@@ -51,35 +48,6 @@ public class OfertaDisciplinaResource extends
 		entity.setDocente(docenteService.find(dto.getDocente()));
 
 		return entity;
-	}
-
-	@Override
-	public void validadeForInsertUpdate(OfertaDisciplinaDto dto) {
-		String error = "";
-
-		if (dto.getDisciplina() == null) {
-			error += "Disciplina pendente; ";
-		} else {
-			try {
-				disciplinaService.find(dto.getDisciplina());
-			} catch (ObjectNotFoundException e) {
-				error += "Disciplina com ID " + dto.getDisciplina() + " não existente; ";
-			}
-		}
-
-		if (dto.getDocente() == null) {
-			error += "Docente pendente; ";
-		} else {
-			try {
-				docenteService.find(dto.getDocente());
-			} catch (ObjectNotFoundException e) {
-				error += "Docente com ID " + dto.getDocente() + " não existente; ";
-			}
-		}
-
-		if (!error.isEmpty()) {
-			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
-		}
 	}
 
 	@RequestMapping(value = "/{id}/aula", method = RequestMethod.GET)

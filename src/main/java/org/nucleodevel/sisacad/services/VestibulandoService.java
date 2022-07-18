@@ -4,15 +4,37 @@ import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.OfertaCurso;
 import org.nucleodevel.sisacad.domain.Vestibulando;
+import org.nucleodevel.sisacad.dto.VestibulandoDto;
 import org.nucleodevel.sisacad.repositories.VestibulandoRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
+import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
+import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VestibulandoService extends AbstractService<Vestibulando, Integer, VestibulandoRepository> {
+public class VestibulandoService
+		extends AbstractService<Vestibulando, Integer, VestibulandoDto, VestibulandoRepository> {
+
+	@Autowired
+	private OfertaCursoService ofertaCursoService;
 
 	@Override
 	public void validadeForInsertUpdate(Vestibulando entity) {
+		String error = "";
+
+		if (entity.getNome() == null) {
+			error += "Nome pendente; ";
+		}
+
+		if (entity.getOfertaCurso() == null) {
+			error += "Oferta de curso pendente; ";
+		}
+
+		if (!error.isEmpty()) {
+			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
+		}
+
 		OfertaCurso myOfertaCurso = entity.getOfertaCurso();
 		String myNome = entity.getNome();
 
@@ -20,6 +42,29 @@ public class VestibulandoService extends AbstractService<Vestibulando, Integer, 
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe um cadastro com esse nome nessa oferta de curso!");
 		});
+	}
+
+	@Override
+	public void validadeForInsertUpdate(VestibulandoDto dto) {
+		String error = "";
+
+		if (dto.getNome() == null) {
+			error += "Nome pendente; ";
+		}
+
+		if (dto.getOfertaCurso() == null) {
+			error += "Oferta de curso pendente; ";
+		} else {
+			try {
+				ofertaCursoService.find(dto.getOfertaCurso());
+			} catch (ObjectNotFoundException e) {
+				error += "Oferta de curso com ID " + dto.getOfertaCurso() + " não existente; ";
+			}
+		}
+
+		if (!error.isEmpty()) {
+			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
+		}
 	}
 
 }

@@ -21,7 +21,7 @@ public class ObjectNotFoundException extends RuntimeException {
 	}
 
 	public static String makeMsg(Object entityId, Class<?> entityClass) {
-		return "Objeto não encontrado. ID " + entityId + ", Tipo: " + entityClass.getName();
+		return "Objeto não encontrado. ID " + entityId + ", Tipo: " + entityClass.getSimpleName();
 	}
 
 }

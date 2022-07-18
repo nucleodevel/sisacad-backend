@@ -7,9 +7,7 @@ import org.nucleodevel.sisacad.domain.Curso;
 import org.nucleodevel.sisacad.domain.EstruturaCurricular;
 import org.nucleodevel.sisacad.dto.CursoDto;
 import org.nucleodevel.sisacad.dto.EstruturaCurricularDto;
-import org.nucleodevel.sisacad.repositories.CursoRepository;
 import org.nucleodevel.sisacad.services.CursoService;
-import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/curso")
-public class CursoResource extends AbstractResource<Curso, Integer, CursoDto, CursoRepository, CursoService> {
+public class CursoResource extends AbstractResource<Curso, Integer, CursoDto, CursoService> {
 
 	@Override
 	public Curso mergeDtoIntoEntity(CursoDto dto, Curso entity) {
@@ -28,19 +26,6 @@ public class CursoResource extends AbstractResource<Curso, Integer, CursoDto, Cu
 		entity.setNome(dto.getNome());
 
 		return entity;
-	}
-
-	@Override
-	public void validadeForInsertUpdate(CursoDto dto) {
-		String error = "";
-
-		if (dto.getNome() == null) {
-			error += "Nome pendente; ";
-		}
-
-		if (!error.isEmpty()) {
-			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
-		}
 	}
 
 	@RequestMapping(value = "/{id}/estrutura-curricular", method = RequestMethod.GET)
