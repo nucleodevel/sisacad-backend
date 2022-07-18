@@ -50,6 +50,10 @@ public class AulaResource extends AbstractResource<Aula, Integer, AulaDto, AulaR
 			error += "Data e hora de término pendente; ";
 		}
 
+		if (dto.getInicio().getTime() > dto.getTermino().getTime()) {
+			error += "Data e hora de início posterior à de término; ";
+		}
+
 		if (dto.getOfertaDisciplina() == null) {
 			error += "Oferta de disciplina pendente; ";
 		} else {

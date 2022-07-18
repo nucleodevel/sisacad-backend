@@ -56,6 +56,10 @@ public class EstruturaCurricularResource extends
 			error += "Ano de término pendente; ";
 		}
 
+		if (dto.getAnoInicio() > dto.getAnoTermino()) {
+			error += "Ano de início posterior ao de término; ";
+		}
+
 		if (dto.getCurso() == null) {
 			error += "Curso pendente; ";
 		} else {

@@ -16,7 +16,7 @@ public class AvaliacaoVestibulandoService
 	public void validadeForInsertUpdate(AvaliacaoVestibulando entity) {
 		Vestibulando myVestibulando = entity.getVestibulando();
 
-		Optional<AvaliacaoVestibulando> similar = repo.findByNotIdAndVestibulando(entity.getId(), myVestibulando);
+		Optional<AvaliacaoVestibulando> similar = repo.findDifferentByVestibulando(entity.getId(), myVestibulando);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma avaliação para este vestibulando!");
 		});
