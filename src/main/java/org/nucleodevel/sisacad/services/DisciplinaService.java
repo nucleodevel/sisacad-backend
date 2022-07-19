@@ -13,23 +13,11 @@ import org.springframework.stereotype.Service;
 public class DisciplinaService extends AbstractService<Disciplina, Integer, DisciplinaDto, DisciplinaRepository> {
 
 	@Override
-	public void validadeForInsertUpdate(Disciplina entity) {
-		String error = "";
+	public Disciplina mergeDtoIntoEntity(DisciplinaDto dto, Disciplina entity) {
+		entity.setId(dto.getId());
+		entity.setNome(dto.getNome());
 
-		if (entity.getNome() == null) {
-			error += "Nome pendente; ";
-		}
-
-		if (!error.isEmpty()) {
-			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
-		}
-
-		String myNome = entity.getNome();
-
-		Optional<Disciplina> similar = repo.findDifferentByNome(entity.getId(), myNome);
-		similar.ifPresent(obj -> {
-			throw new DataIntegrityException("Já existe uma disciplina com este nome!");
-		});
+		return entity;
 	}
 
 	@Override
@@ -43,6 +31,13 @@ public class DisciplinaService extends AbstractService<Disciplina, Integer, Disc
 		if (!error.isEmpty()) {
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
+
+		String myNome = dto.getNome();
+
+		Optional<Disciplina> similar = repo.findDifferentByNome(dto.getId(), myNome);
+		similar.ifPresent(obj -> {
+			throw new DataIntegrityException("Já existe uma disciplina com este nome!");
+		});
 	}
 
 }

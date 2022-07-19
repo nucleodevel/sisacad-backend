@@ -18,20 +18,12 @@ public class OfertaDisciplinaService
 	private DocenteService docenteService;
 
 	@Override
-	public void validadeForInsertUpdate(OfertaDisciplina entity) {
-		String error = "";
+	public OfertaDisciplina mergeDtoIntoEntity(OfertaDisciplinaDto dto, OfertaDisciplina entity) {
+		entity.setId(dto.getId());
+		entity.setDisciplina(disciplinaService.find(dto.getDisciplina()));
+		entity.setDocente(docenteService.find(dto.getDocente()));
 
-		if (entity.getDisciplina() == null) {
-			error += "Disciplina pendente; ";
-		}
-
-		if (entity.getDocente() == null) {
-			error += "Docente pendente; ";
-		}
-
-		if (!error.isEmpty()) {
-			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
-		}
+		return entity;
 	}
 
 	@Override

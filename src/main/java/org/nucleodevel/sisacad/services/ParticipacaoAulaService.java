@@ -23,28 +23,12 @@ public class ParticipacaoAulaService
 	private DiscenteService discenteService;
 
 	@Override
-	public void validadeForInsertUpdate(ParticipacaoAula entity) {
-		String error = "";
+	public ParticipacaoAula mergeDtoIntoEntity(ParticipacaoAulaDto dto, ParticipacaoAula entity) {
+		entity.setId(dto.getId());
+		entity.setAula(aulaService.find(dto.getAula()));
+		entity.setDiscente(discenteService.find(dto.getDiscente()));
 
-		if (entity.getAula() == null) {
-			error += "Aula pendente; ";
-		}
-
-		if (entity.getDiscente() == null) {
-			error += "Discente pendente; ";
-		}
-
-		if (!error.isEmpty()) {
-			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
-		}
-
-		Aula myAula = entity.getAula();
-		Discente myDiscente = entity.getDiscente();
-
-		Optional<ParticipacaoAula> similar = repo.findDifferentByAulaAndDiscente(entity.getId(), myAula, myDiscente);
-		similar.ifPresent(obj -> {
-			throw new DataIntegrityException("Já existe uma participação desse discente nessa aula!");
-		});
+		return entity;
 	}
 
 	@Override
@@ -74,6 +58,14 @@ public class ParticipacaoAulaService
 		if (!error.isEmpty()) {
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
+
+		Aula myAula = aulaService.find(dto.getAula());
+		Discente myDiscente = discenteService.find(dto.getDiscente());
+
+		Optional<ParticipacaoAula> similar = repo.findDifferentByAulaAndDiscente(dto.getId(), myAula, myDiscente);
+		similar.ifPresent(obj -> {
+			throw new DataIntegrityException("Já existe uma participação desse discente nessa aula!");
+		});
 	}
 
 }

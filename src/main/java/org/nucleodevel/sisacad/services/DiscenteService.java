@@ -19,23 +19,11 @@ public class DiscenteService extends AbstractService<Discente, Integer, Discente
 	private VestibulandoService vestibulandoService;
 
 	@Override
-	public void validadeForInsertUpdate(Discente entity) {
-		String error = "";
+	public Discente mergeDtoIntoEntity(DiscenteDto dto, Discente entity) {
+		entity.setId(dto.getId());
+		entity.setVestibulando(vestibulandoService.find(dto.getVestibulando()));
 
-		if (entity.getVestibulando() == null) {
-			error += "Vestibulando pendente; ";
-		}
-
-		if (!error.isEmpty()) {
-			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
-		}
-
-		Vestibulando myVestibulando = entity.getVestibulando();
-
-		Optional<Discente> similar = repo.findByNotIdAndVestibulando(entity.getId(), myVestibulando);
-		similar.ifPresent(obj -> {
-			throw new DataIntegrityException("Já existe um discente para este vestibulando!");
-		});
+		return entity;
 	}
 
 	@Override
@@ -55,6 +43,13 @@ public class DiscenteService extends AbstractService<Discente, Integer, Discente
 		if (!error.isEmpty()) {
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
+
+		Vestibulando myVestibulando = vestibulandoService.find(dto.getVestibulando());
+
+		Optional<Discente> similar = repo.findSimilarByVestibulando(dto.getId(), myVestibulando);
+		similar.ifPresent(obj -> {
+			throw new DataIntegrityException("Já existe um discente para este vestibulando!");
+		});
 	}
 
 }

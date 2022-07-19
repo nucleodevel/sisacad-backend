@@ -13,23 +13,11 @@ import org.springframework.stereotype.Service;
 public class DocenteService extends AbstractService<Docente, Integer, DocenteDto, DocenteRepository> {
 
 	@Override
-	public void validadeForInsertUpdate(Docente entity) {
-		String error = "";
+	public Docente mergeDtoIntoEntity(DocenteDto dto, Docente entity) {
+		entity.setId(dto.getId());
+		entity.setNome(dto.getNome());
 
-		if (entity.getNome() == null) {
-			error += "Nome pendente; ";
-		}
-
-		if (!error.isEmpty()) {
-			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
-		}
-
-		String myNome = entity.getNome();
-
-		Optional<Docente> similar = repo.findDifferentByNome(entity.getId(), myNome);
-		similar.ifPresent(obj -> {
-			throw new DataIntegrityException("Já existe um docente com este nome!");
-		});
+		return entity;
 	}
 
 	@Override
@@ -43,6 +31,13 @@ public class DocenteService extends AbstractService<Docente, Integer, DocenteDto
 		if (!error.isEmpty()) {
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
+
+		String myNome = dto.getNome();
+
+		Optional<Docente> similar = repo.findDifferentByNome(dto.getId(), myNome);
+		similar.ifPresent(obj -> {
+			throw new DataIntegrityException("Já existe um docente com este nome!");
+		});
 	}
 
 }

@@ -16,28 +16,13 @@ public class EstruturaCurricularService
 	private CursoService cursoService;
 
 	@Override
-	public void validadeForInsertUpdate(EstruturaCurricular entity) {
-		String error = "";
+	public EstruturaCurricular mergeDtoIntoEntity(EstruturaCurricularDto dto, EstruturaCurricular entity) {
+		entity.setId(dto.getId());
+		entity.setAnoInicio(dto.getAnoInicio());
+		entity.setAnoTermino(dto.getAnoTermino());
+		entity.setCurso(cursoService.find(dto.getCurso()));
 
-		if (entity.getAnoInicio() == null) {
-			error += "Ano de início pendente; ";
-		}
-
-		if (entity.getAnoTermino() == null) {
-			error += "Ano de término pendente; ";
-		}
-
-		if (entity.getAnoInicio() > entity.getAnoTermino()) {
-			error += "Ano de início posterior ao de término; ";
-		}
-
-		if (entity.getCurso() == null) {
-			error += "Curso pendente; ";
-		}
-
-		if (!error.isEmpty()) {
-			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
-		}
+		return entity;
 	}
 
 	@Override

@@ -15,32 +15,14 @@ public class AvaliacaoService extends AbstractService<Avaliacao, Integer, Avalia
 	private OfertaDisciplinaService ofertaDisciplinaService;
 
 	@Override
-	public void validadeForInsertUpdate(Avaliacao entity) {
-		String error = "";
+	public Avaliacao mergeDtoIntoEntity(AvaliacaoDto dto, Avaliacao entity) {
+		entity.setId(dto.getId());
+		entity.setDescricao(dto.getDescricao());
+		entity.setInicio(dto.getInicio());
+		entity.setTermino(dto.getTermino());
+		entity.setOfertaDisciplina(ofertaDisciplinaService.find(dto.getOfertaDisciplina()));
 
-		if (entity.getDescricao() == null) {
-			error += "Descrição pendente; ";
-		}
-
-		if (entity.getInicio() == null) {
-			error += "Data e hora de início pendente; ";
-		}
-
-		if (entity.getTermino() == null) {
-			error += "Data e hora de término pendente; ";
-		}
-
-		if (entity.getInicio().getTime() > entity.getTermino().getTime()) {
-			error += "Data e hora de início posterior à de término; ";
-		}
-
-		if (entity.getOfertaDisciplina() == null) {
-			error += "Oferta de disciplina pendente; ";
-		}
-
-		if (!error.isEmpty()) {
-			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
-		}
+		return entity;
 	}
 
 	@Override

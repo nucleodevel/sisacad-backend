@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface TurmaRepository extends AbstractRepository<Turma, Integer> {
 
 	@Query(value = "SELECT x FROM Turma x WHERE (?1 IS NULL OR x.id <> ?1) AND x.ofertaCurso = ?2")
-	Optional<Turma> findByNotIdAndOfertaCurso(Integer id, OfertaCurso item);
+	Optional<Turma> findSimilarByOfertaCurso(Integer id, OfertaCurso item);
 
 }

@@ -16,6 +16,11 @@ public abstract class AbstractDto<E extends AbstractEntity<ID>, ID> implements S
 
 	public abstract void copyFromEntity(E entity);
 
+	@SuppressWarnings("unchecked")
+	public void copyFromObject(Object entity) {
+		copyFromEntity((E) entity);
+	}
+
 	public ID getId() {
 		return id;
 	}

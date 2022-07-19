@@ -22,34 +22,13 @@ public class OfertaCursoService extends AbstractService<OfertaCurso, Integer, Of
 	private VestibularService vestibularService;
 
 	@Override
-	public void validadeForInsertUpdate(OfertaCurso entity) {
-		String error = "";
+	public OfertaCurso mergeDtoIntoEntity(OfertaCursoDto dto, OfertaCurso entity) {
+		entity.setId(dto.getId());
+		entity.setAno(dto.getAno());
+		entity.setEstruturaCurricular(estruturaCurricularService.find(dto.getEstruturaCurricular()));
+		entity.setVestibular(vestibularService.find(dto.getVestibular()));
 
-		if (entity.getAno() == null) {
-			error += "Ano pendente; ";
-		}
-
-		if (entity.getEstruturaCurricular() == null) {
-			error += "Estrutura curricular pendente; ";
-		}
-
-		if (entity.getVestibular() == null) {
-			error += "Vestibular pendente; ";
-		}
-
-		if (!error.isEmpty()) {
-			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
-		}
-
-		EstruturaCurricular myEstruturaCurricular = entity.getEstruturaCurricular();
-		Vestibular myVestibular = entity.getVestibular();
-
-		Optional<OfertaCurso> similar = repo.findDifferentByEstruturaCurricularAndVestibular(entity.getId(),
-				myEstruturaCurricular, myVestibular);
-		similar.ifPresent(obj -> {
-			throw new DataIntegrityException(
-					"Já existe uma oferta de curso nesse vestibular para essa estrutura curricular!");
-		});
+		return entity;
 	}
 
 	@Override
@@ -83,6 +62,16 @@ public class OfertaCursoService extends AbstractService<OfertaCurso, Integer, Of
 		if (!error.isEmpty()) {
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
+
+		EstruturaCurricular myEstruturaCurricular = estruturaCurricularService.find(dto.getEstruturaCurricular());
+		Vestibular myVestibular = vestibularService.find(dto.getVestibular());
+
+		Optional<OfertaCurso> similar = repo.findDifferentByEstruturaCurricularAndVestibular(dto.getId(),
+				myEstruturaCurricular, myVestibular);
+		similar.ifPresent(obj -> {
+			throw new DataIntegrityException(
+					"Já existe uma oferta de curso nesse vestibular para essa estrutura curricular!");
+		});
 	}
 
 }

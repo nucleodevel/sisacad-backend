@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface DiscenteRepository extends AbstractRepository<Discente, Integer> {
 
 	@Query(value = "SELECT x FROM Discente x WHERE (?1 IS NULL OR x.id <> ?1) AND x.vestibulando = ?2")
-	Optional<Discente> findByNotIdAndVestibulando(Integer id, Vestibulando item);
+	Optional<Discente> findSimilarByVestibulando(Integer id, Vestibulando item);
 
 }

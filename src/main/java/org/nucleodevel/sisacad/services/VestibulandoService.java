@@ -20,28 +20,12 @@ public class VestibulandoService
 	private OfertaCursoService ofertaCursoService;
 
 	@Override
-	public void validadeForInsertUpdate(Vestibulando entity) {
-		String error = "";
+	public Vestibulando mergeDtoIntoEntity(VestibulandoDto dto, Vestibulando entity) {
+		entity.setId(dto.getId());
+		entity.setNome(dto.getNome());
+		entity.setOfertaCurso(ofertaCursoService.find(dto.getOfertaCurso()));
 
-		if (entity.getNome() == null) {
-			error += "Nome pendente; ";
-		}
-
-		if (entity.getOfertaCurso() == null) {
-			error += "Oferta de curso pendente; ";
-		}
-
-		if (!error.isEmpty()) {
-			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
-		}
-
-		OfertaCurso myOfertaCurso = entity.getOfertaCurso();
-		String myNome = entity.getNome();
-
-		Optional<Vestibulando> similar = repo.findDifferentByOfertaCursoAndNome(entity.getId(), myOfertaCurso, myNome);
-		similar.ifPresent(obj -> {
-			throw new DataIntegrityException("Já existe um cadastro com esse nome nessa oferta de curso!");
-		});
+		return entity;
 	}
 
 	@Override
@@ -65,6 +49,14 @@ public class VestibulandoService
 		if (!error.isEmpty()) {
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
+
+		OfertaCurso myOfertaCurso = ofertaCursoService.find(dto.getOfertaCurso());
+		String myNome = dto.getNome();
+
+		Optional<Vestibulando> similar = repo.findDifferentByOfertaCursoAndNome(dto.getId(), myOfertaCurso, myNome);
+		similar.ifPresent(obj -> {
+			throw new DataIntegrityException("Já existe um cadastro com esse nome nessa oferta de curso!");
+		});
 	}
 
 }

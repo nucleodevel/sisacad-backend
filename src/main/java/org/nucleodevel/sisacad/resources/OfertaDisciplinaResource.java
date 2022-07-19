@@ -3,19 +3,14 @@ package org.nucleodevel.sisacad.resources;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import org.nucleodevel.sisacad.domain.Aula;
-import org.nucleodevel.sisacad.domain.Avaliacao;
-import org.nucleodevel.sisacad.domain.Discente;
-import org.nucleodevel.sisacad.domain.OfertaDisciplina;
-import org.nucleodevel.sisacad.domain.Turma;
 import org.nucleodevel.sisacad.dto.AulaDto;
 import org.nucleodevel.sisacad.dto.AvaliacaoDto;
 import org.nucleodevel.sisacad.dto.DiscenteDto;
 import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
 import org.nucleodevel.sisacad.dto.TurmaDto;
+import org.nucleodevel.sisacad.services.AulaService;
+import org.nucleodevel.sisacad.services.AvaliacaoService;
 import org.nucleodevel.sisacad.services.DiscenteService;
-import org.nucleodevel.sisacad.services.DisciplinaService;
-import org.nucleodevel.sisacad.services.DocenteService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
 import org.nucleodevel.sisacad.services.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,33 +24,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/oferta-disciplina")
-public class OfertaDisciplinaResource
-		extends AbstractResource<OfertaDisciplina, Integer, OfertaDisciplinaDto, OfertaDisciplinaService> {
+public class OfertaDisciplinaResource extends AbstractResource<OfertaDisciplinaDto, Integer, OfertaDisciplinaService> {
 
-	@Autowired
-	private DisciplinaService disciplinaService;
-	@Autowired
-	private DocenteService docenteService;
 	@Autowired
 	private DiscenteService discenteService;
 	@Autowired
 	private TurmaService turmaService;
-
-	@Override
-	public OfertaDisciplina mergeDtoIntoEntity(OfertaDisciplinaDto dto, OfertaDisciplina entity) {
-		entity.setId(dto.getId());
-		entity.setDisciplina(disciplinaService.find(dto.getDisciplina()));
-		entity.setDocente(docenteService.find(dto.getDocente()));
-
-		return entity;
-	}
 
 	@RequestMapping(value = "/{id}/aula", method = RequestMethod.GET)
 	public ResponseEntity<List<AulaDto>> findAllAula(@PathVariable Integer id)
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(Aula.class, AulaDto.class, id, "getListaAula");
+		return findAllItem(AulaService.class, AulaDto.class, id, "getListaAula");
 	}
 
 	@RequestMapping(value = "/{id}/avaliacao", method = RequestMethod.GET)
@@ -63,7 +44,7 @@ public class OfertaDisciplinaResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(Avaliacao.class, AvaliacaoDto.class, id, "getListaAvaliacao");
+		return findAllItem(AvaliacaoService.class, AvaliacaoDto.class, id, "getListaAvaliacao");
 	}
 
 	@RequestMapping(value = "/{id}/discente", method = RequestMethod.GET)
@@ -71,7 +52,7 @@ public class OfertaDisciplinaResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(Discente.class, DiscenteDto.class, id, "getListaDiscente");
+		return findAllItem(DiscenteService.class, DiscenteDto.class, id, "getListaDiscente");
 	}
 
 	@RequestMapping(value = "/{id}/discente/{itemId}", method = RequestMethod.POST)
@@ -79,7 +60,7 @@ public class OfertaDisciplinaResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return insertItem(Discente.class, DiscenteDto.class, id, "getListaDiscente", discenteService.find(itemId));
+		return insertItem(DiscenteService.class, DiscenteDto.class, id, "getListaDiscente", itemId, discenteService);
 	}
 
 	@RequestMapping(value = "/{id}/discente/{itemId}", method = RequestMethod.DELETE)
@@ -87,7 +68,7 @@ public class OfertaDisciplinaResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return deleteItem(Discente.class, DiscenteDto.class, id, "getListaDiscente", discenteService.find(itemId));
+		return deleteItem(DiscenteService.class, DiscenteDto.class, id, "getListaDiscente", itemId, discenteService);
 	}
 
 	@RequestMapping(value = "/{id}/turma", method = RequestMethod.GET)
@@ -95,7 +76,7 @@ public class OfertaDisciplinaResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(Turma.class, TurmaDto.class, id, "getListaTurma");
+		return findAllItem(TurmaService.class, TurmaDto.class, id, "getListaTurma");
 	}
 
 	@RequestMapping(value = "/{id}/turma/{itemId}", method = RequestMethod.POST)
@@ -103,7 +84,7 @@ public class OfertaDisciplinaResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return insertItem(Turma.class, TurmaDto.class, id, "getListaTurma", turmaService.find(itemId));
+		return insertItem(TurmaService.class, TurmaDto.class, id, "getListaTurma", itemId, turmaService);
 	}
 
 	@RequestMapping(value = "/{id}/turma/{itemId}", method = RequestMethod.DELETE)
@@ -111,7 +92,7 @@ public class OfertaDisciplinaResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return deleteItem(Turma.class, TurmaDto.class, id, "getListaTurma", turmaService.find(itemId));
+		return deleteItem(TurmaService.class, TurmaDto.class, id, "getListaTurma", itemId, turmaService);
 	}
 
 }

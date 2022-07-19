@@ -20,27 +20,12 @@ public class AvaliacaoVestibulandoService extends
 	private VestibulandoService vestibulandoService;
 
 	@Override
-	public void validadeForInsertUpdate(AvaliacaoVestibulando entity) {
-		String error = "";
+	public AvaliacaoVestibulando mergeDtoIntoEntity(AvaliacaoVestibulandoDto dto, AvaliacaoVestibulando entity) {
+		entity.setId(dto.getId());
+		entity.setConceitoFinal(dto.getConceitoFinal());
+		entity.setVestibulando(vestibulandoService.find(dto.getVestibulando()));
 
-		if (entity.getConceitoFinal() == null) {
-			error += "Conceito final pendente; ";
-		}
-
-		if (entity.getVestibulando() == null) {
-			error += "Vestibulando pendente; ";
-		}
-
-		if (!error.isEmpty()) {
-			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
-		}
-
-		Vestibulando myVestibulando = entity.getVestibulando();
-
-		Optional<AvaliacaoVestibulando> similar = repo.findDifferentByVestibulando(entity.getId(), myVestibulando);
-		similar.ifPresent(obj -> {
-			throw new DataIntegrityException("Já existe uma avaliação para este vestibulando!");
-		});
+		return entity;
 	}
 
 	@Override
@@ -64,6 +49,13 @@ public class AvaliacaoVestibulandoService extends
 		if (!error.isEmpty()) {
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
+
+		Vestibulando myVestibulando = vestibulandoService.find(dto.getVestibulando());
+
+		Optional<AvaliacaoVestibulando> similar = repo.findDifferentByVestibulando(dto.getId(), myVestibulando);
+		similar.ifPresent(obj -> {
+			throw new DataIntegrityException("Já existe uma avaliação para este vestibulando!");
+		});
 	}
 
 }

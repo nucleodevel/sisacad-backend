@@ -13,23 +13,11 @@ import org.springframework.stereotype.Service;
 public class VestibularService extends AbstractService<Vestibular, Integer, VestibularDto, VestibularRepository> {
 
 	@Override
-	public void validadeForInsertUpdate(Vestibular entity) {
-		String error = "";
+	public Vestibular mergeDtoIntoEntity(VestibularDto dto, Vestibular entity) {
+		entity.setId(dto.getId());
+		entity.setAno(dto.getAno());
 
-		if (entity.getAno() == null) {
-			error += "Ano pendente; ";
-		}
-
-		if (!error.isEmpty()) {
-			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
-		}
-
-		Integer myAno = entity.getAno();
-
-		Optional<Vestibular> similar = repo.findDifferentByAno(entity.getId(), myAno);
-		similar.ifPresent(obj -> {
-			throw new DataIntegrityException("Já existe um vestibular para este ano!");
-		});
+		return entity;
 	}
 
 	@Override
@@ -43,6 +31,13 @@ public class VestibularService extends AbstractService<Vestibular, Integer, Vest
 		if (!error.isEmpty()) {
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
+
+		Integer myAno = dto.getAno();
+
+		Optional<Vestibular> similar = repo.findDifferentByAno(dto.getId(), myAno);
+		similar.ifPresent(obj -> {
+			throw new DataIntegrityException("Já existe um vestibular para este ano!");
+		});
 	}
 
 }

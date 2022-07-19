@@ -23,29 +23,12 @@ public class ParticipacaoAvaliacaoService extends
 	private DiscenteService discenteService;
 
 	@Override
-	public void validadeForInsertUpdate(ParticipacaoAvaliacao entity) {
-		String error = "";
+	public ParticipacaoAvaliacao mergeDtoIntoEntity(ParticipacaoAvaliacaoDto dto, ParticipacaoAvaliacao entity) {
+		entity.setId(dto.getId());
+		entity.setAvaliacao(avaliacaoService.find(dto.getAvaliacao()));
+		entity.setDiscente(discenteService.find(dto.getDiscente()));
 
-		if (entity.getAvaliacao() == null) {
-			error += "Avaliação pendente; ";
-		}
-
-		if (entity.getDiscente() == null) {
-			error += "Discente pendente; ";
-		}
-
-		if (!error.isEmpty()) {
-			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
-		}
-
-		Avaliacao myAvaliacao = entity.getAvaliacao();
-		Discente myDiscente = entity.getDiscente();
-
-		Optional<ParticipacaoAvaliacao> similar = repo.findDifferentByAvaliacaoAndDiscente(entity.getId(), myAvaliacao,
-				myDiscente);
-		similar.ifPresent(obj -> {
-			throw new DataIntegrityException("Já existe uma participação desse discente nessa avaliação!");
-		});
+		return entity;
 	}
 
 	@Override
@@ -75,6 +58,15 @@ public class ParticipacaoAvaliacaoService extends
 		if (!error.isEmpty()) {
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
+
+		Avaliacao myAvaliacao = avaliacaoService.find(dto.getAvaliacao());
+		Discente myDiscente = discenteService.find(dto.getDiscente());
+
+		Optional<ParticipacaoAvaliacao> similar = repo.findDifferentByAvaliacaoAndDiscente(dto.getId(), myAvaliacao,
+				myDiscente);
+		similar.ifPresent(obj -> {
+			throw new DataIntegrityException("Já existe uma participação desse discente nessa avaliação!");
+		});
 	}
 
 }
