@@ -24,7 +24,7 @@ public class AulaResource extends AbstractResource<AulaDto, Integer, AulaService
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(ParticipacaoAulaService.class, ParticipacaoAulaDto.class, id);
+		return findAllSubList(ParticipacaoAulaService.class, ParticipacaoAulaDto.class, id);
 	}
 
 }

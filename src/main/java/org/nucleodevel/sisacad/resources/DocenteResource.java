@@ -24,7 +24,7 @@ public class DocenteResource extends AbstractResource<DocenteDto, Integer, Docen
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id);
+		return findAllSubList(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id);
 	}
 
 }

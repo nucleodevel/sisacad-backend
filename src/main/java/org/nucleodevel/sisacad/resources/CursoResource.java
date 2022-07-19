@@ -24,7 +24,7 @@ public class CursoResource extends AbstractResource<CursoDto, Integer, CursoServ
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(EstruturaCurricularService.class, EstruturaCurricularDto.class, id);
+		return findAllSubList(EstruturaCurricularService.class, EstruturaCurricularDto.class, id);
 	}
 
 }

@@ -24,7 +24,7 @@ public class OfertaCursoResource extends AbstractResource<OfertaCursoDto, Intege
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(VestibulandoService.class, VestibulandoDto.class, id);
+		return findAllSubList(VestibulandoService.class, VestibulandoDto.class, id);
 	}
 
 }

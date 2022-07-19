@@ -57,28 +57,27 @@ public abstract class AbstractResource<DTO extends AbstractDto<?, ID>, ID, S ext
 		return ResponseEntity.ok().body(listDto);
 	}
 
-	public <IS extends AbstractService<?, ?, IDTO, ?>, IDTO extends AbstractDto<?, ?>> ResponseEntity<List<IDTO>> findAllItem(
-			Class<IS> itemServiceClass, Class<IDTO> itemDtoClass, ID id)
-			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException {
+	public <IS extends AbstractService<?, ?, IDTO, ?>, IDTO extends AbstractDto<?, ?>> ResponseEntity<List<IDTO>> findAllSubList(
+			Class<IS> subServiceClass, Class<IDTO> subDtoClass, ID id) throws NoSuchMethodException, SecurityException,
+			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-		List<IDTO> idtoList = service.findAllDtoItem(itemServiceClass, itemDtoClass, id);
+		List<IDTO> idtoList = service.findAllSubDtoList(subServiceClass, subDtoClass, id);
 		return ResponseEntity.ok().body(idtoList);
 	}
 
-	public <IS extends AbstractService<?, ID, ?, ?>> ResponseEntity<Void> insertItem(ID id, ID itemEntityId,
-			IS itemService) throws NoSuchMethodException, SecurityException, InstantiationException,
+	public <IS extends AbstractService<?, ID, ?, ?>> ResponseEntity<Void> insertSubList(ID id, ID subEntityId,
+			IS subService) throws NoSuchMethodException, SecurityException, InstantiationException,
 			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-		service.insertDtoItem(id, itemEntityId, itemService);
+		service.insertSubDtoList(id, subEntityId, subService);
 		return ResponseEntity.noContent().build();
 	}
 
-	public <IS extends AbstractService<?, ID, ?, ?>> ResponseEntity<Void> deleteItem(ID id, ID itemEntityId,
-			IS itemService) throws NoSuchMethodException, SecurityException, InstantiationException,
+	public <IS extends AbstractService<?, ID, ?, ?>> ResponseEntity<Void> deleteSubList(ID id, ID subEntityId,
+			IS subService) throws NoSuchMethodException, SecurityException, InstantiationException,
 			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-		service.deleteDtoItem(id, itemEntityId, itemService);
+		service.deleteSubDtoList(id, subEntityId, subService);
 		return ResponseEntity.noContent().build();
 	}
 

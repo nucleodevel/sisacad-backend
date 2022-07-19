@@ -32,7 +32,7 @@ public class DiscenteResource extends AbstractResource<DiscenteDto, Integer, Dis
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id);
+		return findAllSubList(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina/{itemId}", method = RequestMethod.POST)
@@ -40,7 +40,7 @@ public class DiscenteResource extends AbstractResource<DiscenteDto, Integer, Dis
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return insertItem(id, itemId, ofertaDisciplinaService);
+		return insertSubList(id, itemId, ofertaDisciplinaService);
 	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina/{itemId}", method = RequestMethod.DELETE)
@@ -48,7 +48,7 @@ public class DiscenteResource extends AbstractResource<DiscenteDto, Integer, Dis
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return deleteItem(id, itemId, ofertaDisciplinaService);
+		return deleteSubList(id, itemId, ofertaDisciplinaService);
 	}
 
 	@RequestMapping(value = "/{id}/participacao-aula", method = RequestMethod.GET)
@@ -56,7 +56,7 @@ public class DiscenteResource extends AbstractResource<DiscenteDto, Integer, Dis
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(ParticipacaoAulaService.class, ParticipacaoAulaDto.class, id);
+		return findAllSubList(ParticipacaoAulaService.class, ParticipacaoAulaDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/participacao-avaliacao", method = RequestMethod.GET)
@@ -64,7 +64,7 @@ public class DiscenteResource extends AbstractResource<DiscenteDto, Integer, Dis
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(ParticipacaoAvaliacaoService.class, ParticipacaoAvaliacaoDto.class, id);
+		return findAllSubList(ParticipacaoAvaliacaoService.class, ParticipacaoAvaliacaoDto.class, id);
 	}
 
 }
