@@ -23,7 +23,7 @@ public class Vestibular extends AbstractEntity<Integer> {
 	private Integer ano;
 
 	@OneToMany(mappedBy = "vestibular")
-	private List<OfertaCurso> listaOfertaCurso = new ArrayList<>();
+	private List<OfertaCurso> listOfertaCurso = new ArrayList<>();
 
 	@Override
 	public Integer getId() {
@@ -43,8 +43,8 @@ public class Vestibular extends AbstractEntity<Integer> {
 		this.ano = ano;
 	}
 
-	public List<OfertaCurso> getListaOfertaCurso() {
-		return listaOfertaCurso;
+	public List<OfertaCurso> getListOfertaCurso() {
+		return listOfertaCurso;
 	}
 
 }

@@ -27,14 +27,14 @@ public class Discente extends AbstractEntity<Integer> {
 	private Vestibulando vestibulando;
 
 	@OneToMany(mappedBy = "discente")
-	private List<ParticipacaoAula> listaParticipacaoAula = new ArrayList<>();
+	private List<ParticipacaoAula> listParticipacaoAula = new ArrayList<>();
 
 	@OneToMany(mappedBy = "discente")
-	private List<ParticipacaoAvaliacao> listaParticipacaoAvaliacao = new ArrayList<>();
+	private List<ParticipacaoAvaliacao> listParticipacaoAvaliacao = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "oferta_disciplina_discente", joinColumns = @JoinColumn(name = "id_discente"), inverseJoinColumns = @JoinColumn(name = "id_oferta_disciplina"))
-	private List<OfertaDisciplina> listaOfertaDisciplina = new ArrayList<>();
+	private List<OfertaDisciplina> listOfertaDisciplina = new ArrayList<>();
 
 	@Override
 	public Integer getId() {
@@ -54,20 +54,20 @@ public class Discente extends AbstractEntity<Integer> {
 		this.vestibulando = vestibulando;
 	}
 
-	public List<ParticipacaoAula> getListaParticipacaoAula() {
-		return listaParticipacaoAula;
+	public List<ParticipacaoAula> getListParticipacaoAula() {
+		return listParticipacaoAula;
 	}
 
-	public List<ParticipacaoAvaliacao> getListaParticipacaoAvaliacao() {
-		return listaParticipacaoAvaliacao;
+	public List<ParticipacaoAvaliacao> getListParticipacaoAvaliacao() {
+		return listParticipacaoAvaliacao;
 	}
 
-	public List<OfertaDisciplina> getListaOfertaDisciplina() {
-		return listaOfertaDisciplina;
+	public List<OfertaDisciplina> getListOfertaDisciplina() {
+		return listOfertaDisciplina;
 	}
 
-	public void setListaOfertaDisciplina(List<OfertaDisciplina> listaOfertaDisciplina) {
-		this.listaOfertaDisciplina = listaOfertaDisciplina;
+	public void setListOfertaDisciplina(List<OfertaDisciplina> listOfertaDisciplina) {
+		this.listOfertaDisciplina = listOfertaDisciplina;
 	}
 
 }

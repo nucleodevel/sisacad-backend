@@ -31,18 +31,18 @@ public class OfertaDisciplina extends AbstractEntity<Integer> {
 	private Docente docente;
 
 	@OneToMany(mappedBy = "ofertaDisciplina")
-	private List<Aula> listaAula = new ArrayList<>();
+	private List<Aula> listAula = new ArrayList<>();
 
 	@OneToMany(mappedBy = "ofertaDisciplina")
-	private List<Avaliacao> listaAvaliacao = new ArrayList<>();
+	private List<Avaliacao> listAvaliacao = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "oferta_disciplina_turma", joinColumns = @JoinColumn(name = "id_oferta_disciplina"), inverseJoinColumns = @JoinColumn(name = "id_turma"))
-	private List<Turma> listaTurma = new ArrayList<>();
+	private List<Turma> listTurma = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "oferta_disciplina_discente", joinColumns = @JoinColumn(name = "id_oferta_disciplina"), inverseJoinColumns = @JoinColumn(name = "id_discente"))
-	private List<Discente> listaDiscente = new ArrayList<>();
+	private List<Discente> listDiscente = new ArrayList<>();
 
 	@Override
 	public Integer getId() {
@@ -70,28 +70,28 @@ public class OfertaDisciplina extends AbstractEntity<Integer> {
 		this.docente = docente;
 	}
 
-	public List<Aula> getListaAula() {
-		return listaAula;
+	public List<Aula> getListAula() {
+		return listAula;
 	}
 
-	public List<Avaliacao> getListaAvaliacao() {
-		return listaAvaliacao;
+	public List<Avaliacao> getListAvaliacao() {
+		return listAvaliacao;
 	}
 
-	public List<Turma> getListaTurma() {
-		return listaTurma;
+	public List<Turma> getListTurma() {
+		return listTurma;
 	}
 
-	public void setListaTurma(List<Turma> listaTurma) {
-		this.listaTurma = listaTurma;
+	public void setListTurma(List<Turma> listTurma) {
+		this.listTurma = listTurma;
 	}
 
-	public List<Discente> getListaDiscente() {
-		return listaDiscente;
+	public List<Discente> getListDiscente() {
+		return listDiscente;
 	}
 
-	public void setListaDiscente(List<Discente> listaDiscente) {
-		this.listaDiscente = listaDiscente;
+	public void setListDiscente(List<Discente> listDiscente) {
+		this.listDiscente = listDiscente;
 	}
 
 }

@@ -92,7 +92,7 @@ public class PopulaDados {
 		ec1.setAnoInicio(2010);
 		ec1.setAnoTermino(2025);
 		ec1.setCurso(cur1);
-		ec1.setListaDisciplina(List.of(dcp1));
+		ec1.setListDisciplina(List.of(dcp1));
 
 		estruturaCurricularRepository.saveAll(List.of(ec1));
 
@@ -138,8 +138,8 @@ public class PopulaDados {
 		OfertaDisciplina od1 = new OfertaDisciplina();
 		od1.setDisciplina(dcp1);
 		od1.setDocente(doc1);
-		od1.setListaTurma(List.of(trm1));
-		od1.setListaDiscente(List.of(dct1));
+		od1.setListTurma(List.of(trm1));
+		od1.setListDiscente(List.of(dct1));
 
 		ofertaDisciplinaRepository.saveAll(List.of(od1));
 

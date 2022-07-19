@@ -24,7 +24,7 @@ public class VestibularResource extends AbstractResource<VestibularDto, Integer,
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(OfertaCursoService.class, OfertaCursoDto.class, id, "getListaOfertaCurso");
+		return findAllItem(OfertaCursoService.class, OfertaCursoDto.class, id);
 	}
 
 }

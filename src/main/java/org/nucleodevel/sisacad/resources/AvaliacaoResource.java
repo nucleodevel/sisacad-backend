@@ -24,8 +24,7 @@ public class AvaliacaoResource extends AbstractResource<AvaliacaoDto, Integer, A
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(ParticipacaoAvaliacaoService.class, ParticipacaoAvaliacaoDto.class, id,
-				"getListaParticipacaoAvaliacao");
+		return findAllItem(ParticipacaoAvaliacaoService.class, ParticipacaoAvaliacaoDto.class, id);
 	}
 
 }

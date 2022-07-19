@@ -32,7 +32,7 @@ public class DiscenteResource extends AbstractResource<DiscenteDto, Integer, Dis
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id, "getListaOfertaDisciplina");
+		return findAllItem(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina/{itemId}", method = RequestMethod.POST)
@@ -40,8 +40,8 @@ public class DiscenteResource extends AbstractResource<DiscenteDto, Integer, Dis
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return insertItem(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id, "getListaOfertaDisciplina",
-				itemId, ofertaDisciplinaService);
+		return insertItem(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id, itemId,
+				ofertaDisciplinaService);
 	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina/{itemId}", method = RequestMethod.DELETE)
@@ -49,8 +49,8 @@ public class DiscenteResource extends AbstractResource<DiscenteDto, Integer, Dis
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return deleteItem(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id, "getListaOfertaDisciplina",
-				itemId, ofertaDisciplinaService);
+		return deleteItem(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id, itemId,
+				ofertaDisciplinaService);
 	}
 
 	@RequestMapping(value = "/{id}/participacao-aula", method = RequestMethod.GET)
@@ -58,7 +58,7 @@ public class DiscenteResource extends AbstractResource<DiscenteDto, Integer, Dis
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(ParticipacaoAulaService.class, ParticipacaoAulaDto.class, id, "getListaParticipacaoAula");
+		return findAllItem(ParticipacaoAulaService.class, ParticipacaoAulaDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/participacao-avaliacao", method = RequestMethod.GET)
@@ -66,8 +66,7 @@ public class DiscenteResource extends AbstractResource<DiscenteDto, Integer, Dis
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(ParticipacaoAvaliacaoService.class, ParticipacaoAvaliacaoDto.class, id,
-				"getListaParticipacaoAvaliacao");
+		return findAllItem(ParticipacaoAvaliacaoService.class, ParticipacaoAvaliacaoDto.class, id);
 	}
 
 }

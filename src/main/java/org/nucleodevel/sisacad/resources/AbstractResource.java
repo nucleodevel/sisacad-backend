@@ -47,7 +47,7 @@ public abstract class AbstractResource<DTO extends AbstractDto<?, ID>, ID, S ext
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable ID id) {
-		service.delete(id);
+		service.deleteDto(id);
 		return ResponseEntity.noContent().build();
 	}
 
@@ -58,29 +58,29 @@ public abstract class AbstractResource<DTO extends AbstractDto<?, ID>, ID, S ext
 	}
 
 	public <IS extends AbstractService<?, ?, IDTO, ?>, IDTO extends AbstractDto<?, ?>> ResponseEntity<List<IDTO>> findAllItem(
-			Class<IS> itemServiceClass, Class<IDTO> itemDtoClass, ID id, String itemListMethodName)
+			Class<IS> itemServiceClass, Class<IDTO> itemDtoClass, ID id)
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		List<IDTO> idtoList = service.findAllDtoItem(itemServiceClass, itemDtoClass, id, itemListMethodName);
+		List<IDTO> idtoList = service.findAllDtoItem(itemServiceClass, itemDtoClass, id);
 		return ResponseEntity.ok().body(idtoList);
 	}
 
 	public <IS extends AbstractService<?, ID, IDTO, ?>, IDTO extends AbstractDto<?, ID>> ResponseEntity<Void> insertItem(
-			Class<IS> itemServiceClass, Class<IDTO> itemDtoClass, ID id, String itemListMethodName, ID itemEntityId,
-			IS itemService) throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+			Class<IS> itemServiceClass, Class<IDTO> itemDtoClass, ID id, ID itemEntityId, IS itemService)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
 
-		service.insertDtoItem(itemServiceClass, itemDtoClass, id, itemListMethodName, itemEntityId, itemService);
+		service.insertDtoItem(itemServiceClass, itemDtoClass, id, itemEntityId, itemService);
 		return ResponseEntity.noContent().build();
 	}
 
 	public <IS extends AbstractService<?, ID, IDTO, ?>, IDTO extends AbstractDto<?, ID>> ResponseEntity<Void> deleteItem(
-			Class<IS> itemServiceClass, Class<IDTO> itemDtoClass, ID id, String itemListMethodName, ID itemEntityId,
-			IS itemService) throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+			Class<IS> itemServiceClass, Class<IDTO> itemDtoClass, ID id, ID itemEntityId, IS itemService)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
 
-		service.deleteDtoItem(itemServiceClass, itemDtoClass, id, itemListMethodName, itemEntityId, itemService);
+		service.deleteDtoItem(itemServiceClass, itemDtoClass, id, itemEntityId, itemService);
 		return ResponseEntity.noContent().build();
 	}
 

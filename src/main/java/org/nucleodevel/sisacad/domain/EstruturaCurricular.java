@@ -34,11 +34,11 @@ public class EstruturaCurricular extends AbstractEntity<Integer> {
 	private Curso curso;
 
 	@OneToMany(mappedBy = "estruturaCurricular")
-	private List<OfertaCurso> listaOfertaCurso = new ArrayList<>();
+	private List<OfertaCurso> listOfertaCurso = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "estrutura_curricular_disciplina", joinColumns = @JoinColumn(name = "id_estrutura_curricular"), inverseJoinColumns = @JoinColumn(name = "id_disciplina"))
-	private List<Disciplina> listaDisciplina = new ArrayList<>();
+	private List<Disciplina> listDisciplina = new ArrayList<>();
 
 	@Override
 	public Integer getId() {
@@ -74,16 +74,16 @@ public class EstruturaCurricular extends AbstractEntity<Integer> {
 		this.curso = curso;
 	}
 
-	public List<OfertaCurso> getListaOfertaCurso() {
-		return listaOfertaCurso;
+	public List<OfertaCurso> getListOfertaCurso() {
+		return listOfertaCurso;
 	}
 
-	public List<Disciplina> getListaDisciplina() {
-		return listaDisciplina;
+	public List<Disciplina> getListDisciplina() {
+		return listDisciplina;
 	}
 
-	public void setListaDisciplina(List<Disciplina> listaDisciplina) {
-		this.listaDisciplina = listaDisciplina;
+	public void setListDisciplina(List<Disciplina> listDisciplina) {
+		this.listDisciplina = listDisciplina;
 	}
 
 }

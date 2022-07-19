@@ -27,7 +27,7 @@ public class Turma extends AbstractEntity<Integer> {
 
 	@ManyToMany
 	@JoinTable(name = "oferta_disciplina_turma", joinColumns = @JoinColumn(name = "id_turma"), inverseJoinColumns = @JoinColumn(name = "id_oferta_disciplina"))
-	private List<OfertaDisciplina> listaOfertaDisciplina = new ArrayList<>();
+	private List<OfertaDisciplina> listOfertaDisciplina = new ArrayList<>();
 
 	@Override
 	public Integer getId() {
@@ -47,12 +47,12 @@ public class Turma extends AbstractEntity<Integer> {
 		this.ofertaCurso = ofertaCurso;
 	}
 
-	public List<OfertaDisciplina> getListaOfertaDisciplina() {
-		return listaOfertaDisciplina;
+	public List<OfertaDisciplina> getListOfertaDisciplina() {
+		return listOfertaDisciplina;
 	}
 
-	public void setListaOfertaDisciplina(List<OfertaDisciplina> listaOfertaDisciplina) {
-		this.listaOfertaDisciplina = listaOfertaDisciplina;
+	public void setListOfertaDisciplina(List<OfertaDisciplina> listOfertaDisciplina) {
+		this.listOfertaDisciplina = listOfertaDisciplina;
 	}
 
 }

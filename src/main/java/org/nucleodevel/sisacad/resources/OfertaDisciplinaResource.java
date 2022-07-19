@@ -36,7 +36,7 @@ public class OfertaDisciplinaResource extends AbstractResource<OfertaDisciplinaD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(AulaService.class, AulaDto.class, id, "getListaAula");
+		return findAllItem(AulaService.class, AulaDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/avaliacao", method = RequestMethod.GET)
@@ -44,7 +44,7 @@ public class OfertaDisciplinaResource extends AbstractResource<OfertaDisciplinaD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(AvaliacaoService.class, AvaliacaoDto.class, id, "getListaAvaliacao");
+		return findAllItem(AvaliacaoService.class, AvaliacaoDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/discente", method = RequestMethod.GET)
@@ -52,7 +52,7 @@ public class OfertaDisciplinaResource extends AbstractResource<OfertaDisciplinaD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(DiscenteService.class, DiscenteDto.class, id, "getListaDiscente");
+		return findAllItem(DiscenteService.class, DiscenteDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/discente/{itemId}", method = RequestMethod.POST)
@@ -60,7 +60,7 @@ public class OfertaDisciplinaResource extends AbstractResource<OfertaDisciplinaD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return insertItem(DiscenteService.class, DiscenteDto.class, id, "getListaDiscente", itemId, discenteService);
+		return insertItem(DiscenteService.class, DiscenteDto.class, id, itemId, discenteService);
 	}
 
 	@RequestMapping(value = "/{id}/discente/{itemId}", method = RequestMethod.DELETE)
@@ -68,7 +68,7 @@ public class OfertaDisciplinaResource extends AbstractResource<OfertaDisciplinaD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return deleteItem(DiscenteService.class, DiscenteDto.class, id, "getListaDiscente", itemId, discenteService);
+		return deleteItem(DiscenteService.class, DiscenteDto.class, id, itemId, discenteService);
 	}
 
 	@RequestMapping(value = "/{id}/turma", method = RequestMethod.GET)
@@ -76,7 +76,7 @@ public class OfertaDisciplinaResource extends AbstractResource<OfertaDisciplinaD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(TurmaService.class, TurmaDto.class, id, "getListaTurma");
+		return findAllItem(TurmaService.class, TurmaDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/turma/{itemId}", method = RequestMethod.POST)
@@ -84,7 +84,7 @@ public class OfertaDisciplinaResource extends AbstractResource<OfertaDisciplinaD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return insertItem(TurmaService.class, TurmaDto.class, id, "getListaTurma", itemId, turmaService);
+		return insertItem(TurmaService.class, TurmaDto.class, id, itemId, turmaService);
 	}
 
 	@RequestMapping(value = "/{id}/turma/{itemId}", method = RequestMethod.DELETE)
@@ -92,7 +92,7 @@ public class OfertaDisciplinaResource extends AbstractResource<OfertaDisciplinaD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return deleteItem(TurmaService.class, TurmaDto.class, id, "getListaTurma", itemId, turmaService);
+		return deleteItem(TurmaService.class, TurmaDto.class, id, itemId, turmaService);
 	}
 
 }

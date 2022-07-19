@@ -30,8 +30,7 @@ public class DisciplinaResource extends AbstractResource<DisciplinaDto, Integer,
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(EstruturaCurricularService.class, EstruturaCurricularDto.class, id,
-				"getListaEstruturaCurricular");
+		return findAllItem(EstruturaCurricularService.class, EstruturaCurricularDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/estrutura-curricular/{itemId}", method = RequestMethod.POST)
@@ -39,8 +38,8 @@ public class DisciplinaResource extends AbstractResource<DisciplinaDto, Integer,
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return insertItem(EstruturaCurricularService.class, EstruturaCurricularDto.class, id,
-				"getListaEstruturaCurricular", itemId, estruturaCurricularService);
+		return insertItem(EstruturaCurricularService.class, EstruturaCurricularDto.class, id, itemId,
+				estruturaCurricularService);
 	}
 
 	@RequestMapping(value = "/{id}/estrutura-curricular/{itemId}", method = RequestMethod.DELETE)
@@ -48,8 +47,8 @@ public class DisciplinaResource extends AbstractResource<DisciplinaDto, Integer,
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return deleteItem(EstruturaCurricularService.class, EstruturaCurricularDto.class, id,
-				"getListaEstruturaCurricular", itemId, estruturaCurricularService);
+		return deleteItem(EstruturaCurricularService.class, EstruturaCurricularDto.class, id, itemId,
+				estruturaCurricularService);
 	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina", method = RequestMethod.GET)
@@ -57,7 +56,7 @@ public class DisciplinaResource extends AbstractResource<DisciplinaDto, Integer,
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id, "getListaOfertaDisciplina");
+		return findAllItem(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id);
 	}
 
 }

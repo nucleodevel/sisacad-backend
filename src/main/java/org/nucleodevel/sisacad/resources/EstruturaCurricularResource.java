@@ -31,7 +31,7 @@ public class EstruturaCurricularResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(OfertaCursoService.class, OfertaCursoDto.class, id, "getListaOfertaCurso");
+		return findAllItem(OfertaCursoService.class, OfertaCursoDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/disciplina", method = RequestMethod.GET)
@@ -39,7 +39,7 @@ public class EstruturaCurricularResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return findAllItem(DisciplinaService.class, DisciplinaDto.class, id, "getListaDisciplina");
+		return findAllItem(DisciplinaService.class, DisciplinaDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/disciplina/{itemId}", method = RequestMethod.POST)
@@ -47,8 +47,7 @@ public class EstruturaCurricularResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return insertItem(DisciplinaService.class, DisciplinaDto.class, id, "getListaDisciplina", itemId,
-				disciplinaService);
+		return insertItem(DisciplinaService.class, DisciplinaDto.class, id, itemId, disciplinaService);
 	}
 
 	@RequestMapping(value = "/{id}/disciplina/{itemId}", method = RequestMethod.DELETE)
@@ -56,8 +55,7 @@ public class EstruturaCurricularResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return deleteItem(DisciplinaService.class, DisciplinaDto.class, id, "getListaDisciplina", itemId,
-				disciplinaService);
+		return deleteItem(DisciplinaService.class, DisciplinaDto.class, id, itemId, disciplinaService);
 	}
 
 }
