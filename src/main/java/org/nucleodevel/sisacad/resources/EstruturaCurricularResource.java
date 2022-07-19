@@ -47,7 +47,7 @@ public class EstruturaCurricularResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return insertItem(DisciplinaService.class, DisciplinaDto.class, id, itemId, disciplinaService);
+		return insertItem(id, itemId, disciplinaService);
 	}
 
 	@RequestMapping(value = "/{id}/disciplina/{itemId}", method = RequestMethod.DELETE)
@@ -55,7 +55,7 @@ public class EstruturaCurricularResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return deleteItem(DisciplinaService.class, DisciplinaDto.class, id, itemId, disciplinaService);
+		return deleteItem(id, itemId, disciplinaService);
 	}
 
 }

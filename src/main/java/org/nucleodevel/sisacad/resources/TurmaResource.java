@@ -36,8 +36,7 @@ public class TurmaResource extends AbstractResource<TurmaDto, Integer, TurmaServ
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return insertItem(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id, itemId,
-				ofertaDisciplinaService);
+		return insertItem(id, itemId, ofertaDisciplinaService);
 	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina/{itemId}", method = RequestMethod.DELETE)
@@ -45,8 +44,7 @@ public class TurmaResource extends AbstractResource<TurmaDto, Integer, TurmaServ
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return deleteItem(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id, itemId,
-				ofertaDisciplinaService);
+		return deleteItem(id, itemId, ofertaDisciplinaService);
 	}
 
 }

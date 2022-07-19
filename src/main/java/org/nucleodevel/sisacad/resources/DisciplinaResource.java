@@ -38,8 +38,7 @@ public class DisciplinaResource extends AbstractResource<DisciplinaDto, Integer,
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return insertItem(EstruturaCurricularService.class, EstruturaCurricularDto.class, id, itemId,
-				estruturaCurricularService);
+		return insertItem(id, itemId, estruturaCurricularService);
 	}
 
 	@RequestMapping(value = "/{id}/estrutura-curricular/{itemId}", method = RequestMethod.DELETE)
@@ -47,8 +46,7 @@ public class DisciplinaResource extends AbstractResource<DisciplinaDto, Integer,
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		return deleteItem(EstruturaCurricularService.class, EstruturaCurricularDto.class, id, itemId,
-				estruturaCurricularService);
+		return deleteItem(id, itemId, estruturaCurricularService);
 	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina", method = RequestMethod.GET)

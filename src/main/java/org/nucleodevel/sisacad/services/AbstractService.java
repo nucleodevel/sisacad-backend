@@ -110,7 +110,6 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 			return mergeDtoIntoEntity(dto, entity);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -123,7 +122,6 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 			return dto;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -169,74 +167,30 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 	}
 
 	@SuppressWarnings("unchecked")
-	public <IE extends AbstractEntity<?>> List<IE> findAllItem(Class<IE> itemEntityClass, ID id)
+	public <IE extends AbstractEntity<IID>, IID> List<IE> findAllItem(Class<IE> itemEntityClass, ID id)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
 
-		String itemListMethodName = getDefaultItemEntityMethodPrefix() + itemEntityClass.getSimpleName();
+		List<Object> objectList = findAllItemObject(itemEntityClass, id);
 
-		E entity = find(id);
-		Method itemListMethod = entity.getClass().getMethod(itemListMethodName);
+		List<IE> itemEntityList = new ArrayList<>();
+		objectList.forEach((item) -> itemEntityList.add((IE) item));
 
-		return (List<IE>) itemListMethod.invoke(entity);
+		return itemEntityList;
 	}
 
-	@SuppressWarnings("unchecked")
 	public <IS extends AbstractService<IE, IID, ?, ?>, IE extends AbstractEntity<IID>, IID> ResponseEntity<Void> insertItem(
-			Class<IS> itemServiceClass, Class<IE> itemEntityClass, ID id, IID itemEntityId, IS itemService)
-			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException {
+			ID id, IID itemEntityId, IS itemService) throws NoSuchMethodException, SecurityException,
+			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-		String itemListMethodName = getDefaultItemEntityMethodPrefix() + itemEntityClass.getSimpleName();
-
-		E entity = find(id);
-		Method itemListMethod = entity.getClass().getMethod(itemListMethodName);
-		List<IE> itemList = (List<IE>) itemListMethod.invoke(entity);
-
-		boolean exists = false;
-		for (IE item : itemList) {
-			if (item.getId() == itemEntityId) {
-				exists = true;
-			}
-		}
-
-		if (!exists) {
-			IE itemEntity = itemService.find(itemEntityId);
-			itemList.add(itemEntity);
-
-			update(entity);
-		}
-
-		return ResponseEntity.noContent().build();
+		return insertItemObject(id, itemEntityId, itemService);
 	}
 
-	@SuppressWarnings("unchecked")
 	public <IS extends AbstractService<IE, IID, ?, ?>, IE extends AbstractEntity<IID>, IID> ResponseEntity<Void> deleteItem(
-			Class<IS> itemServiceClass, Class<IE> itemEntityClass, ID id, IID itemEntityId, IS itemService)
-			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException {
+			ID id, IID itemEntityId, IS itemService) throws NoSuchMethodException, SecurityException,
+			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-		String itemListMethodName = getDefaultItemEntityMethodPrefix() + itemEntityClass.getSimpleName();
-
-		E entity = find(id);
-		Method itemListMethod = entity.getClass().getMethod(itemListMethodName);
-		List<Object> itemList = (List<Object>) itemListMethod.invoke(entity);
-
-		Integer itemPosition = null;
-		for (int i = 0; i < itemList.size(); i++) {
-
-			IE item = itemEntityClass.cast(itemList.get(i));
-			if (item.getId() == itemEntityId) {
-				itemPosition = i;
-			}
-		}
-
-		if (itemPosition != null) {
-			itemList.remove(itemPosition.intValue());
-			update(entity);
-		}
-
-		return ResponseEntity.noContent().build();
+		return deleteItemObject(id, itemEntityId, itemService);
 	}
 
 	/*
@@ -275,7 +229,6 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 		return getDtoFromEntity(entity);
 	}
 
-	@SuppressWarnings("unchecked")
 	public <IS extends AbstractService<?, ?, IDTO, ?>, IDTO extends AbstractDto<?, ?>> List<IDTO> findAllDtoItem(
 			Class<IS> itemServiceClass, Class<IDTO> itemDtoClass, ID id)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
@@ -285,40 +238,63 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 		IS itemService = itemServiceConstructor.newInstance();
 		Class<?> itemEntityClass = itemService.getEntityClass();
 
+		List<Object> itemEntityList = findAllItemObject(itemEntityClass, id);
+
+		List<IDTO> itemDtoList = new ArrayList<>();
+		Constructor<IDTO> idtoConstructor = itemDtoClass.getDeclaredConstructor();
+
+		for (Object item : itemEntityList) {
+			IDTO itemDto = idtoConstructor.newInstance();
+			itemDto.copyFromObject(itemEntityClass.cast(item));
+			itemDtoList.add(itemDto);
+		}
+
+		return itemDtoList;
+	}
+
+	public <IS extends AbstractService<?, IID, ?, ?>, IID> ResponseEntity<Void> insertDtoItem(ID id, IID itemEntityId,
+			IS itemService) throws NoSuchMethodException, SecurityException, InstantiationException,
+			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+
+		return insertItemObject(id, itemEntityId, itemService);
+	}
+
+	public <IS extends AbstractService<?, IID, ?, ?>, IID> ResponseEntity<Void> deleteDtoItem(ID id, IID itemEntityId,
+			IS itemService) throws NoSuchMethodException, SecurityException, InstantiationException,
+			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+
+		return deleteItemObject(id, itemEntityId, itemService);
+	}
+
+	/*
+	 * 
+	 * Auxiliar operations
+	 * 
+	 */
+
+	@SuppressWarnings("unchecked")
+	public List<Object> findAllItemObject(Class<?> itemEntityClass, ID id)
+			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+			NoSuchMethodException, SecurityException {
+
 		String itemListMethodName = getDefaultItemEntityMethodPrefix() + itemEntityClass.getSimpleName();
 
 		E entity = find(id);
 		Method itemListMethod = entity.getClass().getMethod(itemListMethodName);
-		List<Object> itemList = (List<Object>) itemListMethod.invoke(entity);
 
-		List<IDTO> idtoList = new ArrayList<>();
-		Constructor<IDTO> idtoConstructor = itemDtoClass.getDeclaredConstructor();
-
-		for (Object item : itemList) {
-			IDTO itemDto = idtoConstructor.newInstance();
-			itemDto.copyFromObject(itemEntityClass.cast(item));
-			idtoList.add(itemDto);
-		}
-
-		return idtoList;
+		return (List<Object>) itemListMethod.invoke(entity);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <IS extends AbstractService<?, IID, IDTO, ?>, IDTO extends AbstractDto<?, IID>, IID> ResponseEntity<Void> insertDtoItem(
-			Class<IS> itemServiceClass, Class<IDTO> itemDtoClass, ID id, IID itemEntityId, IS itemService)
-			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException {
+	public <IS extends AbstractService<?, IID, ?, ?>, IID> ResponseEntity<Void> insertItemObject(ID id,
+			IID itemEntityId, IS itemService) throws NoSuchMethodException, SecurityException, InstantiationException,
+			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
 		Class<?> itemEntityClass = itemService.getEntityClass();
-
-		String itemListMethodName = getDefaultItemEntityMethodPrefix() + itemEntityClass.getSimpleName();
-
-		E entity = find(id);
-		Method itemListMethod = entity.getClass().getMethod(itemListMethodName);
-		List<Object> itemList = (List<Object>) itemListMethod.invoke(entity);
+		List<Object> itemEntityList = findAllItemObject(itemEntityClass, id);
 
 		boolean exists = false;
-		for (Object item : itemList) {
+		for (Object item : itemEntityList) {
 			Object castItem = itemEntityClass.cast(item);
 			Method itemGetId = castItem.getClass().getMethod(getDefaultGetIdMethodName());
 
@@ -331,8 +307,9 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 
 		if (!exists) {
 			Object itemEntity = itemService.find(itemEntityId);
-			itemList.add(itemEntity);
+			itemEntityList.add(itemEntity);
 
+			E entity = find(id);
 			update(entity);
 		}
 
@@ -340,23 +317,17 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 	}
 
 	@SuppressWarnings("unchecked")
-	public <IS extends AbstractService<?, IID, IDTO, ?>, IDTO extends AbstractDto<?, IID>, IID> ResponseEntity<Void> deleteDtoItem(
-			Class<IS> itemServiceClass, Class<IDTO> itemDtoClass, ID id, IID itemEntityId, IS itemService)
-			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException {
+	public <IS extends AbstractService<?, IID, ?, ?>, IID> ResponseEntity<Void> deleteItemObject(ID id,
+			IID itemEntityId, IS itemService) throws NoSuchMethodException, SecurityException, InstantiationException,
+			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
 		Class<?> itemEntityClass = itemService.getEntityClass();
-
-		String itemListMethodName = getDefaultItemEntityMethodPrefix() + itemEntityClass.getSimpleName();
-
-		E entity = find(id);
-		Method itemListMethod = entity.getClass().getMethod(itemListMethodName);
-		List<Object> itemList = (List<Object>) itemListMethod.invoke(entity);
+		List<Object> itemEntityList = findAllItemObject(itemEntityClass, id);
 
 		Integer itemPosition = null;
-		for (int i = 0; i < itemList.size(); i++) {
+		for (int i = 0; i < itemEntityList.size(); i++) {
 
-			Object castItem = itemEntityClass.cast(itemList.get(i));
+			Object castItem = itemEntityClass.cast(itemEntityList.get(i));
 			Method itemGetId = castItem.getClass().getMethod(getDefaultGetIdMethodName());
 
 			IID itemId = (IID) itemGetId.invoke(castItem);
@@ -367,7 +338,9 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 		}
 
 		if (itemPosition != null) {
-			itemList.remove(itemPosition.intValue());
+			itemEntityList.remove(itemPosition.intValue());
+
+			E entity = find(id);
 			update(entity);
 		}
 

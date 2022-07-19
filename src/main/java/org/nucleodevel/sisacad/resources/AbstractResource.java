@@ -66,21 +66,19 @@ public abstract class AbstractResource<DTO extends AbstractDto<?, ID>, ID, S ext
 		return ResponseEntity.ok().body(idtoList);
 	}
 
-	public <IS extends AbstractService<?, ID, IDTO, ?>, IDTO extends AbstractDto<?, ID>> ResponseEntity<Void> insertItem(
-			Class<IS> itemServiceClass, Class<IDTO> itemDtoClass, ID id, ID itemEntityId, IS itemService)
-			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException {
+	public <IS extends AbstractService<?, ID, ?, ?>> ResponseEntity<Void> insertItem(ID id, ID itemEntityId,
+			IS itemService) throws NoSuchMethodException, SecurityException, InstantiationException,
+			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-		service.insertDtoItem(itemServiceClass, itemDtoClass, id, itemEntityId, itemService);
+		service.insertDtoItem(id, itemEntityId, itemService);
 		return ResponseEntity.noContent().build();
 	}
 
-	public <IS extends AbstractService<?, ID, IDTO, ?>, IDTO extends AbstractDto<?, ID>> ResponseEntity<Void> deleteItem(
-			Class<IS> itemServiceClass, Class<IDTO> itemDtoClass, ID id, ID itemEntityId, IS itemService)
-			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException {
+	public <IS extends AbstractService<?, ID, ?, ?>> ResponseEntity<Void> deleteItem(ID id, ID itemEntityId,
+			IS itemService) throws NoSuchMethodException, SecurityException, InstantiationException,
+			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-		service.deleteDtoItem(itemServiceClass, itemDtoClass, id, itemEntityId, itemService);
+		service.deleteDtoItem(id, itemEntityId, itemService);
 		return ResponseEntity.noContent().build();
 	}
 
