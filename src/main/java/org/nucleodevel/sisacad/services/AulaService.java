@@ -1,5 +1,7 @@
 package org.nucleodevel.sisacad.services;
 
+import java.util.Date;
+
 import org.nucleodevel.sisacad.domain.Aula;
 import org.nucleodevel.sisacad.dto.AulaDto;
 import org.nucleodevel.sisacad.repositories.AulaRepository;
@@ -17,8 +19,8 @@ public class AulaService extends AbstractService<Aula, Integer, AulaDto, AulaRep
 	@Override
 	public Aula mergeDtoIntoEntity(AulaDto dto, Aula entity) {
 		entity.setId(dto.getId());
-		entity.setInicio(dto.getInicio());
-		entity.setTermino(dto.getTermino());
+		entity.setInicio(dto.getInicio() == null ? null : new Date(dto.getInicio()));
+		entity.setTermino(dto.getTermino() == null ? null : new Date(dto.getTermino()));
 		entity.setOfertaDisciplina(ofertaDisciplinaService.find(dto.getOfertaDisciplina()));
 
 		return entity;
@@ -36,7 +38,7 @@ public class AulaService extends AbstractService<Aula, Integer, AulaDto, AulaRep
 			error += "Data e hora de término pendente; ";
 		}
 
-		if (dto.getInicio().getTime() > dto.getTermino().getTime()) {
+		if (dto.getInicio() != null && dto.getTermino() == null && dto.getInicio() > dto.getTermino()) {
 			error += "Data e hora de início posterior à de término; ";
 		}
 

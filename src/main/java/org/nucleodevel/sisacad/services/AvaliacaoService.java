@@ -1,5 +1,7 @@
 package org.nucleodevel.sisacad.services;
 
+import java.util.Date;
+
 import org.nucleodevel.sisacad.domain.Avaliacao;
 import org.nucleodevel.sisacad.dto.AvaliacaoDto;
 import org.nucleodevel.sisacad.repositories.AvaliacaoRepository;
@@ -18,8 +20,8 @@ public class AvaliacaoService extends AbstractService<Avaliacao, Integer, Avalia
 	public Avaliacao mergeDtoIntoEntity(AvaliacaoDto dto, Avaliacao entity) {
 		entity.setId(dto.getId());
 		entity.setDescricao(dto.getDescricao());
-		entity.setInicio(dto.getInicio());
-		entity.setTermino(dto.getTermino());
+		entity.setInicio(dto.getInicio() == null ? null : new Date(dto.getInicio()));
+		entity.setTermino(dto.getTermino() == null ? null : new Date(dto.getTermino()));
 		entity.setOfertaDisciplina(ofertaDisciplinaService.find(dto.getOfertaDisciplina()));
 
 		return entity;
@@ -41,7 +43,7 @@ public class AvaliacaoService extends AbstractService<Avaliacao, Integer, Avalia
 			error += "Data e hora de término pendente; ";
 		}
 
-		if (dto.getInicio().getTime() > dto.getTermino().getTime()) {
+		if (dto.getInicio() != null && dto.getTermino() == null && dto.getInicio() > dto.getTermino()) {
 			error += "Data e hora de início posterior à de término; ";
 		}
 

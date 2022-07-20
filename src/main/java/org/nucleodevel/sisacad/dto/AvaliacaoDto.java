@@ -1,7 +1,5 @@
 package org.nucleodevel.sisacad.dto;
 
-import java.util.Date;
-
 import org.nucleodevel.sisacad.domain.Avaliacao;
 
 public class AvaliacaoDto extends AbstractDto<Avaliacao, Integer> {
@@ -9,16 +7,16 @@ public class AvaliacaoDto extends AbstractDto<Avaliacao, Integer> {
 	private static final long serialVersionUID = 8835147583838231255L;
 
 	private String descricao;
-	private Date inicio;
-	private Date termino;
+	private Long inicio;
+	private Long termino;
 	private Integer ofertaDisciplina;
 
 	@Override
 	public void copyFromEntity(Avaliacao entity) {
 		this.id = entity.getId();
 		this.descricao = entity.getDescricao();
-		this.inicio = entity.getInicio();
-		this.termino = entity.getTermino();
+		this.inicio = entity.getInicio() == null ? null : entity.getInicio().getTime();
+		this.termino = entity.getTermino() == null ? null : entity.getTermino().getTime();
 		this.ofertaDisciplina = entity.getOfertaDisciplina().getId();
 	}
 
@@ -30,19 +28,19 @@ public class AvaliacaoDto extends AbstractDto<Avaliacao, Integer> {
 		this.descricao = descricao;
 	}
 
-	public Date getInicio() {
+	public Long getInicio() {
 		return inicio;
 	}
 
-	public void setInicio(Date inicio) {
+	public void setInicio(Long inicio) {
 		this.inicio = inicio;
 	}
 
-	public Date getTermino() {
+	public Long getTermino() {
 		return termino;
 	}
 
-	public void setTermino(Date termino) {
+	public void setTermino(Long termino) {
 		this.termino = termino;
 	}
 
