@@ -86,12 +86,70 @@ public class OfertaDisciplina extends AbstractEntity<Integer> {
 		this.listTurma = listTurma;
 	}
 
+	public void insertTurma(Turma turma) {
+		boolean exists = false;
+
+		for (Turma subItem : listTurma) {
+			if (subItem.getId().equals(turma.getId())) {
+				exists = true;
+			}
+		}
+
+		if (!exists) {
+			listTurma.add(turma);
+		}
+	}
+
+	public void deleteTurma(Turma turma) {
+		Integer position = null;
+
+		for (int i = 0; i < listTurma.size(); i++) {
+			Turma subItem = listTurma.get(i);
+			if (subItem.getId().equals(turma.getId())) {
+				position = i;
+			}
+		}
+
+		if (position != null) {
+			listTurma.remove(position.intValue());
+		}
+	}
+
 	public List<Discente> getListDiscente() {
 		return listDiscente;
 	}
 
 	public void setListDiscente(List<Discente> listDiscente) {
 		this.listDiscente = listDiscente;
+	}
+
+	public void insertDiscente(Discente discente) {
+		boolean exists = false;
+
+		for (Discente subItem : listDiscente) {
+			if (subItem.getId().equals(discente.getId())) {
+				exists = true;
+			}
+		}
+
+		if (!exists) {
+			listDiscente.add(discente);
+		}
+	}
+
+	public void deleteDiscente(Discente discente) {
+		Integer position = null;
+
+		for (int i = 0; i < listDiscente.size(); i++) {
+			Discente subItem = listDiscente.get(i);
+			if (subItem.getId().equals(discente.getId())) {
+				position = i;
+			}
+		}
+
+		if (position != null) {
+			listDiscente.remove(position.intValue());
+		}
 	}
 
 }

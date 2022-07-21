@@ -66,7 +66,7 @@ public class OfertaCursoService extends AbstractService<OfertaCurso, Integer, Of
 		EstruturaCurricular myEstruturaCurricular = estruturaCurricularService.find(dto.getEstruturaCurricular());
 		Vestibular myVestibular = vestibularService.find(dto.getVestibular());
 
-		Optional<OfertaCurso> similar = repo.findDifferentByEstruturaCurricularAndVestibular(dto.getId(),
+		Optional<OfertaCurso> similar = repository.findDifferentByEstruturaCurricularAndVestibular(dto.getId(),
 				myEstruturaCurricular, myVestibular);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException(

@@ -70,4 +70,33 @@ public class Discente extends AbstractEntity<Integer> {
 		this.listOfertaDisciplina = listOfertaDisciplina;
 	}
 
+	public void insertOfertaDisciplina(OfertaDisciplina ofertaDisciplina) {
+		boolean exists = false;
+
+		for (OfertaDisciplina subItem : listOfertaDisciplina) {
+			if (subItem.getId().equals(ofertaDisciplina.getId())) {
+				exists = true;
+			}
+		}
+
+		if (!exists) {
+			listOfertaDisciplina.add(ofertaDisciplina);
+		}
+	}
+
+	public void deleteOfertaDisciplina(OfertaDisciplina ofertaDisciplina) {
+		Integer position = null;
+
+		for (int i = 0; i < listOfertaDisciplina.size(); i++) {
+			OfertaDisciplina subItem = listOfertaDisciplina.get(i);
+			if (subItem.getId().equals(ofertaDisciplina.getId())) {
+				position = i;
+			}
+		}
+
+		if (position != null) {
+			listOfertaDisciplina.remove(position.intValue());
+		}
+	}
+
 }

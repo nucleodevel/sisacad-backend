@@ -34,7 +34,7 @@ public class DisciplinaService extends AbstractService<Disciplina, Integer, Disc
 
 		String myNome = dto.getNome();
 
-		Optional<Disciplina> similar = repo.findDifferentByNome(dto.getId(), myNome);
+		Optional<Disciplina> similar = repository.findDifferentByNome(dto.getId(), myNome);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma disciplina com este nome!");
 		});

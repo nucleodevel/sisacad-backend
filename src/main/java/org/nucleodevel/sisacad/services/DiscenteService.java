@@ -46,7 +46,7 @@ public class DiscenteService extends AbstractService<Discente, Integer, Discente
 
 		Vestibulando myVestibulando = vestibulandoService.find(dto.getVestibulando());
 
-		Optional<Discente> similar = repo.findSimilarByVestibulando(dto.getId(), myVestibulando);
+		Optional<Discente> similar = repository.findSimilarByVestibulando(dto.getId(), myVestibulando);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe um discente para este vestibulando!");
 		});

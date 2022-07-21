@@ -28,10 +28,13 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 	 */
 
 	private static final String DEFAULT_GET_ID_METHOD_NAME = "getId";
-	private static final String DEFAULT_SUB_LIST_METHOD_PREFIX = "getList";
+
+	private static final String DEFAULT_SUB_LIST_GET_METHOD_PREFIX = "getList";
+	private static final String DEFAULT_SUB_LIST_INSERT_METHOD_PREFIX = "insert";
+	private static final String DEFAULT_SUB_LIST_DELETE_METHOD_PREFIX = "delete";
 
 	@Autowired
-	protected R repo;
+	protected R repository;
 
 	/*
 	 * 
@@ -53,8 +56,16 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 		return DEFAULT_GET_ID_METHOD_NAME;
 	}
 
-	public String getDefaultSubListMethodPrefix() {
-		return DEFAULT_SUB_LIST_METHOD_PREFIX;
+	public String getDefaultSubListGetMethodPrefix() {
+		return DEFAULT_SUB_LIST_GET_METHOD_PREFIX;
+	}
+
+	public String getDefaultSubListInsertMethodPrefix() {
+		return DEFAULT_SUB_LIST_INSERT_METHOD_PREFIX;
+	}
+
+	public String getDefaultSubListDeleteMethodPrefix() {
+		return DEFAULT_SUB_LIST_DELETE_METHOD_PREFIX;
 	}
 
 	public void validadeForInsertUpdate(E entity) {
@@ -106,7 +117,7 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 
 	public E getEntityFromDto(DTO dto) {
 		try {
-			E entity = getEntityContructor().newInstance();
+			E entity = dto.getId() == null ? getEntityContructor().newInstance() : find(dto.getId());
 			return mergeDtoIntoEntity(dto, entity);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
@@ -136,33 +147,33 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 	protected E insert(E entity) {
 		validadeForInsertUpdate(entity);
 		entity.setId(null);
-		return repo.save(entity);
+		return repository.save(entity);
 	}
 
 	protected E update(E entity) {
 		validadeForInsertUpdate(entity);
 		find(entity.getId());
-		return repo.save(entity);
+		return repository.save(entity);
 	}
 
 	protected void delete(ID id) {
 		find(id);
 		try {
-			repo.deleteById(id);
+			repository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível remover");
 		}
 	}
 
 	protected List<E> findAll() {
-		return repo.findAll();
+		return repository.findAll();
 	}
 
 	protected E find(ID id) {
 		if (id == null) {
 			throw new NotGivenIdException(getEntityClass());
 		}
-		Optional<E> entity = repo.findById(id);
+		Optional<E> entity = repository.findById(id);
 		return entity.orElseThrow(() -> new ObjectNotFoundException((Integer) id, getEntityClass()));
 	}
 
@@ -277,7 +288,7 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
 
-		String subListMethodName = getDefaultSubListMethodPrefix() + subEntityClass.getSimpleName();
+		String subListMethodName = getDefaultSubListGetMethodPrefix() + subEntityClass.getSimpleName();
 
 		E entity = find(id);
 		Method subListMethod = entity.getClass().getMethod(subListMethodName);
@@ -307,10 +318,14 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 
 		if (!exists) {
 			Object subObject = subService.find(subEntityId);
-			subEntityList.add(subObject);
 
-			E subEntity = find(id);
-			update(subEntity);
+			E entity = find(id);
+
+			String subListMethodName = getDefaultSubListInsertMethodPrefix() + subEntityClass.getSimpleName();
+			Method subListMethod = entity.getClass().getMethod(subListMethodName, subEntityClass);
+			subListMethod.invoke(entity, subObject);
+
+			update(entity);
 		}
 
 		return ResponseEntity.noContent().build();
@@ -338,10 +353,15 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 		}
 
 		if (subPosition != null) {
-			subEntityList.remove(subPosition.intValue());
+			Object subObject = subService.find(subEntityId);
 
-			E subEntity = find(id);
-			update(subEntity);
+			E entity = find(id);
+
+			String subListMethodName = getDefaultSubListDeleteMethodPrefix() + subEntityClass.getSimpleName();
+			Method subListMethod = entity.getClass().getMethod(subListMethodName, subEntityClass);
+			subListMethod.invoke(entity, subObject);
+
+			update(entity);
 		}
 
 		return ResponseEntity.noContent().build();

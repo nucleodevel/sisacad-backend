@@ -52,7 +52,7 @@ public class AvaliacaoVestibulandoService extends
 
 		Vestibulando myVestibulando = vestibulandoService.find(dto.getVestibulando());
 
-		Optional<AvaliacaoVestibulando> similar = repo.findDifferentByVestibulando(dto.getId(), myVestibulando);
+		Optional<AvaliacaoVestibulando> similar = repository.findDifferentByVestibulando(dto.getId(), myVestibulando);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma avaliação para este vestibulando!");
 		});

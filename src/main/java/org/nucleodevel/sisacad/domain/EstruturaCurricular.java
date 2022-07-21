@@ -86,4 +86,33 @@ public class EstruturaCurricular extends AbstractEntity<Integer> {
 		this.listDisciplina = listDisciplina;
 	}
 
+	public void insertDisciplina(Disciplina disciplina) {
+		boolean exists = false;
+
+		for (Disciplina subItem : listDisciplina) {
+			if (subItem.getId().equals(disciplina.getId())) {
+				exists = true;
+			}
+		}
+
+		if (!exists) {
+			listDisciplina.add(disciplina);
+		}
+	}
+
+	public void deleteDisciplina(Disciplina disciplina) {
+		Integer position = null;
+
+		for (int i = 0; i < listDisciplina.size(); i++) {
+			Disciplina subItem = listDisciplina.get(i);
+			if (subItem.getId().equals(disciplina.getId())) {
+				position = i;
+			}
+		}
+
+		if (position != null) {
+			listDisciplina.remove(position.intValue());
+		}
+	}
+
 }

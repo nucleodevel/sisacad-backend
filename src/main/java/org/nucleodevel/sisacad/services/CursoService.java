@@ -34,7 +34,7 @@ public class CursoService extends AbstractService<Curso, Integer, CursoDto, Curs
 
 		String myNome = dto.getNome();
 
-		Optional<Curso> similar = repo.findDifferentByNome(dto.getId(), myNome);
+		Optional<Curso> similar = repository.findDifferentByNome(dto.getId(), myNome);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe um curso com este nome!");
 		});

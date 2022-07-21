@@ -62,4 +62,33 @@ public class Disciplina extends AbstractEntity<Integer> {
 		this.listEstruturaCurricular = listEstruturaCurricular;
 	}
 
+	public void insertEstruturaCurricular(EstruturaCurricular estruturaCurricular) {
+		boolean exists = false;
+
+		for (EstruturaCurricular subItem : listEstruturaCurricular) {
+			if (subItem.getId().equals(estruturaCurricular.getId())) {
+				exists = true;
+			}
+		}
+
+		if (!exists) {
+			listEstruturaCurricular.add(estruturaCurricular);
+		}
+	}
+
+	public void deleteEstruturaCurricular(EstruturaCurricular estruturaCurricular) {
+		Integer position = null;
+
+		for (int i = 0; i < listEstruturaCurricular.size(); i++) {
+			EstruturaCurricular subItem = listEstruturaCurricular.get(i);
+			if (subItem.getId().equals(estruturaCurricular.getId())) {
+				position = i;
+			}
+		}
+
+		if (position != null) {
+			listEstruturaCurricular.remove(position.intValue());
+		}
+	}
+
 }

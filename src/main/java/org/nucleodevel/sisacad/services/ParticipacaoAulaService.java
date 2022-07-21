@@ -62,7 +62,7 @@ public class ParticipacaoAulaService
 		Aula myAula = aulaService.find(dto.getAula());
 		Discente myDiscente = discenteService.find(dto.getDiscente());
 
-		Optional<ParticipacaoAula> similar = repo.findDifferentByAulaAndDiscente(dto.getId(), myAula, myDiscente);
+		Optional<ParticipacaoAula> similar = repository.findDifferentByAulaAndDiscente(dto.getId(), myAula, myDiscente);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma participação desse discente nessa aula!");
 		});
