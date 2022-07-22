@@ -25,6 +25,15 @@ public class Curso extends AbstractEntity<Integer> {
 	@OneToMany(mappedBy = "curso")
 	private List<EstruturaCurricular> listEstruturaCurricular = new ArrayList<>();
 
+	public Curso() {
+		super();
+	}
+
+	public Curso(String nome) {
+		super();
+		this.nome = nome;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;

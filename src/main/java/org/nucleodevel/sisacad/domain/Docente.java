@@ -25,6 +25,15 @@ public class Docente extends AbstractEntity<Integer> {
 	@OneToMany(mappedBy = "docente")
 	private List<OfertaDisciplina> listOfertaDisciplina = new ArrayList<>();
 
+	public Docente() {
+		super();
+	}
+
+	public Docente(String nome) {
+		super();
+		this.nome = nome;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;

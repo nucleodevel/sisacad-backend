@@ -40,6 +40,17 @@ public class EstruturaCurricular extends AbstractEntity<Integer> {
 	@JoinTable(name = "estrutura_curricular_disciplina", joinColumns = @JoinColumn(name = "id_estrutura_curricular"), inverseJoinColumns = @JoinColumn(name = "id_disciplina"))
 	private List<Disciplina> listDisciplina = new ArrayList<>();
 
+	public EstruturaCurricular() {
+		super();
+	}
+
+	public EstruturaCurricular(Integer anoInicio, Integer anoTermino, Curso curso) {
+		super();
+		this.anoInicio = anoInicio;
+		this.anoTermino = anoTermino;
+		this.curso = curso;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;

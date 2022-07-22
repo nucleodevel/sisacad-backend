@@ -29,6 +29,15 @@ public class Turma extends AbstractEntity<Integer> {
 	@JoinTable(name = "oferta_disciplina_turma", joinColumns = @JoinColumn(name = "id_turma"), inverseJoinColumns = @JoinColumn(name = "id_oferta_disciplina"))
 	private List<OfertaDisciplina> listOfertaDisciplina = new ArrayList<>();
 
+	public Turma() {
+		super();
+	}
+
+	public Turma(OfertaCurso ofertaCurso) {
+		super();
+		this.ofertaCurso = ofertaCurso;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;

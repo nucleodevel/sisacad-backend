@@ -25,6 +25,15 @@ public class Vestibular extends AbstractEntity<Integer> {
 	@OneToMany(mappedBy = "vestibular")
 	private List<OfertaCurso> listOfertaCurso = new ArrayList<>();
 
+	public Vestibular() {
+		super();
+	}
+
+	public Vestibular(Integer ano) {
+		super();
+		this.ano = ano;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;

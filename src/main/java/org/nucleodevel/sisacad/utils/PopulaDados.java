@@ -78,45 +78,46 @@ public class PopulaDados {
 
 		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
 
-		Curso cur1 = new Curso();
-		cur1.setNome("Engenharia da Computação");
+		Curso cur1 = new Curso("Engenharia da Computação");
+		Curso cur2 = new Curso("Ciência da Computação");
 
-		cursoRepository.saveAll(List.of(cur1));
+		cursoRepository.saveAll(List.of(cur1, cur2));
 
-		Disciplina dcp1 = new Disciplina();
-		dcp1.setNome("Compiladores");
+		Disciplina dcp1 = new Disciplina("Compiladores");
+		Disciplina dcp2 = new Disciplina("Banco de Dados");
+		Disciplina dcp3 = new Disciplina("Engenharia de Software");
+		Disciplina dcp4 = new Disciplina("Programação Orientada a Objetos");
 
-		disciplinaRepository.saveAll(List.of(dcp1));
+		disciplinaRepository.saveAll(List.of(dcp1, dcp2, dcp3, dcp4));
 
-		EstruturaCurricular ec1 = new EstruturaCurricular();
-		ec1.setAnoInicio(2010);
-		ec1.setAnoTermino(2025);
-		ec1.setCurso(cur1);
-		ec1.setListDisciplina(List.of(dcp1));
+		EstruturaCurricular ec1 = new EstruturaCurricular(1999, 2012, cur1);
+		ec1.setListDisciplina(List.of(dcp1, dcp2));
+		EstruturaCurricular ec2 = new EstruturaCurricular(2013, 2026, cur1);
+		ec1.setListDisciplina(List.of(dcp1, dcp2, dcp4));
+		EstruturaCurricular ec3 = new EstruturaCurricular(2018, 2031, cur2);
+		ec1.setListDisciplina(List.of(dcp1, dcp2, dcp3, dcp4));
 
-		estruturaCurricularRepository.saveAll(List.of(ec1));
+		estruturaCurricularRepository.saveAll(List.of(ec1, ec2, ec3));
 
-		Vestibular vst1 = new Vestibular();
-		vst1.setAno(2022);
+		Vestibular vst1 = new Vestibular(2021);
 
 		vestibularRepository.saveAll(List.of(vst1));
 
-		OfertaCurso oc1 = new OfertaCurso();
-		oc1.setAno(2023);
-		oc1.setEstruturaCurricular(ec1);
-		oc1.setVestibular(vst1);
+		OfertaCurso oc1 = new OfertaCurso(2022, ec1, vst1);
+		OfertaCurso oc2 = new OfertaCurso(2022, ec2, vst1);
 
-		ofertaCursoRepository.saveAll(List.of(oc1));
+		ofertaCursoRepository.saveAll(List.of(oc1, oc2));
 
-		Turma trm1 = new Turma();
-		trm1.setOfertaCurso(oc1);
+		Turma trm1 = new Turma(oc1);
+		Turma trm2 = new Turma(oc2);
 
-		turmaRepository.saveAll(List.of(trm1));
+		turmaRepository.saveAll(List.of(trm1, trm2));
 
-		Docente doc1 = new Docente();
-		doc1.setNome("João Santos");
+		Docente doc1 = new Docente("João Santos");
+		Docente doc2 = new Docente("Carlos Pereira");
+		Docente doc3 = new Docente("Marcos Benevides");
 
-		docenteRepository.saveAll(List.of(doc1));
+		docenteRepository.saveAll(List.of(doc1, doc2, doc3));
 
 		Vestibulando vnd1 = new Vestibulando();
 		vnd1.setNome("Renato Limeira");

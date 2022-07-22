@@ -32,6 +32,15 @@ public class Disciplina extends AbstractEntity<Integer> {
 	@JoinTable(name = "estrutura_curricular_disciplina", joinColumns = @JoinColumn(name = "id_disciplina"), inverseJoinColumns = @JoinColumn(name = "id_estrutura_curricular"))
 	private List<EstruturaCurricular> listEstruturaCurricular = new ArrayList<>();
 
+	public Disciplina() {
+		super();
+	}
+
+	public Disciplina(String nome) {
+		super();
+		this.nome = nome;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;
