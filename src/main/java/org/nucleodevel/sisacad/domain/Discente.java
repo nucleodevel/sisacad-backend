@@ -36,6 +36,15 @@ public class Discente extends AbstractEntity<Integer> {
 	@JoinTable(name = "oferta_disciplina_discente", joinColumns = @JoinColumn(name = "id_discente"), inverseJoinColumns = @JoinColumn(name = "id_oferta_disciplina"))
 	private List<OfertaDisciplina> listOfertaDisciplina = new ArrayList<>();
 
+	public Discente() {
+		super();
+	}
+
+	public Discente(Vestibulando vestibulando) {
+		super();
+		this.vestibulando = vestibulando;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;

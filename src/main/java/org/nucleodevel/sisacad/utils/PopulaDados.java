@@ -103,8 +103,8 @@ public class PopulaDados {
 
 		vestibularRepository.saveAll(List.of(vst1));
 
-		OfertaCurso oc1 = new OfertaCurso(2022, ec1, vst1);
-		OfertaCurso oc2 = new OfertaCurso(2022, ec2, vst1);
+		OfertaCurso oc1 = new OfertaCurso(2022, ec2, vst1);
+		OfertaCurso oc2 = new OfertaCurso(2022, ec3, vst1);
 
 		ofertaCursoRepository.saveAll(List.of(oc1, oc2));
 
@@ -119,30 +119,60 @@ public class PopulaDados {
 
 		docenteRepository.saveAll(List.of(doc1, doc2, doc3));
 
-		Vestibulando vnd1 = new Vestibulando();
-		vnd1.setNome("Renato Limeira");
-		vnd1.setOfertaCurso(oc1);
+		Vestibulando vnd01 = new Vestibulando("Rosana Martins", oc1);
+		Vestibulando vnd02 = new Vestibulando("Osvaldo Picci", oc1);
+		Vestibulando vnd03 = new Vestibulando("José Albertino", oc1);
+		Vestibulando vnd04 = new Vestibulando("Kelvin Smith", oc1);
+		Vestibulando vnd05 = new Vestibulando("Melinda Flores", oc1);
+		Vestibulando vnd06 = new Vestibulando("Guilherme Toledo", oc2);
+		Vestibulando vnd07 = new Vestibulando("Homero Assis", oc2);
+		Vestibulando vnd08 = new Vestibulando("Carlos Balbuena", oc2);
+		Vestibulando vnd09 = new Vestibulando("Teo Lee", oc2);
+		Vestibulando vnd10 = new Vestibulando("Neusa Feltrin", oc2);
 
-		vestibulandoRepository.saveAll(List.of(vnd1));
+		vestibulandoRepository.saveAll(List.of(vnd01, vnd02, vnd03, vnd04, vnd05, vnd06, vnd07, vnd08, vnd09, vnd10));
 
-		AvaliacaoVestibulando av1 = new AvaliacaoVestibulando();
-		av1.setConceitoFinal(8.5);
-		av1.setVestibulando(vnd1);
+		AvaliacaoVestibulando av01 = new AvaliacaoVestibulando(8.5, vnd01);
+		AvaliacaoVestibulando av02 = new AvaliacaoVestibulando(8.0, vnd02);
+		AvaliacaoVestibulando av03 = new AvaliacaoVestibulando(9.0, vnd03);
+		AvaliacaoVestibulando av04 = new AvaliacaoVestibulando(4.5, vnd04);
+		AvaliacaoVestibulando av05 = new AvaliacaoVestibulando(7.5, vnd05);
+		AvaliacaoVestibulando av06 = new AvaliacaoVestibulando(5.8, vnd06);
+		AvaliacaoVestibulando av07 = new AvaliacaoVestibulando(2.5, vnd07);
+		AvaliacaoVestibulando av08 = new AvaliacaoVestibulando(9.7, vnd08);
+		AvaliacaoVestibulando av09 = new AvaliacaoVestibulando(6.2, vnd09);
+		AvaliacaoVestibulando av10 = new AvaliacaoVestibulando(8.1, vnd10);
 
-		avaliacaoVestibulandoRepository.saveAll(List.of(av1));
+		avaliacaoVestibulandoRepository.saveAll(List.of(av01, av02, av03, av04, av05, av06, av07, av08, av09, av10));
 
-		Discente dct1 = new Discente();
-		dct1.setVestibulando(vnd1);
+		Discente dct1 = new Discente(vnd01);
+		Discente dct2 = new Discente(vnd02);
+		Discente dct3 = new Discente(vnd03);
+		Discente dct4 = new Discente(vnd05);
+		Discente dct5 = new Discente(vnd06);
+		Discente dct6 = new Discente(vnd08);
+		Discente dct7 = new Discente(vnd09);
+		Discente dct8 = new Discente(vnd10);
 
-		discenteRepository.saveAll(List.of(dct1));
+		discenteRepository.saveAll(List.of(dct1, dct2, dct3, dct4, dct5, dct6, dct7, dct8));
 
-		OfertaDisciplina od1 = new OfertaDisciplina();
-		od1.setDisciplina(dcp1);
-		od1.setDocente(doc1);
+		OfertaDisciplina od1 = new OfertaDisciplina(dcp1, doc1);
 		od1.setListTurma(List.of(trm1));
-		od1.setListDiscente(List.of(dct1));
+		od1.setListDiscente(List.of(dct1, dct2, dct3, dct4));
+		OfertaDisciplina od2 = new OfertaDisciplina(dcp1, doc1);
+		od2.setListTurma(List.of(trm2));
+		od2.setListDiscente(List.of(dct5, dct6, dct7, dct8));
+		OfertaDisciplina od3 = new OfertaDisciplina(dcp2, doc3);
+		od3.setListTurma(List.of(trm1, trm2));
+		od3.setListDiscente(List.of(dct1, dct2, dct3, dct4, dct5, dct7, dct8));
+		OfertaDisciplina od4 = new OfertaDisciplina(dcp3, doc2);
+		od4.setListTurma(List.of(trm2));
+		od4.setListDiscente(List.of(dct5, dct6, dct7, dct8));
+		OfertaDisciplina od5 = new OfertaDisciplina(dcp4, doc2);
+		od5.setListTurma(List.of(trm1, trm2));
+		od5.setListDiscente(List.of(dct1, dct2, dct4, dct6, dct7, dct8));
 
-		ofertaDisciplinaRepository.saveAll(List.of(od1));
+		ofertaDisciplinaRepository.saveAll(List.of(od1, od2, od3, od4, od5));
 
 		Avaliacao avl1 = new Avaliacao();
 		avl1.setInicio(sdfDate.parse("2022-05-20"));

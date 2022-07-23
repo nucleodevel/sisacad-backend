@@ -24,6 +24,16 @@ public class AvaliacaoVestibulando extends AbstractEntity<Integer> {
 	@JoinColumn(name = "id_vestibulando")
 	private Vestibulando vestibulando;
 
+	public AvaliacaoVestibulando() {
+		super();
+	}
+
+	public AvaliacaoVestibulando(Double conceitoFinal, Vestibulando vestibulando) {
+		super();
+		this.conceitoFinal = conceitoFinal;
+		this.vestibulando = vestibulando;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;

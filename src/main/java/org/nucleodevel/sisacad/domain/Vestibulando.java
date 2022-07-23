@@ -31,6 +31,16 @@ public class Vestibulando extends AbstractEntity<Integer> {
 	@OneToOne(mappedBy = "vestibulando")
 	private Discente discente;
 
+	public Vestibulando() {
+		super();
+	}
+
+	public Vestibulando(String nome, OfertaCurso ofertaCurso) {
+		super();
+		this.nome = nome;
+		this.ofertaCurso = ofertaCurso;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;

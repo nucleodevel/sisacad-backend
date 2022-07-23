@@ -44,6 +44,16 @@ public class OfertaDisciplina extends AbstractEntity<Integer> {
 	@JoinTable(name = "oferta_disciplina_discente", joinColumns = @JoinColumn(name = "id_oferta_disciplina"), inverseJoinColumns = @JoinColumn(name = "id_discente"))
 	private List<Discente> listDiscente = new ArrayList<>();
 
+	public OfertaDisciplina() {
+		super();
+	}
+
+	public OfertaDisciplina(Disciplina disciplina, Docente docente) {
+		super();
+		this.disciplina = disciplina;
+		this.docente = docente;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;
