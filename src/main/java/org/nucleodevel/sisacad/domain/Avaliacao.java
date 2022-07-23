@@ -38,6 +38,18 @@ public class Avaliacao extends AbstractEntity<Integer> {
 	@OneToMany(mappedBy = "avaliacao")
 	private List<ParticipacaoAvaliacao> listParticipacaoAvaliacao = new ArrayList<>();
 
+	public Avaliacao() {
+		super();
+	}
+
+	public Avaliacao(String descricao, Date inicio, Date termino, OfertaDisciplina ofertaDisciplina) {
+		super();
+		this.descricao = descricao;
+		this.inicio = inicio;
+		this.termino = termino;
+		this.ofertaDisciplina = ofertaDisciplina;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;

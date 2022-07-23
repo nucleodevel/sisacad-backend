@@ -24,6 +24,16 @@ public class ParticipacaoAula extends AbstractEntity<Integer> {
 	@JoinColumn(name = "id_discente")
 	private Discente discente;
 
+	public ParticipacaoAula() {
+		super();
+	}
+
+	public ParticipacaoAula(Aula aula, Discente discente) {
+		super();
+		this.aula = aula;
+		this.discente = discente;
+	}
+
 	@Override
 	public Integer getId() {
 		return id;

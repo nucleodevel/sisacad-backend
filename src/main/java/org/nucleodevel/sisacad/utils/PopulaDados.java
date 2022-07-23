@@ -2,6 +2,7 @@ package org.nucleodevel.sisacad.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -174,32 +175,151 @@ public class PopulaDados {
 
 		ofertaDisciplinaRepository.saveAll(List.of(od1, od2, od3, od4, od5));
 
-		Avaliacao avl1 = new Avaliacao();
-		avl1.setInicio(sdfDate.parse("2022-05-20"));
-		avl1.setTermino(sdfDate.parse("2022-05-30"));
-		avl1.setDescricao("Projeto Integrado");
-		avl1.setOfertaDisciplina(od1);
+		Avaliacao avl01 = new Avaliacao("Projeto Integrado", sdfDate.parse("2022-05-20"), sdfDate.parse("2022-06-30"),
+				od1);
+		Avaliacao avl02 = new Avaliacao("Prova Final", sdfDate.parse("2022-05-30"), sdfDate.parse("2022-05-30"), od1);
+		Avaliacao avl03 = new Avaliacao("Prova Final", sdfDate.parse("2022-05-28"), sdfDate.parse("2022-05-28"), od2);
+		Avaliacao avl04 = new Avaliacao("Projeto Integrado", sdfDate.parse("2022-04-20"), sdfDate.parse("2022-05-28"),
+				od3);
+		Avaliacao avl05 = new Avaliacao("Prova Final", sdfDate.parse("2022-06-02"), sdfDate.parse("2022-06-02"), od3);
+		Avaliacao avl06 = new Avaliacao("Projeto Integrado", sdfDate.parse("2022-05-18"), sdfDate.parse("2022-06-18"),
+				od4);
+		Avaliacao avl07 = new Avaliacao("Prova Final", sdfDate.parse("2022-06-15"), sdfDate.parse("2022-06-15"), od4);
+		Avaliacao avl08 = new Avaliacao("Projeto Integrado", sdfDate.parse("2022-05-01"), sdfDate.parse("2022-06-14"),
+				od5);
+		Avaliacao avl09 = new Avaliacao("Prova Final", sdfDate.parse("2022-06-30"), sdfDate.parse("2022-06-30"), od5);
 
-		avaliacaoRepository.saveAll(List.of(avl1));
+		avaliacaoRepository.saveAll(List.of(avl01, avl02, avl03, avl04, avl05, avl06, avl07, avl08, avl09));
 
-		ParticipacaoAvaliacao pav1 = new ParticipacaoAvaliacao();
-		pav1.setAvaliacao(avl1);
-		pav1.setDiscente(dct1);
+		List<ParticipacaoAvaliacao> listParticipacaoAvaliacao = new ArrayList<>();
 
-		participacaoAvaliacaoRepository.saveAll(List.of(pav1));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl01, dct1));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl01, dct2));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl01, dct3));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl01, dct4));
 
-		Aula aul1 = new Aula();
-		aul1.setInicio(sdfDate.parse("2022-05-20"));
-		aul1.setTermino(sdfDate.parse("2022-05-30"));
-		aul1.setOfertaDisciplina(od1);
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl02, dct1));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl02, dct2));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl02, dct3));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl02, dct4));
 
-		aulaRepository.saveAll(List.of(aul1));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl03, dct5));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl03, dct6));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl03, dct7));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl03, dct8));
 
-		ParticipacaoAula pal1 = new ParticipacaoAula();
-		pal1.setAula(aul1);
-		pal1.setDiscente(dct1);
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl04, dct1));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl04, dct2));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl04, dct3));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl04, dct4));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl04, dct5));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl04, dct7));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl04, dct8));
 
-		participacaoAulaRepository.saveAll(List.of(pal1));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl05, dct1));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl05, dct2));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl05, dct3));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl05, dct4));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl05, dct5));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl05, dct7));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl05, dct8));
+
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl06, dct5));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl06, dct6));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl06, dct7));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl06, dct8));
+
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl07, dct5));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl07, dct6));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl07, dct7));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl07, dct8));
+
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl08, dct1));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl08, dct2));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl08, dct4));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl08, dct6));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl08, dct7));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl08, dct8));
+
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl09, dct1));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl09, dct2));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl09, dct4));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl09, dct6));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl09, dct7));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl09, dct8));
+
+		participacaoAvaliacaoRepository.saveAll(listParticipacaoAvaliacao);
+
+		Aula aul01 = new Aula(sdfDate.parse("2022-05-20 13:00:00"), sdfDate.parse("2022-05-20 18:00:00"), od1);
+		Aula aul02 = new Aula(sdfDate.parse("2022-05-30 08:00:00"), sdfDate.parse("2022-05-30 12:00:00"), od1);
+		Aula aul03 = new Aula(sdfDate.parse("2022-05-28 19:00:00"), sdfDate.parse("2022-05-28 19:00:00"), od2);
+		Aula aul04 = new Aula(sdfDate.parse("2022-04-20 13:00:00"), sdfDate.parse("2022-04-20 16:00:00"), od3);
+		Aula aul05 = new Aula(sdfDate.parse("2022-06-02 10:00:00"), sdfDate.parse("2022-06-02 13:00:00"), od3);
+		Aula aul06 = new Aula(sdfDate.parse("2022-05-18 09:00:00"), sdfDate.parse("2022-05-18 12:00:00"), od4);
+		Aula aul07 = new Aula(sdfDate.parse("2022-06-15 14:00:00"), sdfDate.parse("2022-06-15 17:00:00"), od4);
+		Aula aul08 = new Aula(sdfDate.parse("2022-05-01 20:00:00"), sdfDate.parse("2022-05-01 22:00:00"), od5);
+		Aula aul09 = new Aula(sdfDate.parse("2022-06-30 14:00:00"), sdfDate.parse("2022-06-30 19:00:00"), od5);
+
+		aulaRepository.saveAll(List.of(aul01, aul02, aul03, aul04, aul05, aul06, aul07, aul08, aul09));
+
+		List<ParticipacaoAula> listParticipacaoAula = new ArrayList<>();
+
+		listParticipacaoAula.add(new ParticipacaoAula(aul01, dct1));
+		listParticipacaoAula.add(new ParticipacaoAula(aul01, dct2));
+		listParticipacaoAula.add(new ParticipacaoAula(aul01, dct3));
+		listParticipacaoAula.add(new ParticipacaoAula(aul01, dct4));
+
+		listParticipacaoAula.add(new ParticipacaoAula(aul02, dct1));
+		listParticipacaoAula.add(new ParticipacaoAula(aul02, dct2));
+		listParticipacaoAula.add(new ParticipacaoAula(aul02, dct3));
+		listParticipacaoAula.add(new ParticipacaoAula(aul02, dct4));
+
+		listParticipacaoAula.add(new ParticipacaoAula(aul03, dct5));
+		listParticipacaoAula.add(new ParticipacaoAula(aul03, dct6));
+		listParticipacaoAula.add(new ParticipacaoAula(aul03, dct7));
+		listParticipacaoAula.add(new ParticipacaoAula(aul03, dct8));
+
+		listParticipacaoAula.add(new ParticipacaoAula(aul04, dct1));
+		listParticipacaoAula.add(new ParticipacaoAula(aul04, dct2));
+		listParticipacaoAula.add(new ParticipacaoAula(aul04, dct3));
+		listParticipacaoAula.add(new ParticipacaoAula(aul04, dct4));
+		listParticipacaoAula.add(new ParticipacaoAula(aul04, dct5));
+		listParticipacaoAula.add(new ParticipacaoAula(aul04, dct7));
+		listParticipacaoAula.add(new ParticipacaoAula(aul04, dct8));
+
+		listParticipacaoAula.add(new ParticipacaoAula(aul05, dct1));
+		listParticipacaoAula.add(new ParticipacaoAula(aul05, dct2));
+		listParticipacaoAula.add(new ParticipacaoAula(aul05, dct3));
+		listParticipacaoAula.add(new ParticipacaoAula(aul05, dct4));
+		listParticipacaoAula.add(new ParticipacaoAula(aul05, dct5));
+		listParticipacaoAula.add(new ParticipacaoAula(aul05, dct7));
+		listParticipacaoAula.add(new ParticipacaoAula(aul05, dct8));
+
+		listParticipacaoAula.add(new ParticipacaoAula(aul06, dct5));
+		listParticipacaoAula.add(new ParticipacaoAula(aul06, dct6));
+		listParticipacaoAula.add(new ParticipacaoAula(aul06, dct7));
+		listParticipacaoAula.add(new ParticipacaoAula(aul06, dct8));
+
+		listParticipacaoAula.add(new ParticipacaoAula(aul07, dct5));
+		listParticipacaoAula.add(new ParticipacaoAula(aul07, dct6));
+		listParticipacaoAula.add(new ParticipacaoAula(aul07, dct7));
+		listParticipacaoAula.add(new ParticipacaoAula(aul07, dct8));
+
+		listParticipacaoAula.add(new ParticipacaoAula(aul08, dct1));
+		listParticipacaoAula.add(new ParticipacaoAula(aul08, dct2));
+		listParticipacaoAula.add(new ParticipacaoAula(aul08, dct4));
+		listParticipacaoAula.add(new ParticipacaoAula(aul08, dct6));
+		listParticipacaoAula.add(new ParticipacaoAula(aul08, dct7));
+		listParticipacaoAula.add(new ParticipacaoAula(aul08, dct8));
+
+		listParticipacaoAula.add(new ParticipacaoAula(aul09, dct1));
+		listParticipacaoAula.add(new ParticipacaoAula(aul09, dct2));
+		listParticipacaoAula.add(new ParticipacaoAula(aul09, dct4));
+		listParticipacaoAula.add(new ParticipacaoAula(aul09, dct6));
+		listParticipacaoAula.add(new ParticipacaoAula(aul09, dct7));
+		listParticipacaoAula.add(new ParticipacaoAula(aul09, dct8));
+
+		participacaoAulaRepository.saveAll(listParticipacaoAula);
 	}
 
 }
