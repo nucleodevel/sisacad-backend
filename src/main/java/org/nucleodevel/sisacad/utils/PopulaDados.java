@@ -94,9 +94,9 @@ public class PopulaDados {
 		EstruturaCurricular ec1 = new EstruturaCurricular(1999, 2012, cur1);
 		ec1.setListDisciplina(List.of(dcp1, dcp2));
 		EstruturaCurricular ec2 = new EstruturaCurricular(2013, 2026, cur1);
-		ec1.setListDisciplina(List.of(dcp1, dcp2, dcp4));
+		ec2.setListDisciplina(List.of(dcp1, dcp2, dcp4));
 		EstruturaCurricular ec3 = new EstruturaCurricular(2018, 2031, cur2);
-		ec1.setListDisciplina(List.of(dcp1, dcp2, dcp3, dcp4));
+		ec3.setListDisciplina(List.of(dcp1, dcp2, dcp3, dcp4));
 
 		estruturaCurricularRepository.saveAll(List.of(ec1, ec2, ec3));
 
