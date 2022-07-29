@@ -15,6 +15,7 @@ public class DocenteService extends AbstractService<Docente, Integer, DocenteDto
 	@Override
 	public Docente mergeDtoIntoEntity(DocenteDto dto, Docente entity) {
 		entity.setId(dto.getId());
+		entity.setCpf(dto.getCpf());
 		entity.setNome(dto.getNome());
 
 		return entity;
@@ -24,6 +25,10 @@ public class DocenteService extends AbstractService<Docente, Integer, DocenteDto
 	public void validadeForInsertUpdate(DocenteDto dto) {
 		String error = "";
 
+		if (dto.getCpf() == null) {
+			error += "CPF pendente; ";
+		}
+
 		if (dto.getNome() == null) {
 			error += "Nome pendente; ";
 		}
@@ -32,11 +37,11 @@ public class DocenteService extends AbstractService<Docente, Integer, DocenteDto
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
 
-		String myNome = dto.getNome();
+		String myCpf = dto.getCpf();
 
-		Optional<Docente> similar = repository.findSimilarByNome(dto.getId(), myNome);
+		Optional<Docente> similar = repository.findSimilarByCpf(dto.getId(), myCpf);
 		similar.ifPresent(obj -> {
-			throw new DataIntegrityException("Já existe um docente com este nome!");
+			throw new DataIntegrityException("Já existe um docente com esse CPF!");
 		});
 	}
 

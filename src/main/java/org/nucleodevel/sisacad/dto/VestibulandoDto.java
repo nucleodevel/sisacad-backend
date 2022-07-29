@@ -6,6 +6,7 @@ public class VestibulandoDto extends AbstractDto<Vestibulando, Integer> {
 
 	private static final long serialVersionUID = 8835147583838231255L;
 
+	private String cpf;
 	private String nome;
 	private Integer ofertaCurso;
 	private Integer avaliacaoVestibulando;
@@ -14,11 +15,20 @@ public class VestibulandoDto extends AbstractDto<Vestibulando, Integer> {
 	@Override
 	public void copyFromEntity(Vestibulando entity) {
 		this.id = entity.getId();
+		this.cpf = entity.getCpf();
 		this.nome = entity.getNome();
 		this.ofertaCurso = entity.getOfertaCurso().getId();
 		this.avaliacaoVestibulando = entity.getAvaliacaoVestibulando() == null ? null
 				: entity.getAvaliacaoVestibulando().getId();
 		this.discente = entity.getDiscente() == null ? null : entity.getDiscente().getId();
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public String getNome() {

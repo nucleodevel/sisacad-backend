@@ -22,6 +22,7 @@ public class VestibulandoService
 	@Override
 	public Vestibulando mergeDtoIntoEntity(VestibulandoDto dto, Vestibulando entity) {
 		entity.setId(dto.getId());
+		entity.setCpf(dto.getCpf());
 		entity.setNome(dto.getNome());
 		entity.setOfertaCurso(ofertaCursoService.find(dto.getOfertaCurso()));
 
@@ -32,15 +33,20 @@ public class VestibulandoService
 	public void validadeForInsertUpdate(VestibulandoDto dto) {
 		String error = "";
 
+		if (dto.getCpf() == null) {
+			error += "CPF pendente; ";
+		}
+
 		if (dto.getNome() == null) {
 			error += "Nome pendente; ";
 		}
 
+		OfertaCurso myOfertaCurso = null;
 		if (dto.getOfertaCurso() == null) {
 			error += "Oferta de curso pendente; ";
 		} else {
 			try {
-				ofertaCursoService.find(dto.getOfertaCurso());
+				myOfertaCurso = ofertaCursoService.find(dto.getOfertaCurso());
 			} catch (ObjectNotFoundException e) {
 				error += "Oferta de curso com ID " + dto.getOfertaCurso() + " não existente; ";
 			}
@@ -50,12 +56,11 @@ public class VestibulandoService
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
 
-		OfertaCurso myOfertaCurso = ofertaCursoService.find(dto.getOfertaCurso());
-		String myNome = dto.getNome();
+		String myCpf = dto.getCpf();
 
-		Optional<Vestibulando> similar = repository.findSimilarByOfertaCursoAndNome(dto.getId(), myOfertaCurso, myNome);
+		Optional<Vestibulando> similar = repository.findSimilarByCpfAndOfertaCurso(dto.getId(), myCpf, myOfertaCurso);
 		similar.ifPresent(obj -> {
-			throw new DataIntegrityException("Já existe um cadastro com esse nome nessa oferta de curso!");
+			throw new DataIntegrityException("Já existe um cadastro com esse CPF nessa oferta de curso!");
 		});
 	}
 

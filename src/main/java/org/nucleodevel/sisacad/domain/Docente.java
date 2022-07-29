@@ -19,6 +19,9 @@ public class Docente extends AbstractEntity<Integer> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(name = "cpf")
+	private String cpf;
+
 	@Column(name = "nome")
 	private String nome;
 
@@ -29,8 +32,9 @@ public class Docente extends AbstractEntity<Integer> {
 		super();
 	}
 
-	public Docente(String nome) {
+	public Docente(String cpf, String nome) {
 		super();
+		this.cpf = cpf;
 		this.nome = nome;
 	}
 
@@ -42,6 +46,14 @@ public class Docente extends AbstractEntity<Integer> {
 	@Override
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public String getNome() {

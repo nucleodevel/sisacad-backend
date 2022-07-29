@@ -52,7 +52,7 @@ public class TurmaService extends AbstractService<Turma, Integer, TurmaDto, Turm
 
 		String myCodigo = dto.getCodigo();
 
-		Optional<Turma> similar = repository.findSimilarByCodigoOuOfertaCurso(dto.getId(), myCodigo, myOfertaCurso);
+		Optional<Turma> similar = repository.findSimilarByCodigoOrOfertaCurso(dto.getId(), myCodigo, myOfertaCurso);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma turma com esse código ou para essa oferta de curso!");
 		});

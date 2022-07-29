@@ -18,6 +18,9 @@ public class Vestibulando extends AbstractEntity<Integer> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(name = "cpf")
+	private String cpf;
+
 	@Column(name = "nome")
 	private String nome;
 
@@ -35,8 +38,9 @@ public class Vestibulando extends AbstractEntity<Integer> {
 		super();
 	}
 
-	public Vestibulando(String nome, OfertaCurso ofertaCurso) {
+	public Vestibulando(String cpf, String nome, OfertaCurso ofertaCurso) {
 		super();
+		this.cpf = cpf;
 		this.nome = nome;
 		this.ofertaCurso = ofertaCurso;
 	}
@@ -49,6 +53,14 @@ public class Vestibulando extends AbstractEntity<Integer> {
 	@Override
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public String getNome() {

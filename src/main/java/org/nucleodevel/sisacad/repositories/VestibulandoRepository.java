@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface VestibulandoRepository extends AbstractRepository<Vestibulando, Integer> {
 
 	@Query(value = "SELECT x FROM Vestibulando x "
-			+ "WHERE (?1 IS NULL OR x.id <> ?1) AND x.ofertaCurso = ?2 AND x.nome = ?3")
-	Optional<Vestibulando> findSimilarByOfertaCursoAndNome(Integer id, OfertaCurso ofertaCurso, String nome);
+			+ "WHERE (?1 IS NULL OR x.id <> ?1) AND x.cpf = ?2 AND x.ofertaCurso = ?3")
+	Optional<Vestibulando> findSimilarByCpfAndOfertaCurso(Integer id, String cpf, OfertaCurso ofertaCurso);
 
 }

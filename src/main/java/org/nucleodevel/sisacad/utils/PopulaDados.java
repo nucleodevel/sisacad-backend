@@ -114,22 +114,22 @@ public class PopulaDados {
 
 		turmaRepository.saveAll(List.of(trm1, trm2));
 
-		Docente doc1 = new Docente("João Santos");
-		Docente doc2 = new Docente("Carlos Pereira");
-		Docente doc3 = new Docente("Marcos Benevides");
+		Docente doc1 = new Docente("42262698023", "João Santos");
+		Docente doc2 = new Docente("57482695036", "Carlos Pereira");
+		Docente doc3 = new Docente("13200083050", "Marcos Benevides");
 
 		docenteRepository.saveAll(List.of(doc1, doc2, doc3));
 
-		Vestibulando vnd01 = new Vestibulando("Rosana Martins", oc1);
-		Vestibulando vnd02 = new Vestibulando("Osvaldo Picci", oc1);
-		Vestibulando vnd03 = new Vestibulando("José Albertino", oc1);
-		Vestibulando vnd04 = new Vestibulando("Kelvin Smith", oc1);
-		Vestibulando vnd05 = new Vestibulando("Melinda Flores", oc1);
-		Vestibulando vnd06 = new Vestibulando("Guilherme Toledo", oc2);
-		Vestibulando vnd07 = new Vestibulando("Homero Assis", oc2);
-		Vestibulando vnd08 = new Vestibulando("Carlos Balbuena", oc2);
-		Vestibulando vnd09 = new Vestibulando("Teo Lee", oc2);
-		Vestibulando vnd10 = new Vestibulando("Neusa Feltrin", oc2);
+		Vestibulando vnd01 = new Vestibulando("12198374072", "Rosana Martins", oc1);
+		Vestibulando vnd02 = new Vestibulando("27411575020", "Osvaldo Picci", oc1);
+		Vestibulando vnd03 = new Vestibulando("43169615009", "José Albertino", oc1);
+		Vestibulando vnd04 = new Vestibulando("62635262039", "Kelvin Smith", oc1);
+		Vestibulando vnd05 = new Vestibulando("75592129050", "Melinda Flores", oc1);
+		Vestibulando vnd06 = new Vestibulando("43166274065", "Guilherme Toledo", oc2);
+		Vestibulando vnd07 = new Vestibulando("58351444073", "Homero Assis", oc2);
+		Vestibulando vnd08 = new Vestibulando("78151416092", "Carlos Balbuena", oc2);
+		Vestibulando vnd09 = new Vestibulando("91370952007", "Teo Lee", oc2);
+		Vestibulando vnd10 = new Vestibulando("40843830077", "Neusa Feltrin", oc2);
 
 		vestibulandoRepository.saveAll(List.of(vnd01, vnd02, vnd03, vnd04, vnd05, vnd06, vnd07, vnd08, vnd09, vnd10));
 

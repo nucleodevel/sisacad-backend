@@ -12,6 +12,6 @@ public interface TurmaRepository extends AbstractRepository<Turma, Integer> {
 
 	@Query(value = "SELECT x FROM Turma x "
 			+ "WHERE (?1 IS NULL OR x.id <> ?1) AND (x.codigo = ?2 OR x.ofertaCurso = ?3)")
-	Optional<Turma> findSimilarByCodigoOuOfertaCurso(Integer id, String codigo, OfertaCurso ofertaCurso);
+	Optional<Turma> findSimilarByCodigoOrOfertaCurso(Integer id, String codigo, OfertaCurso ofertaCurso);
 
 }
