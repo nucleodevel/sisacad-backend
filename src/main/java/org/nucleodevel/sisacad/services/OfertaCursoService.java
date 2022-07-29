@@ -24,6 +24,7 @@ public class OfertaCursoService extends AbstractService<OfertaCurso, Integer, Of
 	@Override
 	public OfertaCurso mergeDtoIntoEntity(OfertaCursoDto dto, OfertaCurso entity) {
 		entity.setId(dto.getId());
+		entity.setCodigo(dto.getCodigo());
 		entity.setAno(dto.getAno());
 		entity.setEstruturaCurricular(estruturaCurricularService.find(dto.getEstruturaCurricular()));
 		entity.setVestibular(vestibularService.find(dto.getVestibular()));
@@ -35,25 +36,31 @@ public class OfertaCursoService extends AbstractService<OfertaCurso, Integer, Of
 	public void validadeForInsertUpdate(OfertaCursoDto dto) {
 		String error = "";
 
+		if (dto.getCodigo() == null) {
+			error += "Código pendente; ";
+		}
+
 		if (dto.getAno() == null) {
 			error += "Ano pendente; ";
 		}
 
+		EstruturaCurricular myEstruturaCurricular = null;
 		if (dto.getEstruturaCurricular() == null) {
 			error += "Estrutura curricular pendente; ";
 		} else {
 			try {
-				estruturaCurricularService.find(dto.getEstruturaCurricular());
+				myEstruturaCurricular = estruturaCurricularService.find(dto.getEstruturaCurricular());
 			} catch (ObjectNotFoundException e) {
 				error += "Estrutura curricular com ID " + dto.getEstruturaCurricular() + " não existente; ";
 			}
 		}
 
+		Vestibular myVestibular = null;
 		if (dto.getVestibular() == null) {
 			error += "Vestibular pendente; ";
 		} else {
 			try {
-				vestibularService.find(dto.getVestibular());
+				myVestibular = vestibularService.find(dto.getVestibular());
 			} catch (ObjectNotFoundException e) {
 				error += "Vestibular com ID " + dto.getVestibular() + " não existente; ";
 			}
@@ -63,14 +70,13 @@ public class OfertaCursoService extends AbstractService<OfertaCurso, Integer, Of
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
 
-		EstruturaCurricular myEstruturaCurricular = estruturaCurricularService.find(dto.getEstruturaCurricular());
-		Vestibular myVestibular = vestibularService.find(dto.getVestibular());
+		String myCodigo = dto.getCodigo();
 
-		Optional<OfertaCurso> similar = repository.findSimilarByEstruturaCurricularAndVestibular(dto.getId(),
-				myEstruturaCurricular, myVestibular);
+		Optional<OfertaCurso> similar = repository.findSimilarByCodigoOrEstruturaCurricularAndVestibular(dto.getId(),
+				myCodigo, myEstruturaCurricular, myVestibular);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException(
-					"Já existe uma oferta de curso nesse vestibular para essa estrutura curricular!");
+					"Já existe uma oferta de curso com esse código ou nesse vestibular para essa estrutura curricular!");
 		});
 	}
 

@@ -11,9 +11,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OfertaCursoRepository extends AbstractRepository<OfertaCurso, Integer> {
 
-	@Query(value = "SELECT x FROM OfertaCurso x "
-			+ "WHERE (?1 IS NULL OR x.id <> ?1) AND x.estruturaCurricular = ?2 AND x.vestibular = ?3")
-	Optional<OfertaCurso> findSimilarByEstruturaCurricularAndVestibular(Integer id,
+	@Query(value = "SELECT x FROM OfertaCurso x WHERE (?1 IS NULL OR x.id <> ?1) "
+			+ "AND (x.codigo = ?2 OR (x.estruturaCurricular = ?3 AND x.vestibular = ?4))")
+	Optional<OfertaCurso> findSimilarByCodigoOrEstruturaCurricularAndVestibular(Integer id, String codigo,
 			EstruturaCurricular estruturaCurricular, Vestibular vestibular);
 
 }

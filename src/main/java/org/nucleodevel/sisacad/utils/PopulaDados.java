@@ -104,8 +104,8 @@ public class PopulaDados {
 
 		vestibularRepository.saveAll(List.of(vst1));
 
-		OfertaCurso oc1 = new OfertaCurso(2022, ec2, vst1);
-		OfertaCurso oc2 = new OfertaCurso(2022, ec3, vst1);
+		OfertaCurso oc1 = new OfertaCurso("OC001", 2022, ec2, vst1);
+		OfertaCurso oc2 = new OfertaCurso("OC002", 2022, ec3, vst1);
 
 		ofertaCursoRepository.saveAll(List.of(oc1, oc2));
 

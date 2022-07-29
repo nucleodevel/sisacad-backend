@@ -22,6 +22,9 @@ public class OfertaCurso extends AbstractEntity<Integer> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(name = "codigo")
+	private String codigo;
+
 	@Column(name = "ano")
 	private Integer ano;
 
@@ -43,8 +46,9 @@ public class OfertaCurso extends AbstractEntity<Integer> {
 		super();
 	}
 
-	public OfertaCurso(Integer ano, EstruturaCurricular estruturaCurricular, Vestibular vestibular) {
+	public OfertaCurso(String codigo, Integer ano, EstruturaCurricular estruturaCurricular, Vestibular vestibular) {
 		super();
+		this.codigo = codigo;
 		this.ano = ano;
 		this.estruturaCurricular = estruturaCurricular;
 		this.vestibular = vestibular;
@@ -58,6 +62,14 @@ public class OfertaCurso extends AbstractEntity<Integer> {
 	@Override
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public Integer getAno() {
