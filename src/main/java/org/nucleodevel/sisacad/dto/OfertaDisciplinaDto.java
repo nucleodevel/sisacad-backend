@@ -6,14 +6,24 @@ public class OfertaDisciplinaDto extends AbstractDto<OfertaDisciplina, Integer> 
 
 	private static final long serialVersionUID = 8835147583838231255L;
 
+	private String codigo;
 	private Integer disciplina;
 	private Integer docente;
 
 	@Override
 	public void copyFromEntity(OfertaDisciplina entity) {
 		this.id = entity.getId();
+		this.codigo = entity.getCodigo();
 		this.disciplina = entity.getDisciplina().getId();
 		this.docente = entity.getDocente().getId();
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public Integer getDisciplina() {

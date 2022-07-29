@@ -109,8 +109,8 @@ public class PopulaDados {
 
 		ofertaCursoRepository.saveAll(List.of(oc1, oc2));
 
-		Turma trm1 = new Turma(oc1);
-		Turma trm2 = new Turma(oc2);
+		Turma trm1 = new Turma("TRM001", oc1);
+		Turma trm2 = new Turma("TRM002", oc2);
 
 		turmaRepository.saveAll(List.of(trm1, trm2));
 
@@ -157,19 +157,19 @@ public class PopulaDados {
 
 		discenteRepository.saveAll(List.of(dct1, dct2, dct3, dct4, dct5, dct6, dct7, dct8));
 
-		OfertaDisciplina od1 = new OfertaDisciplina(dcp1, doc1);
+		OfertaDisciplina od1 = new OfertaDisciplina("OD0001", dcp1, doc1);
 		od1.setListTurma(List.of(trm1));
 		od1.setListDiscente(List.of(dct1, dct2, dct3, dct4));
-		OfertaDisciplina od2 = new OfertaDisciplina(dcp1, doc1);
+		OfertaDisciplina od2 = new OfertaDisciplina("OD0002", dcp1, doc1);
 		od2.setListTurma(List.of(trm2));
 		od2.setListDiscente(List.of(dct5, dct6, dct7, dct8));
-		OfertaDisciplina od3 = new OfertaDisciplina(dcp2, doc3);
+		OfertaDisciplina od3 = new OfertaDisciplina("OD0003", dcp2, doc3);
 		od3.setListTurma(List.of(trm1, trm2));
 		od3.setListDiscente(List.of(dct1, dct2, dct3, dct4, dct5, dct7, dct8));
-		OfertaDisciplina od4 = new OfertaDisciplina(dcp3, doc2);
+		OfertaDisciplina od4 = new OfertaDisciplina("OD0004", dcp3, doc2);
 		od4.setListTurma(List.of(trm2));
 		od4.setListDiscente(List.of(dct5, dct6, dct7, dct8));
-		OfertaDisciplina od5 = new OfertaDisciplina(dcp4, doc2);
+		OfertaDisciplina od5 = new OfertaDisciplina("OD0005", dcp4, doc2);
 		od5.setListTurma(List.of(trm1, trm2));
 		od5.setListDiscente(List.of(dct1, dct2, dct4, dct6, dct7, dct8));
 

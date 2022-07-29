@@ -13,7 +13,7 @@ public interface OfertaCursoRepository extends AbstractRepository<OfertaCurso, I
 
 	@Query(value = "SELECT x FROM OfertaCurso x "
 			+ "WHERE (?1 IS NULL OR x.id <> ?1) AND x.estruturaCurricular = ?2 AND x.vestibular = ?3")
-	Optional<OfertaCurso> findDifferentByEstruturaCurricularAndVestibular(Integer id,
+	Optional<OfertaCurso> findSimilarByEstruturaCurricularAndVestibular(Integer id,
 			EstruturaCurricular estruturaCurricular, Vestibular vestibular);
 
 }

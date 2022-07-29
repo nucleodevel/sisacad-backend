@@ -3,6 +3,7 @@ package org.nucleodevel.sisacad.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,9 @@ public class OfertaDisciplina extends AbstractEntity<Integer> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@Column(name = "codigo")
+	private String codigo;
 
 	@ManyToOne
 	@JoinColumn(name = "id_disciplina")
@@ -48,8 +52,9 @@ public class OfertaDisciplina extends AbstractEntity<Integer> {
 		super();
 	}
 
-	public OfertaDisciplina(Disciplina disciplina, Docente docente) {
+	public OfertaDisciplina(String codigo, Disciplina disciplina, Docente docente) {
 		super();
+		this.codigo = codigo;
 		this.disciplina = disciplina;
 		this.docente = docente;
 	}
@@ -62,6 +67,14 @@ public class OfertaDisciplina extends AbstractEntity<Integer> {
 	@Override
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public Disciplina getDisciplina() {

@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface DisciplinaRepository extends AbstractRepository<Disciplina, Integer> {
 
 	@Query(value = "SELECT x FROM Disciplina x WHERE (?1 IS NULL OR x.id <> ?1) AND x.codigo = ?2")
-	Optional<Disciplina> findDifferentByCodigo(Integer id, String codigo);
+	Optional<Disciplina> findSimilarByCodigo(Integer id, String codigo);
 
 }

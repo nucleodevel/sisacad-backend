@@ -12,6 +12,6 @@ public interface VestibulandoRepository extends AbstractRepository<Vestibulando,
 
 	@Query(value = "SELECT x FROM Vestibulando x "
 			+ "WHERE (?1 IS NULL OR x.id <> ?1) AND x.ofertaCurso = ?2 AND x.nome = ?3")
-	Optional<Vestibulando> findDifferentByOfertaCursoAndNome(Integer id, OfertaCurso ofertaCurso, String nome);
+	Optional<Vestibulando> findSimilarByOfertaCursoAndNome(Integer id, OfertaCurso ofertaCurso, String nome);
 
 }

@@ -53,8 +53,7 @@ public class VestibulandoService
 		OfertaCurso myOfertaCurso = ofertaCursoService.find(dto.getOfertaCurso());
 		String myNome = dto.getNome();
 
-		Optional<Vestibulando> similar = repository.findDifferentByOfertaCursoAndNome(dto.getId(), myOfertaCurso,
-				myNome);
+		Optional<Vestibulando> similar = repository.findSimilarByOfertaCursoAndNome(dto.getId(), myOfertaCurso, myNome);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe um cadastro com esse nome nessa oferta de curso!");
 		});

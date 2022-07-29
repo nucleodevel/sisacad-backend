@@ -62,8 +62,8 @@ public class ParticipacaoAvaliacaoService extends
 		Avaliacao myAvaliacao = avaliacaoService.find(dto.getAvaliacao());
 		Discente myDiscente = discenteService.find(dto.getDiscente());
 
-		Optional<ParticipacaoAvaliacao> similar = repository.findDifferentByAvaliacaoAndDiscente(dto.getId(),
-				myAvaliacao, myDiscente);
+		Optional<ParticipacaoAvaliacao> similar = repository.findSimilarByAvaliacaoAndDiscente(dto.getId(), myAvaliacao,
+				myDiscente);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma participação desse discente nessa avaliação!");
 		});

@@ -3,6 +3,7 @@ package org.nucleodevel.sisacad.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,9 @@ public class Turma extends AbstractEntity<Integer> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(name = "codigo")
+	private String codigo;
+
 	@OneToOne
 	@JoinColumn(name = "id_oferta_curso")
 	private OfertaCurso ofertaCurso;
@@ -33,8 +37,9 @@ public class Turma extends AbstractEntity<Integer> {
 		super();
 	}
 
-	public Turma(OfertaCurso ofertaCurso) {
+	public Turma(String codigo, OfertaCurso ofertaCurso) {
 		super();
+		this.codigo = codigo;
 		this.ofertaCurso = ofertaCurso;
 	}
 
@@ -46,6 +51,14 @@ public class Turma extends AbstractEntity<Integer> {
 	@Override
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public OfertaCurso getOfertaCurso() {

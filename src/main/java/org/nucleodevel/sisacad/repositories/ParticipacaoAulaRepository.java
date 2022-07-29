@@ -13,6 +13,6 @@ public interface ParticipacaoAulaRepository extends AbstractRepository<Participa
 
 	@Query(value = "SELECT x FROM ParticipacaoAula x "
 			+ "WHERE (?1 IS NULL OR x.id <> ?1) AND x.aula = ?2 AND x.discente = ?3")
-	Optional<ParticipacaoAula> findDifferentByAulaAndDiscente(Integer id, Aula aula, Discente discente);
+	Optional<ParticipacaoAula> findSimilarByAulaAndDiscente(Integer id, Aula aula, Discente discente);
 
 }

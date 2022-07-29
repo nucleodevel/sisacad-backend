@@ -34,7 +34,7 @@ public class VestibularService extends AbstractService<Vestibular, Integer, Vest
 
 		Integer myAno = dto.getAno();
 
-		Optional<Vestibular> similar = repository.findDifferentByAno(dto.getId(), myAno);
+		Optional<Vestibular> similar = repository.findSimilarByAno(dto.getId(), myAno);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe um vestibular para este ano!");
 		});

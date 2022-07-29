@@ -34,7 +34,7 @@ public class DocenteService extends AbstractService<Docente, Integer, DocenteDto
 
 		String myNome = dto.getNome();
 
-		Optional<Docente> similar = repository.findDifferentByNome(dto.getId(), myNome);
+		Optional<Docente> similar = repository.findSimilarByNome(dto.getId(), myNome);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe um docente com este nome!");
 		});

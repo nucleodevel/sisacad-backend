@@ -13,7 +13,7 @@ public interface ParticipacaoAvaliacaoRepository extends AbstractRepository<Part
 
 	@Query(value = "SELECT x FROM ParticipacaoAvaliacao x "
 			+ "WHERE (?1 IS NULL OR x.id <> ?1) AND x.avaliacao = ?2 AND x.discente = ?3")
-	Optional<ParticipacaoAvaliacao> findDifferentByAvaliacaoAndDiscente(Integer id, Avaliacao avaliacao,
+	Optional<ParticipacaoAvaliacao> findSimilarByAvaliacaoAndDiscente(Integer id, Avaliacao avaliacao,
 			Discente discente);
 
 }

@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface AvaliacaoVestibulandoRepository extends AbstractRepository<AvaliacaoVestibulando, Integer> {
 
 	@Query(value = "SELECT x FROM AvaliacaoVestibulando x WHERE (?1 IS NULL OR x.id <> ?1) AND x.vestibulando = ?2")
-	Optional<AvaliacaoVestibulando> findDifferentByVestibulando(Integer id, Vestibulando vestibulando);
+	Optional<AvaliacaoVestibulando> findSimilarByVestibulando(Integer id, Vestibulando vestibulando);
 
 }

@@ -21,6 +21,7 @@ public class TurmaService extends AbstractService<Turma, Integer, TurmaDto, Turm
 	@Override
 	public Turma mergeDtoIntoEntity(TurmaDto dto, Turma entity) {
 		entity.setId(dto.getId());
+		entity.setCodigo(dto.getCodigo());
 		entity.setOfertaCurso(ofertaCursoService.find(dto.getOfertaCurso()));
 
 		return entity;
@@ -30,11 +31,16 @@ public class TurmaService extends AbstractService<Turma, Integer, TurmaDto, Turm
 	public void validadeForInsertUpdate(TurmaDto dto) {
 		String error = "";
 
+		if (dto.getCodigo() == null) {
+			error += "Código pendente; ";
+		}
+
+		OfertaCurso myOfertaCurso = null;
 		if (dto.getOfertaCurso() == null) {
 			error += "Oferta de curso pendente; ";
 		} else {
 			try {
-				ofertaCursoService.find(dto.getOfertaCurso());
+				myOfertaCurso = ofertaCursoService.find(dto.getOfertaCurso());
 			} catch (ObjectNotFoundException e) {
 				error += "Oferta de curso com ID " + dto.getOfertaCurso() + " não existente; ";
 			}
@@ -44,11 +50,11 @@ public class TurmaService extends AbstractService<Turma, Integer, TurmaDto, Turm
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
 
-		OfertaCurso myOfertaCurso = ofertaCursoService.find(dto.getOfertaCurso());
+		String myCodigo = dto.getCodigo();
 
-		Optional<Turma> similar = repository.findSimilarByOfertaCurso(dto.getId(), myOfertaCurso);
+		Optional<Turma> similar = repository.findSimilarByCodigoOuOfertaCurso(dto.getId(), myCodigo, myOfertaCurso);
 		similar.ifPresent(obj -> {
-			throw new DataIntegrityException("Já existe uma turma para esta oferta de curso!");
+			throw new DataIntegrityException("Já existe uma turma com esse código ou para essa oferta de curso!");
 		});
 	}
 
