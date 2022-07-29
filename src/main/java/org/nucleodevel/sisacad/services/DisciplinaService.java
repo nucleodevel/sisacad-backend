@@ -15,6 +15,7 @@ public class DisciplinaService extends AbstractService<Disciplina, Integer, Disc
 	@Override
 	public Disciplina mergeDtoIntoEntity(DisciplinaDto dto, Disciplina entity) {
 		entity.setId(dto.getId());
+		entity.setCodigo(dto.getCodigo());
 		entity.setNome(dto.getNome());
 
 		return entity;
@@ -24,6 +25,10 @@ public class DisciplinaService extends AbstractService<Disciplina, Integer, Disc
 	public void validadeForInsertUpdate(DisciplinaDto dto) {
 		String error = "";
 
+		if (dto.getCodigo() == null) {
+			error += "Código pendente; ";
+		}
+
 		if (dto.getNome() == null) {
 			error += "Nome pendente; ";
 		}
@@ -32,11 +37,11 @@ public class DisciplinaService extends AbstractService<Disciplina, Integer, Disc
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
 
-		String myNome = dto.getNome();
+		String myCodigo = dto.getCodigo();
 
-		Optional<Disciplina> similar = repository.findDifferentByNome(dto.getId(), myNome);
+		Optional<Disciplina> similar = repository.findDifferentByCodigo(dto.getId(), myCodigo);
 		similar.ifPresent(obj -> {
-			throw new DataIntegrityException("Já existe uma disciplina com este nome!");
+			throw new DataIntegrityException("Já existe uma disciplina com este código!");
 		});
 	}
 

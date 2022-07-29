@@ -22,6 +22,9 @@ public class Disciplina extends AbstractEntity<Integer> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(name = "codigo")
+	private String codigo;
+
 	@Column(name = "nome")
 	private String nome;
 
@@ -36,8 +39,9 @@ public class Disciplina extends AbstractEntity<Integer> {
 		super();
 	}
 
-	public Disciplina(String nome) {
+	public Disciplina(String codigo, String nome) {
 		super();
+		this.codigo = codigo;
 		this.nome = nome;
 	}
 
@@ -49,6 +53,14 @@ public class Disciplina extends AbstractEntity<Integer> {
 	@Override
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getNome() {

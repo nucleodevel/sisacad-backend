@@ -84,10 +84,10 @@ public class PopulaDados {
 
 		cursoRepository.saveAll(List.of(cur1, cur2));
 
-		Disciplina dcp1 = new Disciplina("Compiladores");
-		Disciplina dcp2 = new Disciplina("Banco de Dados");
-		Disciplina dcp3 = new Disciplina("Engenharia de Software");
-		Disciplina dcp4 = new Disciplina("Programação Orientada a Objetos");
+		Disciplina dcp1 = new Disciplina("DISC001", "Compiladores");
+		Disciplina dcp2 = new Disciplina("DISC002", "Banco de Dados");
+		Disciplina dcp3 = new Disciplina("DISC003", "Engenharia de Software");
+		Disciplina dcp4 = new Disciplina("DISC004", "Programação Orientada a Objetos");
 
 		disciplinaRepository.saveAll(List.of(dcp1, dcp2, dcp3, dcp4));
 
