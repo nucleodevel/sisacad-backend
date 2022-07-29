@@ -6,6 +6,7 @@ public class EstruturaCurricularDto extends AbstractDto<EstruturaCurricular, Int
 
 	private static final long serialVersionUID = 8835147583838231255L;
 
+	private String codigo;
 	private Integer anoInicio;
 	private Integer anoTermino;
 	private Integer curso;
@@ -13,9 +14,18 @@ public class EstruturaCurricularDto extends AbstractDto<EstruturaCurricular, Int
 	@Override
 	public void copyFromEntity(EstruturaCurricular entity) {
 		this.id = entity.getId();
+		this.codigo = entity.getCodigo();
 		this.anoInicio = entity.getAnoInicio();
 		this.anoTermino = entity.getAnoTermino();
 		this.curso = entity.getCurso().getId();
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public Integer getAnoInicio() {

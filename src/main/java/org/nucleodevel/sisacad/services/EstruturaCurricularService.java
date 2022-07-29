@@ -1,8 +1,11 @@
 package org.nucleodevel.sisacad.services;
 
+import java.util.Optional;
+
 import org.nucleodevel.sisacad.domain.EstruturaCurricular;
 import org.nucleodevel.sisacad.dto.EstruturaCurricularDto;
 import org.nucleodevel.sisacad.repositories.EstruturaCurricularRepository;
+import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,7 @@ public class EstruturaCurricularService
 	@Override
 	public EstruturaCurricular mergeDtoIntoEntity(EstruturaCurricularDto dto, EstruturaCurricular entity) {
 		entity.setId(dto.getId());
+		entity.setCodigo(dto.getCodigo());
 		entity.setAnoInicio(dto.getAnoInicio());
 		entity.setAnoTermino(dto.getAnoTermino());
 		entity.setCurso(cursoService.find(dto.getCurso()));
@@ -28,6 +32,10 @@ public class EstruturaCurricularService
 	@Override
 	public void validadeForInsertUpdate(EstruturaCurricularDto dto) {
 		String error = "";
+
+		if (dto.getCodigo() == null) {
+			error += "Código pendente; ";
+		}
 
 		if (dto.getAnoInicio() == null) {
 			error += "Ano de início pendente; ";
@@ -54,6 +62,13 @@ public class EstruturaCurricularService
 		if (!error.isEmpty()) {
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
+
+		String myCodigo = dto.getCodigo();
+
+		Optional<EstruturaCurricular> similar = repository.findSimilarByCodigo(dto.getId(), myCodigo);
+		similar.ifPresent(obj -> {
+			throw new DataIntegrityException("Já existe uma estrutura curricular com esse código!");
+		});
 	}
 
 }

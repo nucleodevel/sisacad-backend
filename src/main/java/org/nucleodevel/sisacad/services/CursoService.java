@@ -15,6 +15,7 @@ public class CursoService extends AbstractService<Curso, Integer, CursoDto, Curs
 	@Override
 	public Curso mergeDtoIntoEntity(CursoDto dto, Curso entity) {
 		entity.setId(dto.getId());
+		entity.setCodigo(dto.getCodigo());
 		entity.setNome(dto.getNome());
 
 		return entity;
@@ -24,6 +25,10 @@ public class CursoService extends AbstractService<Curso, Integer, CursoDto, Curs
 	public void validadeForInsertUpdate(CursoDto dto) {
 		String error = "";
 
+		if (dto.getCodigo() == null) {
+			error += "Código pendente; ";
+		}
+
 		if (dto.getNome() == null) {
 			error += "Nome pendente; ";
 		}
@@ -32,9 +37,9 @@ public class CursoService extends AbstractService<Curso, Integer, CursoDto, Curs
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
 
-		String myNome = dto.getNome();
+		String myCodigo = dto.getCodigo();
 
-		Optional<Curso> similar = repository.findSimilarByNome(dto.getId(), myNome);
+		Optional<Curso> similar = repository.findSimilarByCodigo(dto.getId(), myCodigo);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe um curso com este nome!");
 		});

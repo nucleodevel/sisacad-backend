@@ -23,6 +23,9 @@ public class EstruturaCurricular extends AbstractEntity<Integer> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(name = "codigo")
+	private String codigo;
+
 	@Column(name = "ano_inicio")
 	private Integer anoInicio;
 
@@ -44,8 +47,9 @@ public class EstruturaCurricular extends AbstractEntity<Integer> {
 		super();
 	}
 
-	public EstruturaCurricular(Integer anoInicio, Integer anoTermino, Curso curso) {
+	public EstruturaCurricular(String codigo, Integer anoInicio, Integer anoTermino, Curso curso) {
 		super();
+		this.codigo = codigo;
 		this.anoInicio = anoInicio;
 		this.anoTermino = anoTermino;
 		this.curso = curso;
@@ -59,6 +63,14 @@ public class EstruturaCurricular extends AbstractEntity<Integer> {
 	@Override
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public Integer getAnoInicio() {
