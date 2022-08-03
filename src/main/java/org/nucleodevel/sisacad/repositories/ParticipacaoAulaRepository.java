@@ -15,4 +15,7 @@ public interface ParticipacaoAulaRepository extends AbstractRepository<Participa
 			+ "WHERE (?1 IS NULL OR x.id <> ?1) AND x.aula = ?2 AND x.discente = ?3")
 	Optional<ParticipacaoAula> findSimilarByAulaAndDiscente(Integer id, Aula aula, Discente discente);
 
+	@Query(value = "SELECT x FROM ParticipacaoAula x WHERE x.aula = ?1 AND x.discente = ?2")
+	Optional<ParticipacaoAula> findByAulaAndDiscente(Aula aula, Discente discente);
+
 }

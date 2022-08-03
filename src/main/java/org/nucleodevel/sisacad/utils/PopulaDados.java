@@ -265,7 +265,7 @@ public class PopulaDados {
 		List<ParticipacaoAula> listParticipacaoAula = new ArrayList<>();
 
 		listParticipacaoAula.add(new ParticipacaoAula(aul01, dct1));
-		listParticipacaoAula.add(new ParticipacaoAula(aul01, dct2));
+		// listParticipacaoAula.add(new ParticipacaoAula(aul01, dct2));
 		listParticipacaoAula.add(new ParticipacaoAula(aul01, dct3));
 		listParticipacaoAula.add(new ParticipacaoAula(aul01, dct4));
 

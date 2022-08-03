@@ -68,4 +68,12 @@ public class ParticipacaoAulaService
 		});
 	}
 
+	public ParticipacaoAulaDto findDtoByAulaIdAndDiscenteId(Integer aulaId, Integer discenteId) {
+		Aula aula = aulaService.find(aulaId);
+		Discente discente = discenteService.find(discenteId);
+
+		Optional<ParticipacaoAula> similar = repository.findByAulaAndDiscente(aula, discente);
+		return similar.isPresent() ? getDtoFromEntity(similar.get()) : null;
+	}
+
 }
