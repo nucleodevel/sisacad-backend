@@ -33,7 +33,7 @@ public abstract class AbstractResource<DTO extends AbstractDto<?, ID>, ID, S ext
 	public ResponseEntity<DTO> insert(@RequestBody DTO dto) {
 		dto = service.insertDto(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
-		return ResponseEntity.created(uri).build();
+		return ResponseEntity.created(uri).body(dto);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
