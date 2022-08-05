@@ -78,6 +78,7 @@ public class PopulaDados {
 	public void cadastrar() throws ParseException {
 
 		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdfDatetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		Curso cur1 = new Curso("CRS01", "Engenharia da Computação");
 		Curso cur2 = new Curso("CRS02", "Ciência da Computação");
@@ -250,22 +251,22 @@ public class PopulaDados {
 
 		participacaoAvaliacaoRepository.saveAll(listParticipacaoAvaliacao);
 
-		Aula aul01 = new Aula(sdfDate.parse("2022-05-20 13:00:00"), sdfDate.parse("2022-05-20 18:00:00"), od1);
-		Aula aul02 = new Aula(sdfDate.parse("2022-05-30 08:00:00"), sdfDate.parse("2022-05-30 12:00:00"), od1);
-		Aula aul03 = new Aula(sdfDate.parse("2022-05-28 19:00:00"), sdfDate.parse("2022-05-28 19:00:00"), od2);
-		Aula aul04 = new Aula(sdfDate.parse("2022-04-20 13:00:00"), sdfDate.parse("2022-04-20 16:00:00"), od3);
-		Aula aul05 = new Aula(sdfDate.parse("2022-06-02 10:00:00"), sdfDate.parse("2022-06-02 13:00:00"), od3);
-		Aula aul06 = new Aula(sdfDate.parse("2022-05-18 09:00:00"), sdfDate.parse("2022-05-18 12:00:00"), od4);
-		Aula aul07 = new Aula(sdfDate.parse("2022-06-15 14:00:00"), sdfDate.parse("2022-06-15 17:00:00"), od4);
-		Aula aul08 = new Aula(sdfDate.parse("2022-05-01 20:00:00"), sdfDate.parse("2022-05-01 22:00:00"), od5);
-		Aula aul09 = new Aula(sdfDate.parse("2022-06-30 14:00:00"), sdfDate.parse("2022-06-30 19:00:00"), od5);
+		Aula aul01 = new Aula(sdfDatetime.parse("2022-05-20 13:00:00"), sdfDatetime.parse("2022-05-20 18:00:00"), od1);
+		Aula aul02 = new Aula(sdfDatetime.parse("2022-05-30 08:00:00"), sdfDatetime.parse("2022-05-30 12:00:00"), od1);
+		Aula aul03 = new Aula(sdfDatetime.parse("2022-05-28 19:00:00"), sdfDatetime.parse("2022-05-28 19:00:00"), od2);
+		Aula aul04 = new Aula(sdfDatetime.parse("2022-04-20 13:00:00"), sdfDatetime.parse("2022-04-20 16:00:00"), od3);
+		Aula aul05 = new Aula(sdfDatetime.parse("2022-06-02 10:00:00"), sdfDatetime.parse("2022-06-02 13:00:00"), od3);
+		Aula aul06 = new Aula(sdfDatetime.parse("2022-05-18 09:00:00"), sdfDatetime.parse("2022-05-18 12:00:00"), od4);
+		Aula aul07 = new Aula(sdfDatetime.parse("2022-06-15 14:00:00"), sdfDatetime.parse("2022-06-15 17:00:00"), od4);
+		Aula aul08 = new Aula(sdfDatetime.parse("2022-05-01 20:00:00"), sdfDatetime.parse("2022-05-01 22:00:00"), od5);
+		Aula aul09 = new Aula(sdfDatetime.parse("2022-06-30 14:00:00"), sdfDatetime.parse("2022-06-30 19:00:00"), od5);
 
 		aulaRepository.saveAll(List.of(aul01, aul02, aul03, aul04, aul05, aul06, aul07, aul08, aul09));
 
 		List<ParticipacaoAula> listParticipacaoAula = new ArrayList<>();
 
 		listParticipacaoAula.add(new ParticipacaoAula(aul01, dct1));
-		// listParticipacaoAula.add(new ParticipacaoAula(aul01, dct2));
+		listParticipacaoAula.add(new ParticipacaoAula(aul01, dct2));
 		listParticipacaoAula.add(new ParticipacaoAula(aul01, dct3));
 		listParticipacaoAula.add(new ParticipacaoAula(aul01, dct4));
 
