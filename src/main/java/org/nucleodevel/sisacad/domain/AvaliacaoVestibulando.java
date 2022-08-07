@@ -17,6 +17,15 @@ public class AvaliacaoVestibulando extends AbstractEntity<Integer> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(name = "conceito_biologicas")
+	private Double conceitoBiologicas;
+
+	@Column(name = "conceito_exatas")
+	private Double conceitoExatas;
+
+	@Column(name = "conceito_humanas")
+	private Double conceitoHumanas;
+
 	@Column(name = "conceito_final")
 	private Double conceitoFinal;
 
@@ -28,8 +37,12 @@ public class AvaliacaoVestibulando extends AbstractEntity<Integer> {
 		super();
 	}
 
-	public AvaliacaoVestibulando(Double conceitoFinal, Vestibulando vestibulando) {
+	public AvaliacaoVestibulando(Double conceitoBiologicas, Double conceitoExatas, Double conceitoHumanas,
+			Double conceitoFinal, Vestibulando vestibulando) {
 		super();
+		this.conceitoBiologicas = conceitoBiologicas;
+		this.conceitoExatas = conceitoExatas;
+		this.conceitoHumanas = conceitoHumanas;
 		this.conceitoFinal = conceitoFinal;
 		this.vestibulando = vestibulando;
 	}
@@ -42,6 +55,30 @@ public class AvaliacaoVestibulando extends AbstractEntity<Integer> {
 	@Override
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Double getConceitoBiologicas() {
+		return conceitoBiologicas;
+	}
+
+	public void setConceitoBiologicas(Double conceitoBiologicas) {
+		this.conceitoBiologicas = conceitoBiologicas;
+	}
+
+	public Double getConceitoExatas() {
+		return conceitoExatas;
+	}
+
+	public void setConceitoExatas(Double conceitoExatas) {
+		this.conceitoExatas = conceitoExatas;
+	}
+
+	public Double getConceitoHumanas() {
+		return conceitoHumanas;
+	}
+
+	public void setConceitoHumanas(Double conceitoHumanas) {
+		this.conceitoHumanas = conceitoHumanas;
 	}
 
 	public Double getConceitoFinal() {

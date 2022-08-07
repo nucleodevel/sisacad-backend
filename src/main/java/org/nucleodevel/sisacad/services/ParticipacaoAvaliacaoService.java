@@ -25,6 +25,7 @@ public class ParticipacaoAvaliacaoService extends
 	@Override
 	public ParticipacaoAvaliacao mergeDtoIntoEntity(ParticipacaoAvaliacaoDto dto, ParticipacaoAvaliacao entity) {
 		entity.setId(dto.getId());
+		entity.setConceitoFinal(dto.getConceitoFinal());
 		entity.setAvaliacao(avaliacaoService.find(dto.getAvaliacao()));
 		entity.setDiscente(discenteService.find(dto.getDiscente()));
 
@@ -34,6 +35,10 @@ public class ParticipacaoAvaliacaoService extends
 	@Override
 	public void validadeForInsertUpdate(ParticipacaoAvaliacaoDto dto) {
 		String error = "";
+
+		if (dto.getConceitoFinal() == null) {
+			error += "Conceito Final pendente; ";
+		}
 
 		if (dto.getAvaliacao() == null) {
 			error += "Avaliação pendente; ";

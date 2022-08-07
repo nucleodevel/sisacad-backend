@@ -1,5 +1,6 @@
 package org.nucleodevel.sisacad.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +17,9 @@ public class ParticipacaoAvaliacao extends AbstractEntity<Integer> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(name = "conceito_final")
+	private Double conceitoFinal;
+
 	@ManyToOne
 	@JoinColumn(name = "id_avaliacao")
 	private Avaliacao avaliacao;
@@ -28,8 +32,9 @@ public class ParticipacaoAvaliacao extends AbstractEntity<Integer> {
 		super();
 	}
 
-	public ParticipacaoAvaliacao(Avaliacao avaliacao, Discente discente) {
+	public ParticipacaoAvaliacao(Double conceitoFinal, Avaliacao avaliacao, Discente discente) {
 		super();
+		this.conceitoFinal = conceitoFinal;
 		this.avaliacao = avaliacao;
 		this.discente = discente;
 	}
@@ -42,6 +47,14 @@ public class ParticipacaoAvaliacao extends AbstractEntity<Integer> {
 	@Override
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Double getConceitoFinal() {
+		return conceitoFinal;
+	}
+
+	public void setConceitoFinal(Double conceitoFinal) {
+		this.conceitoFinal = conceitoFinal;
 	}
 
 	public Avaliacao getAvaliacao() {

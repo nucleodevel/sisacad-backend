@@ -147,16 +147,16 @@ public class PopulaDados {
 
 		vestibulandoRepository.saveAll(List.of(vnd01, vnd02, vnd03, vnd04, vnd05, vnd06, vnd07, vnd08, vnd09, vnd10));
 
-		AvaliacaoVestibulando av01 = new AvaliacaoVestibulando(8.5, vnd01);
-		AvaliacaoVestibulando av02 = new AvaliacaoVestibulando(8.0, vnd02);
-		AvaliacaoVestibulando av03 = new AvaliacaoVestibulando(9.0, vnd03);
-		AvaliacaoVestibulando av04 = new AvaliacaoVestibulando(4.5, vnd04);
-		AvaliacaoVestibulando av05 = new AvaliacaoVestibulando(7.5, vnd05);
-		AvaliacaoVestibulando av06 = new AvaliacaoVestibulando(5.8, vnd06);
-		AvaliacaoVestibulando av07 = new AvaliacaoVestibulando(2.5, vnd07);
-		AvaliacaoVestibulando av08 = new AvaliacaoVestibulando(9.7, vnd08);
-		AvaliacaoVestibulando av09 = new AvaliacaoVestibulando(6.2, vnd09);
-		AvaliacaoVestibulando av10 = new AvaliacaoVestibulando(8.1, vnd10);
+		AvaliacaoVestibulando av01 = new AvaliacaoVestibulando(9.0, 8.0, 8.5, 8.5, vnd01);
+		AvaliacaoVestibulando av02 = new AvaliacaoVestibulando(9.0, 7.0, 8.0, 8.0, vnd02);
+		AvaliacaoVestibulando av03 = new AvaliacaoVestibulando(9.0, 9.2, 8.8, 9.0, vnd03);
+		AvaliacaoVestibulando av04 = new AvaliacaoVestibulando(2.5, 6.0, 5.0, 4.5, vnd04);
+		AvaliacaoVestibulando av05 = new AvaliacaoVestibulando(10.0, 5.0, 7.5, 7.5, vnd05);
+		AvaliacaoVestibulando av06 = new AvaliacaoVestibulando(6.0, 6.0, 5.4, 5.8, vnd06);
+		AvaliacaoVestibulando av07 = new AvaliacaoVestibulando(4.0, 3.5, 0.0, 2.5, vnd07);
+		AvaliacaoVestibulando av08 = new AvaliacaoVestibulando(9.8, 9.7, 9.6, 9.7, vnd08);
+		AvaliacaoVestibulando av09 = new AvaliacaoVestibulando(4.0, 8.0, 6.6, 6.2, vnd09);
+		AvaliacaoVestibulando av10 = new AvaliacaoVestibulando(9.6, 8.0, 6.7, 8.1, vnd10);
 
 		avaliacaoVestibulandoRepository.saveAll(List.of(av01, av02, av03, av04, av05, av06, av07, av08, av09, av10));
 
@@ -188,81 +188,6 @@ public class PopulaDados {
 		od5.setListDiscente(List.of(dct1, dct2, dct4, dct6, dct7, dct8));
 
 		ofertaDisciplinaRepository.saveAll(List.of(od1, od2, od3, od4, od5));
-
-		Avaliacao avl01 = new Avaliacao("Projeto Integrado", sdfDate.parse("2022-05-20"), sdfDate.parse("2022-06-30"),
-				od1);
-		Avaliacao avl02 = new Avaliacao("Prova Final", sdfDate.parse("2022-05-30"), sdfDate.parse("2022-05-30"), od1);
-		Avaliacao avl03 = new Avaliacao("Prova Final", sdfDate.parse("2022-05-28"), sdfDate.parse("2022-05-28"), od2);
-		Avaliacao avl04 = new Avaliacao("Projeto Integrado", sdfDate.parse("2022-04-20"), sdfDate.parse("2022-05-28"),
-				od3);
-		Avaliacao avl05 = new Avaliacao("Prova Final", sdfDate.parse("2022-06-02"), sdfDate.parse("2022-06-02"), od3);
-		Avaliacao avl06 = new Avaliacao("Projeto Integrado", sdfDate.parse("2022-05-18"), sdfDate.parse("2022-06-18"),
-				od4);
-		Avaliacao avl07 = new Avaliacao("Prova Final", sdfDate.parse("2022-06-15"), sdfDate.parse("2022-06-15"), od4);
-		Avaliacao avl08 = new Avaliacao("Projeto Integrado", sdfDate.parse("2022-05-01"), sdfDate.parse("2022-06-14"),
-				od5);
-		Avaliacao avl09 = new Avaliacao("Prova Final", sdfDate.parse("2022-06-30"), sdfDate.parse("2022-06-30"), od5);
-
-		avaliacaoRepository.saveAll(List.of(avl01, avl02, avl03, avl04, avl05, avl06, avl07, avl08, avl09));
-
-		List<ParticipacaoAvaliacao> listParticipacaoAvaliacao = new ArrayList<>();
-
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl01, dct1));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl01, dct2));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl01, dct3));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl01, dct4));
-
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl02, dct1));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl02, dct2));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl02, dct3));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl02, dct4));
-
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl03, dct5));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl03, dct6));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl03, dct7));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl03, dct8));
-
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl04, dct1));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl04, dct2));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl04, dct3));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl04, dct4));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl04, dct5));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl04, dct7));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl04, dct8));
-
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl05, dct1));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl05, dct2));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl05, dct3));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl05, dct4));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl05, dct5));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl05, dct7));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl05, dct8));
-
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl06, dct5));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl06, dct6));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl06, dct7));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl06, dct8));
-
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl07, dct5));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl07, dct6));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl07, dct7));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl07, dct8));
-
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl08, dct1));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl08, dct2));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl08, dct4));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl08, dct6));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl08, dct7));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl08, dct8));
-
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl09, dct1));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl09, dct2));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl09, dct4));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl09, dct6));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl09, dct7));
-		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(avl09, dct8));
-
-		participacaoAvaliacaoRepository.saveAll(listParticipacaoAvaliacao);
 
 		Aula aul01 = new Aula(sdfDatetime.parse("2022-05-20 13:00:00"), sdfDatetime.parse("2022-05-20 18:00:00"), od1);
 		Aula aul02 = new Aula(sdfDatetime.parse("2022-05-30 08:00:00"), sdfDatetime.parse("2022-05-30 12:00:00"), od1);
@@ -334,6 +259,81 @@ public class PopulaDados {
 		listParticipacaoAula.add(new ParticipacaoAula(aul09, dct8));
 
 		participacaoAulaRepository.saveAll(listParticipacaoAula);
+
+		Avaliacao avl01 = new Avaliacao("Projeto Integrado", sdfDate.parse("2022-05-20"), sdfDate.parse("2022-06-30"),
+				od1);
+		Avaliacao avl02 = new Avaliacao("Prova Final", sdfDate.parse("2022-05-30"), sdfDate.parse("2022-05-30"), od1);
+		Avaliacao avl03 = new Avaliacao("Prova Final", sdfDate.parse("2022-05-28"), sdfDate.parse("2022-05-28"), od2);
+		Avaliacao avl04 = new Avaliacao("Projeto Integrado", sdfDate.parse("2022-04-20"), sdfDate.parse("2022-05-28"),
+				od3);
+		Avaliacao avl05 = new Avaliacao("Prova Final", sdfDate.parse("2022-06-02"), sdfDate.parse("2022-06-02"), od3);
+		Avaliacao avl06 = new Avaliacao("Projeto Integrado", sdfDate.parse("2022-05-18"), sdfDate.parse("2022-06-18"),
+				od4);
+		Avaliacao avl07 = new Avaliacao("Prova Final", sdfDate.parse("2022-06-15"), sdfDate.parse("2022-06-15"), od4);
+		Avaliacao avl08 = new Avaliacao("Projeto Integrado", sdfDate.parse("2022-05-01"), sdfDate.parse("2022-06-14"),
+				od5);
+		Avaliacao avl09 = new Avaliacao("Prova Final", sdfDate.parse("2022-06-30"), sdfDate.parse("2022-06-30"), od5);
+
+		avaliacaoRepository.saveAll(List.of(avl01, avl02, avl03, avl04, avl05, avl06, avl07, avl08, avl09));
+
+		List<ParticipacaoAvaliacao> listParticipacaoAvaliacao = new ArrayList<>();
+
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(9.0, avl01, dct1));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(8.5, avl01, dct2));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(10.0, avl01, dct3));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(6.5, avl01, dct4));
+
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(7.0, avl02, dct1));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(6.9, avl02, dct2));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(4.8, avl02, dct3));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(7.7, avl02, dct4));
+
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(6.8, avl03, dct5));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(2.4, avl03, dct6));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(9.2, avl03, dct7));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(8.7, avl03, dct8));
+
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(5.5, avl04, dct1));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(6.9, avl04, dct2));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(7.4, avl04, dct3));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(3.2, avl04, dct4));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(3.8, avl04, dct5));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(8.1, avl04, dct7));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(9.0, avl04, dct8));
+
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(6.0, avl05, dct1));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(4.8, avl05, dct2));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(4.7, avl05, dct3));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(6.9, avl05, dct4));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(9.8, avl05, dct5));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(3.7, avl05, dct7));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(7.8, avl05, dct8));
+
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(5.4, avl06, dct5));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(2.7, avl06, dct6));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(6.5, avl06, dct7));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(6.9, avl06, dct8));
+
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(8.6, avl07, dct5));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(3.7, avl07, dct6));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(9.1, avl07, dct7));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(7.0, avl07, dct8));
+
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(8.0, avl08, dct1));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(6.7, avl08, dct2));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(5.9, avl08, dct4));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(5.4, avl08, dct6));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(4.2, avl08, dct7));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(3.7, avl08, dct8));
+
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(5.7, avl09, dct1));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(6.9, avl09, dct2));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(6.1, avl09, dct4));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(9.5, avl09, dct6));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(8.7, avl09, dct7));
+		listParticipacaoAvaliacao.add(new ParticipacaoAvaliacao(7.3, avl09, dct8));
+
+		participacaoAvaliacaoRepository.saveAll(listParticipacaoAvaliacao);
 	}
 
 }

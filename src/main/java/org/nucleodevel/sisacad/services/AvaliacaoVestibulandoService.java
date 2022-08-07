@@ -22,6 +22,9 @@ public class AvaliacaoVestibulandoService extends
 	@Override
 	public AvaliacaoVestibulando mergeDtoIntoEntity(AvaliacaoVestibulandoDto dto, AvaliacaoVestibulando entity) {
 		entity.setId(dto.getId());
+		entity.setConceitoBiologicas(dto.getConceitoBiologicas());
+		entity.setConceitoExatas(dto.getConceitoExatas());
+		entity.setConceitoHumanas(dto.getConceitoHumanas());
 		entity.setConceitoFinal(dto.getConceitoFinal());
 		entity.setVestibulando(vestibulandoService.find(dto.getVestibulando()));
 
@@ -32,8 +35,20 @@ public class AvaliacaoVestibulandoService extends
 	public void validadeForInsertUpdate(AvaliacaoVestibulandoDto dto) {
 		String error = "";
 
+		if (dto.getConceitoBiologicas() == null) {
+			error += "Conceito Biológicas pendente; ";
+		}
+
+		if (dto.getConceitoExatas() == null) {
+			error += "Conceito Exatas pendente; ";
+		}
+
+		if (dto.getConceitoHumanas() == null) {
+			error += "Conceito Humanas pendente; ";
+		}
+
 		if (dto.getConceitoFinal() == null) {
-			error += "Conceito final pendente; ";
+			error += "Conceito Final pendente; ";
 		}
 
 		if (dto.getVestibulando() == null) {
@@ -56,6 +71,12 @@ public class AvaliacaoVestibulandoService extends
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma avaliação para este vestibulando!");
 		});
+	}
+
+	public AvaliacaoVestibulandoDto findDtoByVestibulandoId(Integer vestibulandoId) {
+		Vestibulando vestibulando = vestibulandoService.find(vestibulandoId);
+		Optional<AvaliacaoVestibulando> entity = repository.findByVestibulando(vestibulando);
+		return entity.isPresent() ? getDtoFromEntity(entity.get()) : null;
 	}
 
 }

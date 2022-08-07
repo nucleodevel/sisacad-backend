@@ -13,4 +13,7 @@ public interface AvaliacaoVestibulandoRepository extends AbstractRepository<Aval
 	@Query(value = "SELECT x FROM AvaliacaoVestibulando x WHERE (?1 IS NULL OR x.id <> ?1) AND x.vestibulando = ?2")
 	Optional<AvaliacaoVestibulando> findSimilarByVestibulando(Integer id, Vestibulando vestibulando);
 
+	@Query(value = "SELECT x FROM AvaliacaoVestibulando x WHERE x.vestibulando = ?1")
+	Optional<AvaliacaoVestibulando> findByVestibulando(Vestibulando vestibulando);
+
 }
