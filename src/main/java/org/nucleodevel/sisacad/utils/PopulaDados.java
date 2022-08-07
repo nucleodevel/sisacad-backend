@@ -115,22 +115,35 @@ public class PopulaDados {
 
 		turmaRepository.saveAll(List.of(trm1, trm2));
 
-		Docente doc1 = new Docente("42262698023", "João Santos");
-		Docente doc2 = new Docente("57482695036", "Carlos Pereira");
-		Docente doc3 = new Docente("13200083050", "Marcos Benevides");
+		Docente doc1 = new Docente("42262698023", "João Santos", sdfDate.parse("1981-02-23"),
+				"Rua Pereira, Centro - Presidente Prudente/SP", "(18) 976543456");
+		Docente doc2 = new Docente("57482695036", "Carlos Pereira", sdfDate.parse("1972-09-09"),
+				"Rua Curitiba, Centro - Santo Anastácio/SP", "(18) 982736454");
+		Docente doc3 = new Docente("13200083050", "Marcos Benevides", sdfDate.parse("1966-05-28"),
+				"Rua Amapá, Centro - Martinópolis/SP", "(18) 999948888");
 
 		docenteRepository.saveAll(List.of(doc1, doc2, doc3));
 
-		Vestibulando vnd01 = new Vestibulando("12198374072", "Rosana Martins", oc1);
-		Vestibulando vnd02 = new Vestibulando("27411575020", "Osvaldo Picci", oc1);
-		Vestibulando vnd03 = new Vestibulando("43169615009", "José Albertino", oc1);
-		Vestibulando vnd04 = new Vestibulando("62635262039", "Kelvin Smith", oc1);
-		Vestibulando vnd05 = new Vestibulando("75592129050", "Melinda Flores", oc1);
-		Vestibulando vnd06 = new Vestibulando("43166274065", "Guilherme Toledo", oc2);
-		Vestibulando vnd07 = new Vestibulando("58351444073", "Homero Assis", oc2);
-		Vestibulando vnd08 = new Vestibulando("78151416092", "Carlos Balbuena", oc2);
-		Vestibulando vnd09 = new Vestibulando("91370952007", "Teo Lee", oc2);
-		Vestibulando vnd10 = new Vestibulando("40843830077", "Neusa Feltrin", oc2);
+		Vestibulando vnd01 = new Vestibulando("12198374072", "Rosana Martins", sdfDate.parse("2000-02-25"),
+				"Rua A, Centro - Rosana/SP", "(18) 983667462", oc1);
+		Vestibulando vnd02 = new Vestibulando("27411575020", "Osvaldo Picci", sdfDate.parse("1992-01-01"),
+				"Rua B, Centro - Primavera/SP", "(18) 981547812", oc1);
+		Vestibulando vnd03 = new Vestibulando("43169615009", "José Albertino", sdfDate.parse("2001-03-21"),
+				"Rua C, Centro - Teodoro Sampaio/SP", "(18) 901635248", oc1);
+		Vestibulando vnd04 = new Vestibulando("62635262039", "Kelvin Smith", sdfDate.parse("1997-08-15"),
+				"Rua D, Centro - Piquerobi/SP", "(18) 992352412", oc1);
+		Vestibulando vnd05 = new Vestibulando("75592129050", "Melinda Flores", sdfDate.parse("1995-12-25"),
+				"Rua E, Centro - Pirapozinho/SP", "(18) 900266153", oc1);
+		Vestibulando vnd06 = new Vestibulando("43166274065", "Guilherme Toledo", sdfDate.parse("2003-06-11"),
+				"Rua F, Centro - Guarulhos/SP", "(11) 988776651", oc2);
+		Vestibulando vnd07 = new Vestibulando("58351444073", "Homero Assis", sdfDate.parse("2001-11-02"),
+				"Rua G, Centro - Osasco/SP", "(11) 901999283", oc2);
+		Vestibulando vnd08 = new Vestibulando("78151416092", "Carlos Balbuena", sdfDate.parse("1989-04-01"),
+				"Rua H, Centro - Mauá/SP", "(11) 911223344", oc2);
+		Vestibulando vnd09 = new Vestibulando("91370952007", "Teo Lee", sdfDate.parse("1998-07-12"),
+				"Rua I, Centro - Diadema/SP", "(11) 911456689", oc2);
+		Vestibulando vnd10 = new Vestibulando("40843830077", "Neusa Feltrin", sdfDate.parse("2000-09-13"),
+				"Rua J, Centro - São Paulo/SP", "(11) 900887624", oc2);
 
 		vestibulandoRepository.saveAll(List.of(vnd01, vnd02, vnd03, vnd04, vnd05, vnd06, vnd07, vnd08, vnd09, vnd10));
 

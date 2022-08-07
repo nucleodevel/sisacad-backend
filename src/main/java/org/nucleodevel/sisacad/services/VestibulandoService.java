@@ -1,6 +1,9 @@
 package org.nucleodevel.sisacad.services;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.nucleodevel.sisacad.domain.OfertaCurso;
 import org.nucleodevel.sisacad.domain.Vestibulando;
@@ -24,6 +27,9 @@ public class VestibulandoService
 		entity.setId(dto.getId());
 		entity.setCpf(dto.getCpf());
 		entity.setNome(dto.getNome());
+		entity.setDataNascimento(dto.getDataNascimento() == null ? null : new Date(dto.getDataNascimento()));
+		entity.setEndereco(dto.getEndereco());
+		entity.setTelefones(dto.getTelefones());
 		entity.setOfertaCurso(ofertaCursoService.find(dto.getOfertaCurso()));
 
 		return entity;
@@ -39,6 +45,18 @@ public class VestibulandoService
 
 		if (dto.getNome() == null) {
 			error += "Nome pendente; ";
+		}
+
+		if (dto.getDataNascimento() == null) {
+			error += "Data de nascimento pendente; ";
+		}
+
+		if (dto.getEndereco() == null) {
+			error += "Endereço pendente; ";
+		}
+
+		if (dto.getTelefones() == null) {
+			error += "Telefones pendentes; ";
 		}
 
 		OfertaCurso myOfertaCurso = null;
@@ -62,6 +80,11 @@ public class VestibulandoService
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe um cadastro com esse CPF nessa oferta de curso!");
 		});
+	}
+
+	public List<VestibulandoDto> findListDtoByIsNotDiscente() {
+		List<Vestibulando> listEntity = repository.findByIsNotDiscente();
+		return listEntity.stream().map(entity -> getDtoFromEntity(entity)).collect(Collectors.toList());
 	}
 
 }

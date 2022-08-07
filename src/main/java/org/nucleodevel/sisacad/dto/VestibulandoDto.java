@@ -8,6 +8,9 @@ public class VestibulandoDto extends AbstractDto<Vestibulando, Integer> {
 
 	private String cpf;
 	private String nome;
+	private Long dataNascimento;
+	private String endereco;
+	private String telefones;
 	private Integer ofertaCurso;
 	private Integer avaliacaoVestibulando;
 	private Integer discente;
@@ -17,6 +20,9 @@ public class VestibulandoDto extends AbstractDto<Vestibulando, Integer> {
 		this.id = entity.getId();
 		this.cpf = entity.getCpf();
 		this.nome = entity.getNome();
+		this.dataNascimento = entity.getDataNascimento() == null ? null : entity.getDataNascimento().getTime();
+		this.endereco = entity.getEndereco();
+		this.telefones = entity.getTelefones();
 		this.ofertaCurso = entity.getOfertaCurso().getId();
 		this.avaliacaoVestibulando = entity.getAvaliacaoVestibulando() == null ? null
 				: entity.getAvaliacaoVestibulando().getId();
@@ -37,6 +43,30 @@ public class VestibulandoDto extends AbstractDto<Vestibulando, Integer> {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Long getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(Long dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public String getTelefones() {
+		return telefones;
+	}
+
+	public void setTelefones(String telefones) {
+		this.telefones = telefones;
 	}
 
 	public Integer getOfertaCurso() {

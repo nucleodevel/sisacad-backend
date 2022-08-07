@@ -1,5 +1,6 @@
 package org.nucleodevel.sisacad.services;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.Docente;
@@ -17,6 +18,9 @@ public class DocenteService extends AbstractService<Docente, Integer, DocenteDto
 		entity.setId(dto.getId());
 		entity.setCpf(dto.getCpf());
 		entity.setNome(dto.getNome());
+		entity.setDataNascimento(dto.getDataNascimento() == null ? null : new Date(dto.getDataNascimento()));
+		entity.setEndereco(dto.getEndereco());
+		entity.setTelefones(dto.getTelefones());
 
 		return entity;
 	}
@@ -31,6 +35,18 @@ public class DocenteService extends AbstractService<Docente, Integer, DocenteDto
 
 		if (dto.getNome() == null) {
 			error += "Nome pendente; ";
+		}
+
+		if (dto.getDataNascimento() == null) {
+			error += "Data de nascimento pendente; ";
+		}
+
+		if (dto.getEndereco() == null) {
+			error += "Endereço pendente; ";
+		}
+
+		if (dto.getTelefones() == null) {
+			error += "Telefones pendentes; ";
 		}
 
 		if (!error.isEmpty()) {

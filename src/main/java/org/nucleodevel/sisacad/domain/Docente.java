@@ -1,6 +1,7 @@
 package org.nucleodevel.sisacad.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -25,6 +26,15 @@ public class Docente extends AbstractEntity<Integer> {
 	@Column(name = "nome")
 	private String nome;
 
+	@Column(name = "data_nascimento")
+	private Date dataNascimento;
+
+	@Column(name = "endereco")
+	private String endereco;
+
+	@Column(name = "telefones")
+	private String telefones;
+
 	@OneToMany(mappedBy = "docente")
 	private List<OfertaDisciplina> listOfertaDisciplina = new ArrayList<>();
 
@@ -32,10 +42,13 @@ public class Docente extends AbstractEntity<Integer> {
 		super();
 	}
 
-	public Docente(String cpf, String nome) {
+	public Docente(String cpf, String nome, Date dataNascimento, String endereco, String telefones) {
 		super();
 		this.cpf = cpf;
 		this.nome = nome;
+		this.dataNascimento = dataNascimento;
+		this.endereco = endereco;
+		this.telefones = telefones;
 	}
 
 	@Override
@@ -62,6 +75,30 @@ public class Docente extends AbstractEntity<Integer> {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Date getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public String getTelefones() {
+		return telefones;
+	}
+
+	public void setTelefones(String telefones) {
+		this.telefones = telefones;
 	}
 
 	public List<OfertaDisciplina> getListOfertaDisciplina() {

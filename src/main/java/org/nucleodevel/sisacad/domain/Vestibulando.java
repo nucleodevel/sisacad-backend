@@ -1,5 +1,7 @@
 package org.nucleodevel.sisacad.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,6 +26,15 @@ public class Vestibulando extends AbstractEntity<Integer> {
 	@Column(name = "nome")
 	private String nome;
 
+	@Column(name = "data_nascimento")
+	private Date dataNascimento;
+
+	@Column(name = "endereco")
+	private String endereco;
+
+	@Column(name = "telefones")
+	private String telefones;
+
 	@ManyToOne
 	@JoinColumn(name = "id_oferta_curso")
 	private OfertaCurso ofertaCurso;
@@ -38,10 +49,14 @@ public class Vestibulando extends AbstractEntity<Integer> {
 		super();
 	}
 
-	public Vestibulando(String cpf, String nome, OfertaCurso ofertaCurso) {
+	public Vestibulando(String cpf, String nome, Date dataNascimento, String endereco, String telefones,
+			OfertaCurso ofertaCurso) {
 		super();
 		this.cpf = cpf;
 		this.nome = nome;
+		this.dataNascimento = dataNascimento;
+		this.endereco = endereco;
+		this.telefones = telefones;
 		this.ofertaCurso = ofertaCurso;
 	}
 
@@ -69,6 +84,30 @@ public class Vestibulando extends AbstractEntity<Integer> {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Date getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public String getTelefones() {
+		return telefones;
+	}
+
+	public void setTelefones(String telefones) {
+		this.telefones = telefones;
 	}
 
 	public OfertaCurso getOfertaCurso() {
