@@ -82,6 +82,11 @@ public class VestibulandoService
 		});
 	}
 
+	@Override
+	protected List<Vestibulando> findAll() {
+		return repository.findByOrderByNome();
+	}
+
 	public List<VestibulandoDto> findListDtoByIsNotDiscente() {
 		List<Vestibulando> listEntity = repository.findByIsNotDiscente();
 		return listEntity.stream().map(entity -> getDtoFromEntity(entity)).collect(Collectors.toList());

@@ -1,6 +1,7 @@
 package org.nucleodevel.sisacad.services;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.Docente;
@@ -59,6 +60,11 @@ public class DocenteService extends AbstractService<Docente, Integer, DocenteDto
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe um docente com esse CPF!");
 		});
+	}
+
+	@Override
+	protected List<Docente> findAll() {
+		return repository.findByOrderByNome();
 	}
 
 }

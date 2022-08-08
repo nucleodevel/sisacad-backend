@@ -1,5 +1,6 @@
 package org.nucleodevel.sisacad.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.Disciplina;
@@ -43,6 +44,11 @@ public class DisciplinaService extends AbstractService<Disciplina, Integer, Disc
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma disciplina com este código!");
 		});
+	}
+
+	@Override
+	protected List<Disciplina> findAll() {
+		return repository.findByOrderByNome();
 	}
 
 }

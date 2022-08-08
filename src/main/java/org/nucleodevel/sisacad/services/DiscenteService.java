@@ -1,5 +1,6 @@
 package org.nucleodevel.sisacad.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.Discente;
@@ -50,6 +51,11 @@ public class DiscenteService extends AbstractService<Discente, Integer, Discente
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe um discente para este vestibulando!");
 		});
+	}
+
+	@Override
+	protected List<Discente> findAll() {
+		return repository.findByOrderByVestibulando();
 	}
 
 }
