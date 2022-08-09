@@ -1,5 +1,6 @@
 package org.nucleodevel.sisacad.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.Avaliacao;
@@ -72,6 +73,11 @@ public class ParticipacaoAvaliacaoService extends
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma participação desse discente nessa avaliação!");
 		});
+	}
+
+	@Override
+	protected List<ParticipacaoAvaliacao> findAll() {
+		return repository.findByOrderByAvaliacaoDescDiscenteAsc();
 	}
 
 }

@@ -1,5 +1,6 @@
 package org.nucleodevel.sisacad.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.EstruturaCurricular;
@@ -69,6 +70,11 @@ public class EstruturaCurricularService
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma estrutura curricular com esse código!");
 		});
+	}
+
+	@Override
+	protected List<EstruturaCurricular> findAll() {
+		return repository.findByOrderByAnoInicioDescAnoTerminoDesc();
 	}
 
 }

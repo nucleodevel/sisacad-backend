@@ -1,5 +1,6 @@
 package org.nucleodevel.sisacad.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.OfertaDisciplina;
@@ -68,6 +69,11 @@ public class OfertaDisciplinaService
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma oferta de disciplina com esse código!");
 		});
+	}
+
+	@Override
+	protected List<OfertaDisciplina> findAll() {
+		return repository.findByOrderByDisciplinaAscDocenteAsc();
 	}
 
 }

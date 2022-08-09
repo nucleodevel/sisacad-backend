@@ -1,5 +1,6 @@
 package org.nucleodevel.sisacad.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.Vestibular;
@@ -38,6 +39,11 @@ public class VestibularService extends AbstractService<Vestibular, Integer, Vest
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe um vestibular para este ano!");
 		});
+	}
+
+	@Override
+	protected List<Vestibular> findAll() {
+		return repository.findByOrderByAnoDesc();
 	}
 
 }

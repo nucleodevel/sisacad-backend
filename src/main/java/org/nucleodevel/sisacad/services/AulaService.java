@@ -1,6 +1,7 @@
 package org.nucleodevel.sisacad.services;
 
 import java.util.Date;
+import java.util.List;
 
 import org.nucleodevel.sisacad.domain.Aula;
 import org.nucleodevel.sisacad.dto.AulaDto;
@@ -55,6 +56,11 @@ public class AulaService extends AbstractService<Aula, Integer, AulaDto, AulaRep
 		if (!error.isEmpty()) {
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
+	}
+
+	@Override
+	protected List<Aula> findAll() {
+		return repository.findByOrderByInicioDescTerminoDesc();
 	}
 
 }

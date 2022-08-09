@@ -64,7 +64,7 @@ public class DocenteService extends AbstractService<Docente, Integer, DocenteDto
 
 	@Override
 	protected List<Docente> findAll() {
-		return repository.findByOrderByNome();
+		return repository.findByOrderByNomeAsc();
 	}
 
 }

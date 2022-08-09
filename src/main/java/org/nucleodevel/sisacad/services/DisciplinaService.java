@@ -48,7 +48,7 @@ public class DisciplinaService extends AbstractService<Disciplina, Integer, Disc
 
 	@Override
 	protected List<Disciplina> findAll() {
-		return repository.findByOrderByNome();
+		return repository.findByOrderByNomeAsc();
 	}
 
 }

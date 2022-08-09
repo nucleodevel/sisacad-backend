@@ -1,5 +1,6 @@
 package org.nucleodevel.sisacad.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.AvaliacaoVestibulando;
@@ -71,6 +72,11 @@ public class AvaliacaoVestibulandoService extends
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma avaliação para este vestibulando!");
 		});
+	}
+
+	@Override
+	protected List<AvaliacaoVestibulando> findAll() {
+		return repository.findByOrderByVestibulandoAsc();
 	}
 
 	public AvaliacaoVestibulandoDto findDtoByVestibulandoId(Integer vestibulandoId) {

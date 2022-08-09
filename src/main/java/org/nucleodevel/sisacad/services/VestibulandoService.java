@@ -84,7 +84,7 @@ public class VestibulandoService
 
 	@Override
 	protected List<Vestibulando> findAll() {
-		return repository.findByOrderByNome();
+		return repository.findByOrderByNomeAsc();
 	}
 
 	public List<VestibulandoDto> findListDtoByIsNotDiscente() {

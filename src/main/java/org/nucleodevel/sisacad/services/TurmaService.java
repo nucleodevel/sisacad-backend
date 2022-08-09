@@ -1,5 +1,6 @@
 package org.nucleodevel.sisacad.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.OfertaCurso;
@@ -56,6 +57,11 @@ public class TurmaService extends AbstractService<Turma, Integer, TurmaDto, Turm
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma turma com esse código ou para essa oferta de curso!");
 		});
+	}
+
+	@Override
+	protected List<Turma> findAll() {
+		return repository.findByOrderByOfertaCursoAsc();
 	}
 
 }

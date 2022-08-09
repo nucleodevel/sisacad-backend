@@ -1,6 +1,7 @@
 package org.nucleodevel.sisacad.services;
 
 import java.util.Date;
+import java.util.List;
 
 import org.nucleodevel.sisacad.domain.Avaliacao;
 import org.nucleodevel.sisacad.dto.AvaliacaoDto;
@@ -60,6 +61,11 @@ public class AvaliacaoService extends AbstractService<Avaliacao, Integer, Avalia
 		if (!error.isEmpty()) {
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
+	}
+
+	@Override
+	protected List<Avaliacao> findAll() {
+		return repository.findByOrderByInicioDescTerminoDescDescricaoDesc();
 	}
 
 }

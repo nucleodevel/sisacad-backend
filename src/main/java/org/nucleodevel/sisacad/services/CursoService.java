@@ -48,7 +48,7 @@ public class CursoService extends AbstractService<Curso, Integer, CursoDto, Curs
 
 	@Override
 	protected List<Curso> findAll() {
-		return repository.findByOrderByNome();
+		return repository.findByOrderByNomeAsc();
 	}
 
 }

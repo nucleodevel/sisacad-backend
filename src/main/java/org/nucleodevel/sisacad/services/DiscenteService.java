@@ -55,7 +55,7 @@ public class DiscenteService extends AbstractService<Discente, Integer, Discente
 
 	@Override
 	protected List<Discente> findAll() {
-		return repository.findByOrderByVestibulando();
+		return repository.findByOrderByVestibulandoAsc();
 	}
 
 }

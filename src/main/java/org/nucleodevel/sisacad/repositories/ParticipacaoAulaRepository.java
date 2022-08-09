@@ -1,5 +1,6 @@
 package org.nucleodevel.sisacad.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.Aula;
@@ -10,6 +11,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ParticipacaoAulaRepository extends AbstractRepository<ParticipacaoAula, Integer> {
+
+	@Query(value = "SELECT x FROM ParticipacaoAula x "
+			+ "ORDER BY x.aula.inicio DESC, x.aula.termino DESC, x.discente.vestibulando.nome ASC")
+	List<ParticipacaoAula> findByOrderByAulaDescDiscenteAsc();
 
 	@Query(value = "SELECT x FROM ParticipacaoAula x "
 			+ "WHERE (?1 IS NULL OR x.id <> ?1) AND x.aula = ?2 AND x.discente = ?3")

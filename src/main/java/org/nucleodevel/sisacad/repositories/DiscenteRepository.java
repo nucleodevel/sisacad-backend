@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface DiscenteRepository extends AbstractRepository<Discente, Integer> {
 
 	@Query(value = "SELECT x FROM Discente x ORDER BY x.vestibulando.nome ASC")
-	List<Discente> findByOrderByVestibulando();
+	List<Discente> findByOrderByVestibulandoAsc();
 
 	@Query(value = "SELECT x FROM Discente x WHERE (?1 IS NULL OR x.id <> ?1) AND x.vestibulando = ?2")
 	Optional<Discente> findSimilarByVestibulando(Integer id, Vestibulando item);

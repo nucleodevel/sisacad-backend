@@ -1,5 +1,6 @@
 package org.nucleodevel.sisacad.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.EstruturaCurricular;
@@ -78,6 +79,11 @@ public class OfertaCursoService extends AbstractService<OfertaCurso, Integer, Of
 			throw new DataIntegrityException(
 					"Já existe uma oferta de curso com esse código ou nesse vestibular para essa estrutura curricular!");
 		});
+	}
+
+	@Override
+	protected List<OfertaCurso> findAll() {
+		return repository.findByOrderByAnoDescCursoAsc();
 	}
 
 }

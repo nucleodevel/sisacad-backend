@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VestibulandoRepository extends AbstractRepository<Vestibulando, Integer> {
 
-	List<Vestibulando> findByOrderByNome();
+	List<Vestibulando> findByOrderByNomeAsc();
 
 	@Query(value = "SELECT x FROM Vestibulando x "
 			+ "WHERE (?1 IS NULL OR x.id <> ?1) AND x.cpf = ?2 AND x.ofertaCurso = ?3")
