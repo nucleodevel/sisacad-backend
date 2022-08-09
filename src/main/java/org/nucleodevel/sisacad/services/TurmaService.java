@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.OfertaCurso;
 import org.nucleodevel.sisacad.domain.Turma;
-import org.nucleodevel.sisacad.dto.TurmaDto;
 import org.nucleodevel.sisacad.repositories.TurmaRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
@@ -14,53 +13,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TurmaService extends AbstractService<Turma, Integer, TurmaDto, TurmaRepository> {
+public class TurmaService extends AbstractService<Turma, Integer, TurmaRepository> {
 
 	@Autowired
 	private OfertaCursoService ofertaCursoService;
 
 	@Override
-	public Turma mergeDtoIntoEntity(TurmaDto dto, Turma entity) {
-		entity.setId(dto.getId());
-		entity.setCodigo(dto.getCodigo());
-		entity.setOfertaCurso(ofertaCursoService.find(dto.getOfertaCurso()));
-
-		return entity;
-	}
-
-	@Override
-	public void validadeForInsertUpdate(TurmaDto dto) {
+	public void validadeForInsertUpdate(Turma entity) {
 		String error = "";
 
-		if (dto.getCodigo() == null) {
+		if (entity.getCodigo() == null) {
 			error += "Código pendente; ";
 		}
 
 		OfertaCurso myOfertaCurso = null;
-		if (dto.getOfertaCurso() == null) {
+		if (entity.getOfertaCurso() == null) {
 			error += "Oferta de curso pendente; ";
 		} else {
 			try {
-				myOfertaCurso = ofertaCursoService.find(dto.getOfertaCurso());
+				myOfertaCurso = ofertaCursoService.find(entity.getOfertaCurso().getId());
 			} catch (ObjectNotFoundException e) {
-				error += "Oferta de curso com ID " + dto.getOfertaCurso() + " não existente; ";
+				error += "Oferta de curso com ID " + entity.getOfertaCurso().getId() + " não existente; ";
 			}
 		}
 
 		if (!error.isEmpty()) {
-			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
+			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
 		}
 
-		String myCodigo = dto.getCodigo();
+		String myCodigo = entity.getCodigo();
 
-		Optional<Turma> similar = repository.findSimilarByCodigoOrOfertaCurso(dto.getId(), myCodigo, myOfertaCurso);
+		Optional<Turma> similar = repository.findSimilarByCodigoOrOfertaCurso(entity.getId(), myCodigo, myOfertaCurso);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma turma com esse código ou para essa oferta de curso!");
 		});
 	}
 
 	@Override
-	protected List<Turma> findAll() {
+	public List<Turma> findAll() {
 		return repository.findByOrderByOfertaCursoAsc();
 	}
 

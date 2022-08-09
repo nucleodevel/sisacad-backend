@@ -1,8 +1,10 @@
 package org.nucleodevel.sisacad.resources;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 import java.util.List;
 
+import org.nucleodevel.sisacad.domain.Docente;
 import org.nucleodevel.sisacad.dto.DocenteDto;
 import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
 import org.nucleodevel.sisacad.services.DocenteService;
@@ -17,7 +19,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/docente")
-public class DocenteResource extends AbstractResource<DocenteDto, Integer, DocenteService> {
+public class DocenteResource extends AbstractResource<Docente, DocenteDto, Integer, DocenteService> {
+
+	@Override
+	public Docente mergeDtoIntoEntity(DocenteDto dto, Docente entity) {
+		entity.setId(dto.getId());
+		entity.setCpf(dto.getCpf());
+		entity.setNome(dto.getNome());
+		entity.setDataNascimento(dto.getDataNascimento() == null ? null : new Date(dto.getDataNascimento()));
+		entity.setEndereco(dto.getEndereco());
+		entity.setTelefones(dto.getTelefones());
+
+		return entity;
+	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina", method = RequestMethod.GET)
 	public ResponseEntity<List<OfertaDisciplinaDto>> findAllOfertaDisciplina(@PathVariable Integer id)

@@ -4,50 +4,40 @@ import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.Disciplina;
-import org.nucleodevel.sisacad.dto.DisciplinaDto;
 import org.nucleodevel.sisacad.repositories.DisciplinaRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DisciplinaService extends AbstractService<Disciplina, Integer, DisciplinaDto, DisciplinaRepository> {
+public class DisciplinaService extends AbstractService<Disciplina, Integer, DisciplinaRepository> {
 
 	@Override
-	public Disciplina mergeDtoIntoEntity(DisciplinaDto dto, Disciplina entity) {
-		entity.setId(dto.getId());
-		entity.setCodigo(dto.getCodigo());
-		entity.setNome(dto.getNome());
-
-		return entity;
-	}
-
-	@Override
-	public void validadeForInsertUpdate(DisciplinaDto dto) {
+	public void validadeForInsertUpdate(Disciplina entity) {
 		String error = "";
 
-		if (dto.getCodigo() == null) {
+		if (entity.getCodigo() == null) {
 			error += "Código pendente; ";
 		}
 
-		if (dto.getNome() == null) {
+		if (entity.getNome() == null) {
 			error += "Nome pendente; ";
 		}
 
 		if (!error.isEmpty()) {
-			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
+			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
 		}
 
-		String myCodigo = dto.getCodigo();
+		String myCodigo = entity.getCodigo();
 
-		Optional<Disciplina> similar = repository.findSimilarByCodigo(dto.getId(), myCodigo);
+		Optional<Disciplina> similar = repository.findSimilarByCodigo(entity.getId(), myCodigo);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma disciplina com este código!");
 		});
 	}
 
 	@Override
-	protected List<Disciplina> findAll() {
+	public List<Disciplina> findAll() {
 		return repository.findByOrderByNomeAsc();
 	}
 

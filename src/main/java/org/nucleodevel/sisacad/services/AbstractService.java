@@ -6,10 +6,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.nucleodevel.sisacad.domain.AbstractEntity;
-import org.nucleodevel.sisacad.dto.AbstractDto;
 import org.nucleodevel.sisacad.repositories.AbstractRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
 import org.nucleodevel.sisacad.services.exceptions.NotGivenIdException;
@@ -19,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 
-public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO extends AbstractDto<E, ID>, R extends AbstractRepository<E, ID>> {
+public abstract class AbstractService<E extends AbstractEntity<ID>, ID, R extends AbstractRepository<E, ID>> {
 
 	/*
 	 * 
@@ -35,16 +33,6 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 
 	@Autowired
 	protected R repository;
-
-	/*
-	 * 
-	 * Abstract methods
-	 * 
-	 */
-
-	public abstract E mergeDtoIntoEntity(DTO dto, E entity);
-
-	public abstract void validadeForInsertUpdate(DTO dto);
 
 	/*
 	 * 
@@ -68,10 +56,7 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 		return DEFAULT_SUB_LIST_DELETE_METHOD_PREFIX;
 	}
 
-	public void validadeForInsertUpdate(E entity) {
-		DTO dto = getDtoFromEntity(entity);
-		validadeForInsertUpdate(dto);
-	}
+	public abstract void validadeForInsertUpdate(E entity);
 
 	/*
 	 * 
@@ -94,69 +79,25 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
-	public Class<DTO> getDtoClass() {
-		Class<DTO> entityClass = (Class<DTO>) ReflectUtil.getParameterClassFromParameterizedClass(getClass(), 2);
-		return entityClass;
-	}
-
-	public Constructor<DTO> getDtoContructor() {
-		try {
-			return getDtoClass().getDeclaredConstructor();
-		} catch (NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	/*
-	 * 
-	 * Copy methods
-	 * 
-	 */
-
-	public E getEntityFromDto(DTO dto) {
-		try {
-			E entity = dto.getId() == null ? getEntityContructor().newInstance() : find(dto.getId());
-			return mergeDtoIntoEntity(dto, entity);
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public DTO getDtoFromEntity(E entity) {
-		try {
-			DTO dto = getDtoContructor().newInstance();
-			dto.copyFromEntity(entity);
-			return dto;
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 	/*
 	 * 
 	 * Entity operations
 	 * 
 	 */
 
-	protected E insert(E entity) {
+	public E insert(E entity) {
 		validadeForInsertUpdate(entity);
 		entity.setId(null);
 		return repository.save(entity);
 	}
 
-	protected E update(E entity) {
+	public E update(E entity) {
 		validadeForInsertUpdate(entity);
 		find(entity.getId());
 		return repository.save(entity);
 	}
 
-	protected void delete(ID id) {
+	public void delete(ID id) {
 		find(id);
 		try {
 			repository.deleteById(id);
@@ -165,11 +106,11 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 		}
 	}
 
-	protected List<E> findAll() {
+	public List<E> findAll() {
 		return repository.findAll();
 	}
 
-	protected E find(ID id) {
+	public E find(ID id) {
 		if (id == null) {
 			throw new NotGivenIdException(getEntityClass());
 		}
@@ -190,89 +131,16 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 		return subEntityList;
 	}
 
-	public <IS extends AbstractService<IE, IID, ?, ?>, IE extends AbstractEntity<IID>, IID> ResponseEntity<Void> insertSubEntityList(
+	public <IS extends AbstractService<IE, IID, ?>, IE extends AbstractEntity<IID>, IID> ResponseEntity<Void> insertSubEntityList(
 			ID id, IID subEntityId, IS subService) throws NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
 		return insertSubObjectList(id, subEntityId, subService);
 	}
 
-	public <IS extends AbstractService<IE, IID, ?, ?>, IE extends AbstractEntity<IID>, IID> ResponseEntity<Void> deleteSubEntityList(
+	public <IS extends AbstractService<IE, IID, ?>, IE extends AbstractEntity<IID>, IID> ResponseEntity<Void> deleteSubEntityList(
 			ID id, IID subEntityId, IS subService) throws NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-
-		return deleteSubObjectList(id, subEntityId, subService);
-	}
-
-	/*
-	 * 
-	 * DTO operations
-	 * 
-	 */
-
-	public DTO insertDto(DTO dto) {
-		E entity = getEntityFromDto(dto);
-		entity = insert(entity);
-
-		return getDtoFromEntity(entity);
-	}
-
-	public DTO updateDto(DTO dto) {
-		E entity = getEntityFromDto(dto);
-		entity = update(entity);
-
-		return getDtoFromEntity(entity);
-	}
-
-	public void deleteDto(ID id) {
-		delete(id);
-	}
-
-	public List<DTO> findAllDto() {
-		List<E> listAll = findAll();
-
-		List<DTO> listAllDto = listAll.stream().map(entity -> getDtoFromEntity(entity)).collect(Collectors.toList());
-		return listAllDto;
-	}
-
-	public DTO findDto(ID id) {
-		E entity = find(id);
-		return getDtoFromEntity(entity);
-	}
-
-	public <IS extends AbstractService<?, ?, IDTO, ?>, IDTO extends AbstractDto<?, ?>> List<IDTO> findAllSubDtoList(
-			Class<IS> subServiceClass, Class<IDTO> subDtoClass, ID id)
-			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-			NoSuchMethodException, SecurityException {
-
-		Constructor<IS> subServiceConstructor = subServiceClass.getDeclaredConstructor();
-		IS subService = subServiceConstructor.newInstance();
-		Class<?> subEntityClass = subService.getEntityClass();
-
-		List<Object> subEntityList = findAllSubObjectList(subEntityClass, id);
-
-		List<IDTO> subDtoList = new ArrayList<>();
-		Constructor<IDTO> idtoConstructor = subDtoClass.getDeclaredConstructor();
-
-		for (Object subEntity : subEntityList) {
-			IDTO subDto = idtoConstructor.newInstance();
-			subDto.copyFromObject(subEntityClass.cast(subEntity));
-			subDtoList.add(subDto);
-		}
-
-		return subDtoList;
-	}
-
-	public <IS extends AbstractService<?, IID, ?, ?>, IID> ResponseEntity<Void> insertSubDtoList(ID id, IID subEntityId,
-			IS subService) throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-
-		return insertSubObjectList(id, subEntityId, subService);
-	}
-
-	public <IS extends AbstractService<?, IID, ?, ?>, IID> ResponseEntity<Void> deleteSubDtoList(ID id, IID subEntityId,
-			IS subService) throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
 		return deleteSubObjectList(id, subEntityId, subService);
 	}
@@ -297,8 +165,8 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 	}
 
 	@SuppressWarnings("unchecked")
-	public <IS extends AbstractService<?, IID, ?, ?>, IID> ResponseEntity<Void> insertSubObjectList(ID id,
-			IID subEntityId, IS subService) throws NoSuchMethodException, SecurityException, InstantiationException,
+	public <IS extends AbstractService<?, IID, ?>, IID> ResponseEntity<Void> insertSubObjectList(ID id, IID subEntityId,
+			IS subService) throws NoSuchMethodException, SecurityException, InstantiationException,
 			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
 		Class<?> subEntityClass = subService.getEntityClass();
@@ -332,8 +200,8 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, DTO exte
 	}
 
 	@SuppressWarnings("unchecked")
-	public <IS extends AbstractService<?, IID, ?, ?>, IID> ResponseEntity<Void> deleteSubObjectList(ID id,
-			IID subEntityId, IS subService) throws NoSuchMethodException, SecurityException, InstantiationException,
+	public <IS extends AbstractService<?, IID, ?>, IID> ResponseEntity<Void> deleteSubObjectList(ID id, IID subEntityId,
+			IS subService) throws NoSuchMethodException, SecurityException, InstantiationException,
 			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
 		Class<?> subEntityClass = subService.getEntityClass();

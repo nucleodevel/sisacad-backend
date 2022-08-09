@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.EstruturaCurricular;
-import org.nucleodevel.sisacad.dto.EstruturaCurricularDto;
 import org.nucleodevel.sisacad.repositories.EstruturaCurricularRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
@@ -14,66 +13,55 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EstruturaCurricularService
-		extends AbstractService<EstruturaCurricular, Integer, EstruturaCurricularDto, EstruturaCurricularRepository> {
+		extends AbstractService<EstruturaCurricular, Integer, EstruturaCurricularRepository> {
 
 	@Autowired
 	private CursoService cursoService;
 
 	@Override
-	public EstruturaCurricular mergeDtoIntoEntity(EstruturaCurricularDto dto, EstruturaCurricular entity) {
-		entity.setId(dto.getId());
-		entity.setCodigo(dto.getCodigo());
-		entity.setAnoInicio(dto.getAnoInicio());
-		entity.setAnoTermino(dto.getAnoTermino());
-		entity.setCurso(cursoService.find(dto.getCurso()));
-
-		return entity;
-	}
-
-	@Override
-	public void validadeForInsertUpdate(EstruturaCurricularDto dto) {
+	public void validadeForInsertUpdate(EstruturaCurricular entity) {
 		String error = "";
 
-		if (dto.getCodigo() == null) {
+		if (entity.getCodigo() == null) {
 			error += "Código pendente; ";
 		}
 
-		if (dto.getAnoInicio() == null) {
+		if (entity.getAnoInicio() == null) {
 			error += "Ano de início pendente; ";
 		}
 
-		if (dto.getAnoTermino() == null) {
+		if (entity.getAnoTermino() == null) {
 			error += "Ano de término pendente; ";
 		}
 
-		if (dto.getAnoInicio() > dto.getAnoTermino()) {
+		if (entity.getAnoInicio() > entity.getAnoTermino()) {
 			error += "Ano de início posterior ao de término; ";
 		}
 
-		if (dto.getCurso() == null) {
+		if (entity.getCurso() == null) {
 			error += "Curso pendente; ";
 		} else {
 			try {
-				cursoService.find(dto.getCurso());
+				cursoService.find(entity.getCurso().getId());
 			} catch (ObjectNotFoundException e) {
-				error += "Curso com ID " + dto.getCurso() + " não existente; ";
+				error += "Curso com ID " + entity.getCurso().getId() + " não existente; ";
 			}
 		}
 
 		if (!error.isEmpty()) {
-			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
+			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
 		}
 
-		String myCodigo = dto.getCodigo();
+		String myCodigo = entity.getCodigo();
 
-		Optional<EstruturaCurricular> similar = repository.findSimilarByCodigo(dto.getId(), myCodigo);
+		Optional<EstruturaCurricular> similar = repository.findSimilarByCodigo(entity.getId(), myCodigo);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma estrutura curricular com esse código!");
 		});
 	}
 
 	@Override
-	protected List<EstruturaCurricular> findAll() {
+	public List<EstruturaCurricular> findAll() {
 		return repository.findByOrderByAnoInicioDescAnoTerminoDesc();
 	}
 

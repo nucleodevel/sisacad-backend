@@ -3,6 +3,8 @@ package org.nucleodevel.sisacad.resources;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import org.nucleodevel.sisacad.domain.Discente;
+import org.nucleodevel.sisacad.domain.Vestibulando;
 import org.nucleodevel.sisacad.dto.DiscenteDto;
 import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
 import org.nucleodevel.sisacad.dto.ParticipacaoAulaDto;
@@ -11,6 +13,8 @@ import org.nucleodevel.sisacad.services.DiscenteService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
 import org.nucleodevel.sisacad.services.ParticipacaoAulaService;
 import org.nucleodevel.sisacad.services.ParticipacaoAvaliacaoService;
+import org.nucleodevel.sisacad.services.VestibulandoService;
+import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,10 +26,35 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "/discente")
-public class DiscenteResource extends AbstractResource<DiscenteDto, Integer, DiscenteService> {
+public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, Integer, DiscenteService> {
 
 	@Autowired
 	private OfertaDisciplinaService ofertaDisciplinaService;
+	@Autowired
+	private VestibulandoService vestibulandoService;
+
+	@Override
+	public Discente mergeDtoIntoEntity(DiscenteDto dto, Discente entity) {
+		String error = "";
+
+		entity.setId(dto.getId());
+
+		if (dto.getVestibulando() != null) {
+			Vestibulando vestibulando = vestibulandoService.find(dto.getVestibulando());
+			if (vestibulando == null) {
+				error += "Vestibulando com ID " + entity.getVestibulando().getId() + " não existente; ";
+			}
+			entity.setVestibulando(vestibulando);
+		} else {
+			entity.setVestibulando(null);
+		}
+
+		if (!error.isEmpty()) {
+			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
+		}
+
+		return entity;
+	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina", method = RequestMethod.GET)
 	public ResponseEntity<List<OfertaDisciplinaDto>> findAllOfertaDisciplina(@PathVariable Integer id)

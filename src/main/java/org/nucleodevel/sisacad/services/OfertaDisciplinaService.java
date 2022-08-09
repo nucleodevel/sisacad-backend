@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.OfertaDisciplina;
-import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
 import org.nucleodevel.sisacad.repositories.OfertaDisciplinaRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
@@ -13,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OfertaDisciplinaService
-		extends AbstractService<OfertaDisciplina, Integer, OfertaDisciplinaDto, OfertaDisciplinaRepository> {
+public class OfertaDisciplinaService extends AbstractService<OfertaDisciplina, Integer, OfertaDisciplinaRepository> {
 
 	@Autowired
 	private DisciplinaService disciplinaService;
@@ -22,57 +20,47 @@ public class OfertaDisciplinaService
 	private DocenteService docenteService;
 
 	@Override
-	public OfertaDisciplina mergeDtoIntoEntity(OfertaDisciplinaDto dto, OfertaDisciplina entity) {
-		entity.setId(dto.getId());
-		entity.setCodigo(dto.getCodigo());
-		entity.setDisciplina(disciplinaService.find(dto.getDisciplina()));
-		entity.setDocente(docenteService.find(dto.getDocente()));
-
-		return entity;
-	}
-
-	@Override
-	public void validadeForInsertUpdate(OfertaDisciplinaDto dto) {
+	public void validadeForInsertUpdate(OfertaDisciplina entity) {
 		String error = "";
 
-		if (dto.getCodigo() == null) {
+		if (entity.getCodigo() == null) {
 			error += "Código pendente; ";
 		}
 
-		if (dto.getDisciplina() == null) {
+		if (entity.getDisciplina() == null) {
 			error += "Disciplina pendente; ";
 		} else {
 			try {
-				disciplinaService.find(dto.getDisciplina());
+				disciplinaService.find(entity.getDisciplina().getId());
 			} catch (ObjectNotFoundException e) {
-				error += "Disciplina com ID " + dto.getDisciplina() + " não existente; ";
+				error += "Disciplina com ID " + entity.getDisciplina().getId() + " não existente; ";
 			}
 		}
 
-		if (dto.getDocente() == null) {
+		if (entity.getDocente() == null) {
 			error += "Docente pendente; ";
 		} else {
 			try {
-				docenteService.find(dto.getDocente());
+				docenteService.find(entity.getDocente().getId());
 			} catch (ObjectNotFoundException e) {
-				error += "Docente com ID " + dto.getDocente() + " não existente; ";
+				error += "Docente com ID " + entity.getDocente().getId() + " não existente; ";
 			}
 		}
 
 		if (!error.isEmpty()) {
-			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
+			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
 		}
 
-		String myCodigo = dto.getCodigo();
+		String myCodigo = entity.getCodigo();
 
-		Optional<OfertaDisciplina> similar = repository.findSimilarByCodigo(dto.getId(), myCodigo);
+		Optional<OfertaDisciplina> similar = repository.findSimilarByCodigo(entity.getId(), myCodigo);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma oferta de disciplina com esse código!");
 		});
 	}
 
 	@Override
-	protected List<OfertaDisciplina> findAll() {
+	public List<OfertaDisciplina> findAll() {
 		return repository.findByOrderByDisciplinaAscDocenteAsc();
 	}
 

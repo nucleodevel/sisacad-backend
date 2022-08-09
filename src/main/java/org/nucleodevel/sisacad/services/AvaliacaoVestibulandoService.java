@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.AvaliacaoVestibulando;
 import org.nucleodevel.sisacad.domain.Vestibulando;
-import org.nucleodevel.sisacad.dto.AvaliacaoVestibulandoDto;
 import org.nucleodevel.sisacad.repositories.AvaliacaoVestibulandoRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
@@ -14,75 +13,62 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AvaliacaoVestibulandoService extends
-		AbstractService<AvaliacaoVestibulando, Integer, AvaliacaoVestibulandoDto, AvaliacaoVestibulandoRepository> {
+public class AvaliacaoVestibulandoService
+		extends AbstractService<AvaliacaoVestibulando, Integer, AvaliacaoVestibulandoRepository> {
 
 	@Autowired
 	private VestibulandoService vestibulandoService;
 
 	@Override
-	public AvaliacaoVestibulando mergeDtoIntoEntity(AvaliacaoVestibulandoDto dto, AvaliacaoVestibulando entity) {
-		entity.setId(dto.getId());
-		entity.setConceitoBiologicas(dto.getConceitoBiologicas());
-		entity.setConceitoExatas(dto.getConceitoExatas());
-		entity.setConceitoHumanas(dto.getConceitoHumanas());
-		entity.setConceitoFinal(dto.getConceitoFinal());
-		entity.setVestibulando(vestibulandoService.find(dto.getVestibulando()));
-
-		return entity;
-	}
-
-	@Override
-	public void validadeForInsertUpdate(AvaliacaoVestibulandoDto dto) {
+	public void validadeForInsertUpdate(AvaliacaoVestibulando entity) {
 		String error = "";
 
-		if (dto.getConceitoBiologicas() == null) {
+		if (entity.getConceitoBiologicas() == null) {
 			error += "Conceito Biológicas pendente; ";
 		}
 
-		if (dto.getConceitoExatas() == null) {
+		if (entity.getConceitoExatas() == null) {
 			error += "Conceito Exatas pendente; ";
 		}
 
-		if (dto.getConceitoHumanas() == null) {
+		if (entity.getConceitoHumanas() == null) {
 			error += "Conceito Humanas pendente; ";
 		}
 
-		if (dto.getConceitoFinal() == null) {
+		if (entity.getConceitoFinal() == null) {
 			error += "Conceito Final pendente; ";
 		}
 
-		if (dto.getVestibulando() == null) {
+		Vestibulando myVestibulando = null;
+		if (entity.getVestibulando() == null) {
 			error += "Vestibulando pendente; ";
 		} else {
 			try {
-				vestibulandoService.find(dto.getVestibulando());
+				myVestibulando = vestibulandoService.find(entity.getVestibulando().getId());
 			} catch (ObjectNotFoundException e) {
-				error += "Vestibulando com ID " + dto.getVestibulando() + " não existente; ";
+				error += "Vestibulando com ID " + entity.getVestibulando().getId() + " não existente; ";
 			}
 		}
 
 		if (!error.isEmpty()) {
-			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
+			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
 		}
 
-		Vestibulando myVestibulando = vestibulandoService.find(dto.getVestibulando());
-
-		Optional<AvaliacaoVestibulando> similar = repository.findSimilarByVestibulando(dto.getId(), myVestibulando);
+		Optional<AvaliacaoVestibulando> similar = repository.findSimilarByVestibulando(entity.getId(), myVestibulando);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma avaliação para este vestibulando!");
 		});
 	}
 
 	@Override
-	protected List<AvaliacaoVestibulando> findAll() {
+	public List<AvaliacaoVestibulando> findAll() {
 		return repository.findByOrderByVestibulandoAsc();
 	}
 
-	public AvaliacaoVestibulandoDto findDtoByVestibulandoId(Integer vestibulandoId) {
-		Vestibulando vestibulando = vestibulandoService.find(vestibulandoId);
+	public AvaliacaoVestibulando findByVestibulando(Vestibulando vestibulando) {
 		Optional<AvaliacaoVestibulando> entity = repository.findByVestibulando(vestibulando);
-		return entity.isPresent() ? getDtoFromEntity(entity.get()) : null;
+		return entity.orElseThrow(() -> new ObjectNotFoundException(
+				"Avaliação não encontrada para o Vestibulando ID " + vestibulando.getId()));
 	}
 
 }

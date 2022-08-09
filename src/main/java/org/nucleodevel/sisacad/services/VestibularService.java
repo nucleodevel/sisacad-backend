@@ -4,45 +4,36 @@ import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.Vestibular;
-import org.nucleodevel.sisacad.dto.VestibularDto;
 import org.nucleodevel.sisacad.repositories.VestibularRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VestibularService extends AbstractService<Vestibular, Integer, VestibularDto, VestibularRepository> {
+public class VestibularService extends AbstractService<Vestibular, Integer, VestibularRepository> {
 
 	@Override
-	public Vestibular mergeDtoIntoEntity(VestibularDto dto, Vestibular entity) {
-		entity.setId(dto.getId());
-		entity.setAno(dto.getAno());
-
-		return entity;
-	}
-
-	@Override
-	public void validadeForInsertUpdate(VestibularDto dto) {
+	public void validadeForInsertUpdate(Vestibular entity) {
 		String error = "";
 
-		if (dto.getAno() == null) {
+		if (entity.getAno() == null) {
 			error += "Ano pendente; ";
 		}
 
 		if (!error.isEmpty()) {
-			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
+			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
 		}
 
-		Integer myAno = dto.getAno();
+		Integer myAno = entity.getAno();
 
-		Optional<Vestibular> similar = repository.findSimilarByAno(dto.getId(), myAno);
+		Optional<Vestibular> similar = repository.findSimilarByAno(entity.getId(), myAno);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe um vestibular para este ano!");
 		});
 	}
 
 	@Override
-	protected List<Vestibular> findAll() {
+	public List<Vestibular> findAll() {
 		return repository.findByOrderByAnoDesc();
 	}
 

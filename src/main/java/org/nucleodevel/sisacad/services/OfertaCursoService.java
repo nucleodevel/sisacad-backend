@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.nucleodevel.sisacad.domain.EstruturaCurricular;
 import org.nucleodevel.sisacad.domain.OfertaCurso;
 import org.nucleodevel.sisacad.domain.Vestibular;
-import org.nucleodevel.sisacad.dto.OfertaCursoDto;
 import org.nucleodevel.sisacad.repositories.OfertaCursoRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
@@ -15,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OfertaCursoService extends AbstractService<OfertaCurso, Integer, OfertaCursoDto, OfertaCursoRepository> {
+public class OfertaCursoService extends AbstractService<OfertaCurso, Integer, OfertaCursoRepository> {
 
 	@Autowired
 	private EstruturaCurricularService estruturaCurricularService;
@@ -23,57 +22,46 @@ public class OfertaCursoService extends AbstractService<OfertaCurso, Integer, Of
 	private VestibularService vestibularService;
 
 	@Override
-	public OfertaCurso mergeDtoIntoEntity(OfertaCursoDto dto, OfertaCurso entity) {
-		entity.setId(dto.getId());
-		entity.setCodigo(dto.getCodigo());
-		entity.setAno(dto.getAno());
-		entity.setEstruturaCurricular(estruturaCurricularService.find(dto.getEstruturaCurricular()));
-		entity.setVestibular(vestibularService.find(dto.getVestibular()));
-
-		return entity;
-	}
-
-	@Override
-	public void validadeForInsertUpdate(OfertaCursoDto dto) {
+	public void validadeForInsertUpdate(OfertaCurso entity) {
 		String error = "";
 
-		if (dto.getCodigo() == null) {
+		if (entity.getCodigo() == null) {
 			error += "Código pendente; ";
 		}
 
-		if (dto.getAno() == null) {
+		if (entity.getAno() == null) {
 			error += "Ano pendente; ";
 		}
 
 		EstruturaCurricular myEstruturaCurricular = null;
-		if (dto.getEstruturaCurricular() == null) {
+		if (entity.getEstruturaCurricular() == null) {
 			error += "Estrutura curricular pendente; ";
 		} else {
 			try {
-				myEstruturaCurricular = estruturaCurricularService.find(dto.getEstruturaCurricular());
+				myEstruturaCurricular = estruturaCurricularService.find(entity.getEstruturaCurricular().getId());
 			} catch (ObjectNotFoundException e) {
-				error += "Estrutura curricular com ID " + dto.getEstruturaCurricular() + " não existente; ";
+				error += "Estrutura curricular com ID " + entity.getEstruturaCurricular().getId() + " não existente; ";
 			}
 		}
 
 		Vestibular myVestibular = null;
-		if (dto.getVestibular() == null) {
+		if (entity.getVestibular() == null) {
 			error += "Vestibular pendente; ";
 		} else {
 			try {
-				myVestibular = vestibularService.find(dto.getVestibular());
+				myVestibular = vestibularService.find(entity.getVestibular().getId());
 			} catch (ObjectNotFoundException e) {
-				error += "Vestibular com ID " + dto.getVestibular() + " não existente; ";
+				error += "Vestibular com ID " + entity.getVestibular().getId() + " não existente; ";
 			}
 		}
 
 		if (!error.isEmpty()) {
-			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
+			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
 		}
 
-		String myCodigo = dto.getCodigo();
+		String myCodigo = entity.getCodigo();
 
-		Optional<OfertaCurso> similar = repository.findSimilarByCodigoOrEstruturaCurricularAndVestibular(dto.getId(),
+		Optional<OfertaCurso> similar = repository.findSimilarByCodigoOrEstruturaCurricularAndVestibular(entity.getId(),
 				myCodigo, myEstruturaCurricular, myVestibular);
 		similar.ifPresent(obj -> {
 			throw new DataIntegrityException(
@@ -82,7 +70,7 @@ public class OfertaCursoService extends AbstractService<OfertaCurso, Integer, Of
 	}
 
 	@Override
-	protected List<OfertaCurso> findAll() {
+	public List<OfertaCurso> findAll() {
 		return repository.findByOrderByAnoDescCursoAsc();
 	}
 
