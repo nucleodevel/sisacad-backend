@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/turma")
 public class TurmaResource extends AbstractResource<Turma, TurmaDto, Integer, TurmaService> {
 

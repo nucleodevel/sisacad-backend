@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/avaliacao")
 public class AvaliacaoResource extends AbstractResource<Avaliacao, AvaliacaoDto, Integer, AvaliacaoService> {
 

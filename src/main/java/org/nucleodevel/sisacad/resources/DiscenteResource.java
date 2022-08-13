@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/discente")
 public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, Integer, DiscenteService> {
 

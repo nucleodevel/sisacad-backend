@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/oferta-curso")
 public class OfertaCursoResource extends AbstractResource<OfertaCurso, OfertaCursoDto, Integer, OfertaCursoService> {
 
