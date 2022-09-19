@@ -54,7 +54,7 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 	}
 
 	public abstract List<Role> getListAllowedRoleToRead();
-	
+
 	public abstract List<Role> getListAllowedRoleToWrite();
 
 	public List<Role> getListCurrentRole() {
@@ -113,8 +113,7 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 
 		boolean isAllowed = false;
 		for (Role currentRole : getListCurrentRole()) {
-			System.out.println(">>>>>" + currentRole.getTag());
-			
+
 			for (Role allowedRole : getListAllowedRoleToRead())
 				if (currentRole == allowedRole || currentRole.getPriority() > allowedRole.getPriority())
 					isAllowed = true;
@@ -124,7 +123,6 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 					isAllowed = true;
 		}
 
-		System.out.println(">>>>>" + isAllowed);
 		if (!isAllowed)
 			throw new ForbiddenException();
 
@@ -134,13 +132,11 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 
 		boolean isAllowed = false;
 		for (Role currentRole : getListCurrentRole()) {
-			System.out.println(">>>>>" + currentRole.getTag());
 			for (Role allowedRole : getListAllowedRoleToWrite())
 				if (currentRole == allowedRole || currentRole.getPriority() > allowedRole.getPriority())
 					isAllowed = true;
 		}
 
-		System.out.println(">>>>>" + isAllowed);
 		if (!isAllowed)
 			throw new ForbiddenException();
 
