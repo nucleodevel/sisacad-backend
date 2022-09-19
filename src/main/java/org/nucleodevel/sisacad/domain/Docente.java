@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -35,6 +37,10 @@ public class Docente extends AbstractEntity<Integer> {
 	@Column(name = "telefones")
 	private String telefones;
 
+	@ManyToOne
+	@JoinColumn(name = "id_usuario")
+	private Usuario usuario;
+
 	@OneToMany(mappedBy = "docente")
 	private List<OfertaDisciplina> listOfertaDisciplina = new ArrayList<>();
 
@@ -42,13 +48,14 @@ public class Docente extends AbstractEntity<Integer> {
 		super();
 	}
 
-	public Docente(String cpf, String nome, Date dataNascimento, String endereco, String telefones) {
+	public Docente(String cpf, String nome, Date dataNascimento, String endereco, String telefones, Usuario usuario) {
 		super();
 		this.cpf = cpf;
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 		this.endereco = endereco;
 		this.telefones = telefones;
+		this.usuario = usuario;
 	}
 
 	@Override
@@ -99,6 +106,14 @@ public class Docente extends AbstractEntity<Integer> {
 
 	public void setTelefones(String telefones) {
 		this.telefones = telefones;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public List<OfertaDisciplina> getListOfertaDisciplina() {

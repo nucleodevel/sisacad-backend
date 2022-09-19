@@ -36,6 +36,10 @@ public class Vestibulando extends AbstractEntity<Integer> {
 	private String telefones;
 
 	@ManyToOne
+	@JoinColumn(name = "id_usuario")
+	private Usuario usuario;
+
+	@ManyToOne
 	@JoinColumn(name = "id_oferta_curso")
 	private OfertaCurso ofertaCurso;
 
@@ -50,13 +54,14 @@ public class Vestibulando extends AbstractEntity<Integer> {
 	}
 
 	public Vestibulando(String cpf, String nome, Date dataNascimento, String endereco, String telefones,
-			OfertaCurso ofertaCurso) {
+			Usuario usuario, OfertaCurso ofertaCurso) {
 		super();
 		this.cpf = cpf;
 		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 		this.endereco = endereco;
 		this.telefones = telefones;
+		this.usuario = usuario;
 		this.ofertaCurso = ofertaCurso;
 	}
 
@@ -108,6 +113,14 @@ public class Vestibulando extends AbstractEntity<Integer> {
 
 	public void setTelefones(String telefones) {
 		this.telefones = telefones;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public OfertaCurso getOfertaCurso() {
