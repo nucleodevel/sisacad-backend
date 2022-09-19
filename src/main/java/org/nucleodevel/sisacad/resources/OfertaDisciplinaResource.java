@@ -44,8 +44,13 @@ public class OfertaDisciplinaResource
 	private TurmaService turmaService;
 
 	@Override
-	public List<Role> getSpecificListAllowedRole() {
-		return List.of(Role.USER);
+	public List<Role> getListAllowedRoleToRead() {
+		return List.of(Role.PEDAGOGICO);
+	}
+
+	@Override
+	public List<Role> getListAllowedRoleToWrite() {
+		return List.of(Role.GRADUACAO, Role.PEDAGOGICO);
 	}
 
 	@Override
@@ -87,7 +92,7 @@ public class OfertaDisciplinaResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 		return findAllSubList(AulaService.class, AulaDto.class, id);
 	}
 
@@ -96,7 +101,7 @@ public class OfertaDisciplinaResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 		return findAllSubList(AvaliacaoService.class, AvaliacaoDto.class, id);
 	}
 
@@ -105,7 +110,7 @@ public class OfertaDisciplinaResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 		return findAllSubList(DiscenteService.class, DiscenteDto.class, id);
 	}
 
@@ -114,7 +119,7 @@ public class OfertaDisciplinaResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToWrite();
 		return insertSubList(id, itemId, discenteService);
 	}
 
@@ -123,7 +128,7 @@ public class OfertaDisciplinaResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToWrite();
 		return deleteSubList(id, itemId, discenteService);
 	}
 
@@ -132,7 +137,7 @@ public class OfertaDisciplinaResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 		return findAllSubList(TurmaService.class, TurmaDto.class, id);
 	}
 
@@ -141,7 +146,7 @@ public class OfertaDisciplinaResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToWrite();
 		return insertSubList(id, itemId, turmaService);
 	}
 
@@ -150,7 +155,7 @@ public class OfertaDisciplinaResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToWrite();
 		return deleteSubList(id, itemId, turmaService);
 	}
 

@@ -28,8 +28,13 @@ public class AvaliacaoVestibulandoResource extends
 	private VestibulandoService vestibulandoService;
 
 	@Override
-	public List<Role> getSpecificListAllowedRole() {
-		return List.of(Role.USER);
+	public List<Role> getListAllowedRoleToRead() {
+		return List.of(Role.DISCENTE, Role.VESTIBULANDO);
+	}
+
+	@Override
+	public List<Role> getListAllowedRoleToWrite() {
+		return List.of(Role.GRADUACAO, Role.PEDAGOGICO);
 	}
 
 	@Override
@@ -68,7 +73,7 @@ public class AvaliacaoVestibulandoResource extends
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 
 		Vestibulando vestibulando = vestibulandoService.find(vestibulandoId);
 		AvaliacaoVestibulandoDto dto = getDtoFromEntity(service.findByVestibulando(vestibulando));

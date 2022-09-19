@@ -33,8 +33,13 @@ public class OfertaCursoResource extends AbstractResource<OfertaCurso, OfertaCur
 	private VestibularService vestibularService;
 
 	@Override
-	public List<Role> getSpecificListAllowedRole() {
-		return List.of(Role.USER);
+	public List<Role> getListAllowedRoleToRead() {
+		return List.of(Role.PEDAGOGICO);
+	}
+
+	@Override
+	public List<Role> getListAllowedRoleToWrite() {
+		return List.of(Role.PEDAGOGICO);
 	}
 
 	@Override
@@ -77,7 +82,7 @@ public class OfertaCursoResource extends AbstractResource<OfertaCurso, OfertaCur
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 		return findAllSubList(VestibulandoService.class, VestibulandoDto.class, id);
 	}
 

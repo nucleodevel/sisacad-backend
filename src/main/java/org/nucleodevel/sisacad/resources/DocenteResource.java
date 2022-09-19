@@ -23,8 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class DocenteResource extends AbstractResource<Docente, DocenteDto, Integer, DocenteService> {
 
 	@Override
-	public List<Role> getSpecificListAllowedRole() {
-		return List.of(Role.USER);
+	public List<Role> getListAllowedRoleToRead() {
+		return List.of(Role.RH);
+	}
+
+	@Override
+	public List<Role> getListAllowedRoleToWrite() {
+		return List.of(Role.RH);
 	}
 
 	@Override
@@ -44,7 +49,7 @@ public class DocenteResource extends AbstractResource<Docente, DocenteDto, Integ
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 		return findAllSubList(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id);
 	}
 

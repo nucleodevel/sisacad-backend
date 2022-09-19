@@ -89,19 +89,19 @@ public class PopulaDados {
 
 		if (preencherBase) {
 
-			Usuario usr01 = new Usuario("user01", "password01");
-			Usuario usr02 = new Usuario("user02", "password02");
-			Usuario usr03 = new Usuario("user03", "password03");
-			Usuario usr04 = new Usuario("user04", "password04");
-			Usuario usr05 = new Usuario("user05", "password05");
-			Usuario usr06 = new Usuario("user06", "password06");
-			Usuario usr07 = new Usuario("user07", "password07");
-			Usuario usr08 = new Usuario("user08", "password08");
-			Usuario usr09 = new Usuario("user09", "password09");
-			Usuario usr10 = new Usuario("user10", "password10");
-			Usuario usr11 = new Usuario("user11", "password11");
-			Usuario usr12 = new Usuario("user12", "password12");
-			Usuario usr13 = new Usuario("user13", "password13");
+			Usuario usr01 = new Usuario("user01", "password01", "ROLE_DOCENTE");
+			Usuario usr02 = new Usuario("user02", "password02", "ROLE_DOCENTE");
+			Usuario usr03 = new Usuario("user03", "password03", "ROLE_DOCENTE");
+			Usuario usr04 = new Usuario("user04", "password04", "ROLE_VESTIBULANDO");
+			Usuario usr05 = new Usuario("user05", "password05", "ROLE_VESTIBULANDO");
+			Usuario usr06 = new Usuario("user06", "password06", "ROLE_VESTIBULANDO");
+			Usuario usr07 = new Usuario("user07", "password07", "ROLE_VESTIBULANDO");
+			Usuario usr08 = new Usuario("user08", "password08", "ROLE_VESTIBULANDO");
+			Usuario usr09 = new Usuario("user09", "password09", "ROLE_VESTIBULANDO");
+			Usuario usr10 = new Usuario("user10", "password10", "ROLE_VESTIBULANDO");
+			Usuario usr11 = new Usuario("user11", "password11", "ROLE_VESTIBULANDO");
+			Usuario usr12 = new Usuario("user12", "password12", "ROLE_VESTIBULANDO");
+			Usuario usr13 = new Usuario("user13", "password13", "ROLE_VESTIBULANDO");
 
 			usuarioRepository.saveAll(
 					List.of(usr01, usr02, usr03, usr04, usr05, usr06, usr07, usr08, usr09, usr10, usr11, usr12, usr13));

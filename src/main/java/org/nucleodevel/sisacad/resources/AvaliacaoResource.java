@@ -30,8 +30,13 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao, AvaliacaoDto,
 	private OfertaDisciplinaService ofertaDisciplinaService;
 
 	@Override
-	public List<Role> getSpecificListAllowedRole() {
-		return List.of(Role.USER);
+	public List<Role> getListAllowedRoleToRead() {
+		return List.of(Role.DISCENTE, Role.DOCENTE);
+	}
+
+	@Override
+	public List<Role> getListAllowedRoleToWrite() {
+		return List.of(Role.DOCENTE);
 	}
 
 	@Override
@@ -69,7 +74,7 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao, AvaliacaoDto,
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 		return findAllSubList(ParticipacaoAvaliacaoService.class, ParticipacaoAvaliacaoDto.class, id);
 	}
 

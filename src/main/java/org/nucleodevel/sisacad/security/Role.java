@@ -2,7 +2,9 @@ package org.nucleodevel.sisacad.security;
 
 public enum Role {
 
-	ADMIN("ROLE_ADMIN", 1000), USER("ROLE_USER", 1);
+	ADMIN("ROLE_ADMIN", 1000), PEDAGOGICO("ROLE_PEDAGOGICO", 100), GRADUACAO("ROLE_GRADUACAO", 100), RH("ROLE_RH", 100),
+	DISCENTE("ROLE_DISCENTE", 10), DOCENTE("ROLE_DOCENTE", 10), VESTIBULANDO("ROLE_VESTIBULANDO", 10),
+	USER("ROLE_USER", 1);
 
 	private String tag;
 	private int priority;

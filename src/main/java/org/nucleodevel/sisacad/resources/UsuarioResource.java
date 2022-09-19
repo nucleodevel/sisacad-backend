@@ -16,8 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsuarioResource extends AbstractResource<Usuario, UsuarioDto, Integer, UsuarioService> {
 
 	@Override
-	public List<Role> getSpecificListAllowedRole() {
-		return List.of(Role.USER);
+	public List<Role> getListAllowedRoleToRead() {
+		return List.of(Role.ADMIN);
+	}
+
+	@Override
+	public List<Role> getListAllowedRoleToWrite() {
+		return List.of(Role.ADMIN);
 	}
 
 	@Override

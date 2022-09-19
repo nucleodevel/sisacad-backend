@@ -28,8 +28,13 @@ public class ParticipacaoAvaliacaoResource extends
 	private DiscenteService discenteService;
 
 	@Override
-	public List<Role> getSpecificListAllowedRole() {
-		return List.of(Role.USER);
+	public List<Role> getListAllowedRoleToRead() {
+		return List.of(Role.DISCENTE);
+	}
+
+	@Override
+	public List<Role> getListAllowedRoleToWrite() {
+		return List.of(Role.DOCENTE);
 	}
 
 	@Override

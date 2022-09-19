@@ -53,11 +53,9 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 		return service;
 	}
 
-	public abstract List<Role> getSpecificListAllowedRole();
-
-	public List<Role> getListAllowedRole() {
-		return getSpecificListAllowedRole();
-	}
+	public abstract List<Role> getListAllowedRoleToRead();
+	
+	public abstract List<Role> getListAllowedRoleToWrite();
 
 	public List<Role> getListCurrentRole() {
 
@@ -111,14 +109,38 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 	 * 
 	 */
 
-	public void validatePermissions() {
+	public void validatePermissionsToRead() {
 
 		boolean isAllowed = false;
-		for (Role currentRole : getListCurrentRole())
-			for (Role allowedRole : getListAllowedRole())
+		for (Role currentRole : getListCurrentRole()) {
+			System.out.println(">>>>>" + currentRole.getTag());
+			
+			for (Role allowedRole : getListAllowedRoleToRead())
 				if (currentRole == allowedRole || currentRole.getPriority() > allowedRole.getPriority())
 					isAllowed = true;
 
+			for (Role allowedRole : getListAllowedRoleToWrite())
+				if (currentRole == allowedRole || currentRole.getPriority() > allowedRole.getPriority())
+					isAllowed = true;
+		}
+
+		System.out.println(">>>>>" + isAllowed);
+		if (!isAllowed)
+			throw new ForbiddenException();
+
+	}
+
+	public void validatePermissionsToWrite() {
+
+		boolean isAllowed = false;
+		for (Role currentRole : getListCurrentRole()) {
+			System.out.println(">>>>>" + currentRole.getTag());
+			for (Role allowedRole : getListAllowedRoleToWrite())
+				if (currentRole == allowedRole || currentRole.getPriority() > allowedRole.getPriority())
+					isAllowed = true;
+		}
+
+		System.out.println(">>>>>" + isAllowed);
 		if (!isAllowed)
 			throw new ForbiddenException();
 
@@ -165,7 +187,7 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<DTO> find(@PathVariable ID id) {
-		validatePermissions();
+		validatePermissionsToRead();
 
 		E entity = service.find(id);
 		DTO dto = getDtoFromEntity(entity);
@@ -174,7 +196,7 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<DTO> insert(@RequestBody DTO dto) {
-		validatePermissions();
+		validatePermissionsToWrite();
 
 		E entity = service.insert(getEntityFromDto(dto));
 		dto = getDtoFromEntity(entity);
@@ -185,7 +207,7 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody DTO dto, @PathVariable ID id) {
-		validatePermissions();
+		validatePermissionsToWrite();
 
 		E oldEntity = service.find(id);
 		dto.setId(oldEntity.getId());
@@ -198,7 +220,7 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable ID id) {
-		validatePermissions();
+		validatePermissionsToWrite();
 
 		service.delete(id);
 		return ResponseEntity.noContent().build();
@@ -206,7 +228,7 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<DTO>> findAll() {
-		validatePermissions();
+		validatePermissionsToRead();
 
 		List<E> listAllEntity = service.findAll();
 		List<DTO> listAllDto = listAllEntity.stream().map(entity -> getDtoFromEntity(entity))

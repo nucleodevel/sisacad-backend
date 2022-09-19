@@ -34,8 +34,13 @@ public class EstruturaCurricularResource
 	private DisciplinaService disciplinaService;
 
 	@Override
-	public List<Role> getSpecificListAllowedRole() {
-		return List.of(Role.USER);
+	public List<Role> getListAllowedRoleToRead() {
+		return List.of(Role.PEDAGOGICO);
+	}
+
+	@Override
+	public List<Role> getListAllowedRoleToWrite() {
+		return List.of(Role.PEDAGOGICO);
 	}
 
 	@Override
@@ -69,7 +74,7 @@ public class EstruturaCurricularResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 		return findAllSubList(OfertaCursoService.class, OfertaCursoDto.class, id);
 	}
 
@@ -78,7 +83,7 @@ public class EstruturaCurricularResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 		return findAllSubList(DisciplinaService.class, DisciplinaDto.class, id);
 	}
 
@@ -87,7 +92,7 @@ public class EstruturaCurricularResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToWrite();
 		return insertSubList(id, itemId, disciplinaService);
 	}
 
@@ -96,7 +101,7 @@ public class EstruturaCurricularResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToWrite();
 		return deleteSubList(id, itemId, disciplinaService);
 	}
 

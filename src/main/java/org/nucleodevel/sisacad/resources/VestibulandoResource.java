@@ -29,8 +29,13 @@ public class VestibulandoResource
 	private OfertaCursoService ofertaCursoService;
 
 	@Override
-	public List<Role> getSpecificListAllowedRole() {
-		return List.of(Role.USER);
+	public List<Role> getListAllowedRoleToRead() {
+		return List.of(Role.PEDAGOGICO);
+	}
+
+	@Override
+	public List<Role> getListAllowedRoleToWrite() {
+		return List.of(Role.PEDAGOGICO);
 	}
 
 	@Override
@@ -70,7 +75,7 @@ public class VestibulandoResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 
 		List<Vestibulando> listEntity = service.findListByIsNotDiscente();
 		List<VestibulandoDto> listDto = new ArrayList<>();

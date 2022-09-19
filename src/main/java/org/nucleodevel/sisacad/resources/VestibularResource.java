@@ -22,8 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class VestibularResource extends AbstractResource<Vestibular, VestibularDto, Integer, VestibularService> {
 
 	@Override
-	public List<Role> getSpecificListAllowedRole() {
-		return List.of(Role.USER);
+	public List<Role> getListAllowedRoleToRead() {
+		return List.of(Role.PEDAGOGICO);
+	}
+
+	@Override
+	public List<Role> getListAllowedRoleToWrite() {
+		return List.of(Role.PEDAGOGICO);
 	}
 
 	@Override
@@ -39,7 +44,7 @@ public class VestibularResource extends AbstractResource<Vestibular, VestibularD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 		return findAllSubList(OfertaCursoService.class, OfertaCursoDto.class, id);
 	}
 

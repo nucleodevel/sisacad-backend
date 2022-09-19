@@ -28,8 +28,13 @@ public class DisciplinaResource extends AbstractResource<Disciplina, DisciplinaD
 	private EstruturaCurricularService estruturaCurricularService;
 
 	@Override
-	public List<Role> getSpecificListAllowedRole() {
-		return List.of(Role.USER);
+	public List<Role> getListAllowedRoleToRead() {
+		return List.of(Role.PEDAGOGICO);
+	}
+
+	@Override
+	public List<Role> getListAllowedRoleToWrite() {
+		return List.of(Role.PEDAGOGICO);
 	}
 
 	@Override
@@ -46,7 +51,7 @@ public class DisciplinaResource extends AbstractResource<Disciplina, DisciplinaD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 		return findAllSubList(EstruturaCurricularService.class, EstruturaCurricularDto.class, id);
 	}
 
@@ -55,7 +60,7 @@ public class DisciplinaResource extends AbstractResource<Disciplina, DisciplinaD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToWrite();
 		return insertSubList(id, itemId, estruturaCurricularService);
 	}
 
@@ -64,7 +69,7 @@ public class DisciplinaResource extends AbstractResource<Disciplina, DisciplinaD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToWrite();
 		return deleteSubList(id, itemId, estruturaCurricularService);
 	}
 
@@ -73,7 +78,7 @@ public class DisciplinaResource extends AbstractResource<Disciplina, DisciplinaD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 		return findAllSubList(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id);
 	}
 

@@ -37,8 +37,13 @@ public class AulaResource extends AbstractResource<Aula, AulaDto, Integer, AulaS
 	private OfertaDisciplinaService ofertaDisciplinaService;
 
 	@Override
-	public List<Role> getSpecificListAllowedRole() {
-		return List.of(Role.USER);
+	public List<Role> getListAllowedRoleToRead() {
+		return List.of(Role.DISCENTE, Role.DOCENTE);
+	}
+
+	@Override
+	public List<Role> getListAllowedRoleToWrite() {
+		return List.of(Role.DOCENTE);
 	}
 
 	@Override
@@ -102,7 +107,7 @@ public class AulaResource extends AbstractResource<Aula, AulaDto, Integer, AulaS
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 		return findAllSubList(ParticipacaoAulaService.class, ParticipacaoAulaDto.class, id);
 	}
 
@@ -122,7 +127,7 @@ public class AulaResource extends AbstractResource<Aula, AulaDto, Integer, AulaS
 			listDiscenteDto.add(discenteDto);
 		}
 
-		validatePermissions();
+		validatePermissionsToRead();
 		return ResponseEntity.ok().body(listDiscenteDto);
 	}
 

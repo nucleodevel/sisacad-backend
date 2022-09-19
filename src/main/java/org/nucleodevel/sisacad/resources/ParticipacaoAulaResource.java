@@ -32,8 +32,13 @@ public class ParticipacaoAulaResource
 	private DiscenteService discenteService;
 
 	@Override
-	public List<Role> getSpecificListAllowedRole() {
-		return List.of(Role.USER);
+	public List<Role> getListAllowedRoleToRead() {
+		return List.of(Role.DISCENTE);
+	}
+
+	@Override
+	public List<Role> getListAllowedRoleToWrite() {
+		return List.of(Role.DOCENTE);
 	}
 
 	@Override
@@ -74,7 +79,7 @@ public class ParticipacaoAulaResource
 			@PathVariable Integer discenteId) throws NoSuchMethodException, SecurityException, InstantiationException,
 			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 
 		Aula aula = aulaService.find(aulaId);
 		Discente discente = discenteService.find(discenteId);

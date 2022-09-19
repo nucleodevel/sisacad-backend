@@ -31,8 +31,13 @@ public class TurmaResource extends AbstractResource<Turma, TurmaDto, Integer, Tu
 	private OfertaDisciplinaService ofertaDisciplinaService;
 
 	@Override
-	public List<Role> getSpecificListAllowedRole() {
-		return List.of(Role.USER);
+	public List<Role> getListAllowedRoleToRead() {
+		return List.of(Role.PEDAGOGICO);
+	}
+
+	@Override
+	public List<Role> getListAllowedRoleToWrite() {
+		return List.of(Role.PEDAGOGICO);
 	}
 
 	@Override
@@ -64,7 +69,7 @@ public class TurmaResource extends AbstractResource<Turma, TurmaDto, Integer, Tu
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 		return findAllSubList(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id);
 	}
 
@@ -73,7 +78,7 @@ public class TurmaResource extends AbstractResource<Turma, TurmaDto, Integer, Tu
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToWrite();
 		return insertSubList(id, itemId, ofertaDisciplinaService);
 	}
 
@@ -82,7 +87,7 @@ public class TurmaResource extends AbstractResource<Turma, TurmaDto, Integer, Tu
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToWrite();
 		return deleteSubList(id, itemId, ofertaDisciplinaService);
 	}
 

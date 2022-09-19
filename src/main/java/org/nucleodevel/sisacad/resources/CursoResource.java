@@ -22,8 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class CursoResource extends AbstractResource<Curso, CursoDto, Integer, CursoService> {
 
 	@Override
-	public List<Role> getSpecificListAllowedRole() {
+	public List<Role> getListAllowedRoleToRead() {
 		return List.of(Role.USER);
+	}
+
+	@Override
+	public List<Role> getListAllowedRoleToWrite() {
+		return List.of(Role.PEDAGOGICO);
 	}
 
 	@Override
@@ -40,7 +45,7 @@ public class CursoResource extends AbstractResource<Curso, CursoDto, Integer, Cu
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
-		validatePermissions();
+		validatePermissionsToRead();
 		return findAllSubList(EstruturaCurricularService.class, EstruturaCurricularDto.class, id);
 	}
 
