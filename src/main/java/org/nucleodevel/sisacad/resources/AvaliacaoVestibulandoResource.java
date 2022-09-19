@@ -1,10 +1,12 @@
 package org.nucleodevel.sisacad.resources;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import org.nucleodevel.sisacad.domain.AvaliacaoVestibulando;
 import org.nucleodevel.sisacad.domain.Vestibulando;
 import org.nucleodevel.sisacad.dto.AvaliacaoVestibulandoDto;
+import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.AvaliacaoVestibulandoService;
 import org.nucleodevel.sisacad.services.VestibulandoService;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
@@ -24,6 +26,11 @@ public class AvaliacaoVestibulandoResource extends
 
 	@Autowired
 	private VestibulandoService vestibulandoService;
+
+	@Override
+	public List<Role> getSpecificListAllowedRole() {
+		return List.of(Role.USER);
+	}
 
 	@Override
 	public AvaliacaoVestibulando mergeDtoIntoEntity(AvaliacaoVestibulandoDto dto, AvaliacaoVestibulando entity) {
@@ -61,8 +68,11 @@ public class AvaliacaoVestibulandoResource extends
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
+
 		Vestibulando vestibulando = vestibulandoService.find(vestibulandoId);
 		AvaliacaoVestibulandoDto dto = getDtoFromEntity(service.findByVestibulando(vestibulando));
+
 		return ResponseEntity.ok().body(dto);
 	}
 

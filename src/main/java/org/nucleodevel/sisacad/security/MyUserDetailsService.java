@@ -31,8 +31,8 @@ public class MyUserDetailsService implements UserDetailsService {
 		Integer id = usuario.getId();
 		boolean isAdmin = id % 2 == 0;
 
-		GrantedAuthority roleAdmin = new SimpleGrantedAuthority("ROLE_ADMIN");
-		GrantedAuthority roleUser = new SimpleGrantedAuthority("ROLE_USER");
+		GrantedAuthority roleAdmin = new SimpleGrantedAuthority(Role.ADMIN.getTag());
+		GrantedAuthority roleUser = new SimpleGrantedAuthority(Role.USER.getTag());
 
 		List<GrantedAuthority> listRole = List.of(isAdmin ? roleAdmin : roleUser);
 

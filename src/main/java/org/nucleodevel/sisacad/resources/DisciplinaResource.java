@@ -7,6 +7,7 @@ import org.nucleodevel.sisacad.domain.Disciplina;
 import org.nucleodevel.sisacad.dto.DisciplinaDto;
 import org.nucleodevel.sisacad.dto.EstruturaCurricularDto;
 import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
+import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.DisciplinaService;
 import org.nucleodevel.sisacad.services.EstruturaCurricularService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
@@ -27,6 +28,11 @@ public class DisciplinaResource extends AbstractResource<Disciplina, DisciplinaD
 	private EstruturaCurricularService estruturaCurricularService;
 
 	@Override
+	public List<Role> getSpecificListAllowedRole() {
+		return List.of(Role.USER);
+	}
+
+	@Override
 	public Disciplina mergeDtoIntoEntity(DisciplinaDto dto, Disciplina entity) {
 		entity.setId(dto.getId());
 		entity.setCodigo(dto.getCodigo());
@@ -40,6 +46,7 @@ public class DisciplinaResource extends AbstractResource<Disciplina, DisciplinaD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return findAllSubList(EstruturaCurricularService.class, EstruturaCurricularDto.class, id);
 	}
 
@@ -48,6 +55,7 @@ public class DisciplinaResource extends AbstractResource<Disciplina, DisciplinaD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return insertSubList(id, itemId, estruturaCurricularService);
 	}
 
@@ -56,6 +64,7 @@ public class DisciplinaResource extends AbstractResource<Disciplina, DisciplinaD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return deleteSubList(id, itemId, estruturaCurricularService);
 	}
 
@@ -64,6 +73,7 @@ public class DisciplinaResource extends AbstractResource<Disciplina, DisciplinaD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return findAllSubList(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id);
 	}
 

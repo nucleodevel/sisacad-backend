@@ -11,6 +11,7 @@ import org.nucleodevel.sisacad.domain.OfertaDisciplina;
 import org.nucleodevel.sisacad.dto.AulaDto;
 import org.nucleodevel.sisacad.dto.DiscenteDto;
 import org.nucleodevel.sisacad.dto.ParticipacaoAulaDto;
+import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.AulaService;
 import org.nucleodevel.sisacad.services.DiscenteService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
@@ -34,6 +35,11 @@ public class AulaResource extends AbstractResource<Aula, AulaDto, Integer, AulaS
 	private DiscenteService discenteService;
 	@Autowired
 	private OfertaDisciplinaService ofertaDisciplinaService;
+
+	@Override
+	public List<Role> getSpecificListAllowedRole() {
+		return List.of(Role.USER);
+	}
 
 	@Override
 	public Aula mergeDtoIntoEntity(AulaDto dto, Aula entity) {
@@ -96,6 +102,7 @@ public class AulaResource extends AbstractResource<Aula, AulaDto, Integer, AulaS
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return findAllSubList(ParticipacaoAulaService.class, ParticipacaoAulaDto.class, id);
 	}
 
@@ -115,6 +122,7 @@ public class AulaResource extends AbstractResource<Aula, AulaDto, Integer, AulaS
 			listDiscenteDto.add(discenteDto);
 		}
 
+		validatePermissions();
 		return ResponseEntity.ok().body(listDiscenteDto);
 	}
 

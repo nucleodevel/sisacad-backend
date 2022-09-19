@@ -9,6 +9,7 @@ import org.nucleodevel.sisacad.dto.DiscenteDto;
 import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
 import org.nucleodevel.sisacad.dto.ParticipacaoAulaDto;
 import org.nucleodevel.sisacad.dto.ParticipacaoAvaliacaoDto;
+import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.DiscenteService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
 import org.nucleodevel.sisacad.services.ParticipacaoAulaService;
@@ -32,6 +33,11 @@ public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, In
 	private OfertaDisciplinaService ofertaDisciplinaService;
 	@Autowired
 	private VestibulandoService vestibulandoService;
+
+	@Override
+	public List<Role> getSpecificListAllowedRole() {
+		return List.of(Role.USER);
+	}
 
 	@Override
 	public Discente mergeDtoIntoEntity(DiscenteDto dto, Discente entity) {
@@ -61,6 +67,7 @@ public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, In
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return findAllSubList(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id);
 	}
 
@@ -69,6 +76,7 @@ public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, In
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return insertSubList(id, itemId, ofertaDisciplinaService);
 	}
 
@@ -77,6 +85,7 @@ public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, In
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return deleteSubList(id, itemId, ofertaDisciplinaService);
 	}
 
@@ -85,6 +94,7 @@ public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, In
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return findAllSubList(ParticipacaoAulaService.class, ParticipacaoAulaDto.class, id);
 	}
 
@@ -93,6 +103,7 @@ public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, In
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return findAllSubList(ParticipacaoAvaliacaoService.class, ParticipacaoAvaliacaoDto.class, id);
 	}
 

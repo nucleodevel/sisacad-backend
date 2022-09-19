@@ -6,6 +6,7 @@ import java.util.List;
 import org.nucleodevel.sisacad.domain.Vestibular;
 import org.nucleodevel.sisacad.dto.OfertaCursoDto;
 import org.nucleodevel.sisacad.dto.VestibularDto;
+import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.OfertaCursoService;
 import org.nucleodevel.sisacad.services.VestibularService;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class VestibularResource extends AbstractResource<Vestibular, VestibularDto, Integer, VestibularService> {
 
 	@Override
+	public List<Role> getSpecificListAllowedRole() {
+		return List.of(Role.USER);
+	}
+
+	@Override
 	public Vestibular mergeDtoIntoEntity(VestibularDto dto, Vestibular entity) {
 		entity.setId(dto.getId());
 		entity.setAno(dto.getAno());
@@ -33,6 +39,7 @@ public class VestibularResource extends AbstractResource<Vestibular, VestibularD
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return findAllSubList(OfertaCursoService.class, OfertaCursoDto.class, id);
 	}
 

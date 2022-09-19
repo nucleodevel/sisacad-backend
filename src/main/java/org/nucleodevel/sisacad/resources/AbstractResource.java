@@ -4,15 +4,20 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.nucleodevel.sisacad.domain.AbstractEntity;
 import org.nucleodevel.sisacad.dto.AbstractDto;
+import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.AbstractService;
+import org.nucleodevel.sisacad.services.exceptions.ForbiddenException;
 import org.nucleodevel.sisacad.utils.ReflectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +51,29 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 
 	protected S getService() {
 		return service;
+	}
+
+	public abstract List<Role> getSpecificListAllowedRole();
+
+	public List<Role> getListAllowedRole() {
+		return getSpecificListAllowedRole();
+	}
+
+	public List<Role> getListCurrentRole() {
+
+		Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities();
+
+		List<Role> listCurrentRole = new ArrayList<>();
+		for (GrantedAuthority authority : authorities) {
+			listCurrentRole.add(Role.getByTag(authority.getAuthority()));
+		}
+
+		return listCurrentRole;
+	}
+
+	public boolean hasRole(Role role) {
+		return getListCurrentRole().contains(role);
 	}
 
 	/*
@@ -82,6 +110,19 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 	 * Validate methods
 	 * 
 	 */
+
+	public void validatePermissions() {
+
+		boolean isAllowed = false;
+		for (Role currentRole : getListCurrentRole())
+			for (Role allowedRole : getListAllowedRole())
+				if (currentRole == allowedRole || currentRole.getPriority() > allowedRole.getPriority())
+					isAllowed = true;
+
+		if (!isAllowed)
+			throw new ForbiddenException();
+
+	}
 
 	public void validadeForInsertUpdate(DTO dto) {
 		service.validadeForInsertUpdate(getEntityFromDto(dto));
@@ -124,6 +165,8 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<DTO> find(@PathVariable ID id) {
+		validatePermissions();
+
 		E entity = service.find(id);
 		DTO dto = getDtoFromEntity(entity);
 		return ResponseEntity.ok().body(dto);
@@ -131,6 +174,8 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<DTO> insert(@RequestBody DTO dto) {
+		validatePermissions();
+
 		E entity = service.insert(getEntityFromDto(dto));
 		dto = getDtoFromEntity(entity);
 
@@ -140,6 +185,8 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody DTO dto, @PathVariable ID id) {
+		validatePermissions();
+
 		E oldEntity = service.find(id);
 		dto.setId(oldEntity.getId());
 
@@ -151,12 +198,16 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable ID id) {
+		validatePermissions();
+
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<DTO>> findAll() {
+		validatePermissions();
+
 		List<E> listAllEntity = service.findAll();
 		List<DTO> listAllDto = listAllEntity.stream().map(entity -> getDtoFromEntity(entity))
 				.collect(Collectors.toList());

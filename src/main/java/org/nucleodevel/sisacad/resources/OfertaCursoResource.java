@@ -8,6 +8,7 @@ import org.nucleodevel.sisacad.domain.OfertaCurso;
 import org.nucleodevel.sisacad.domain.Vestibular;
 import org.nucleodevel.sisacad.dto.OfertaCursoDto;
 import org.nucleodevel.sisacad.dto.VestibulandoDto;
+import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.EstruturaCurricularService;
 import org.nucleodevel.sisacad.services.OfertaCursoService;
 import org.nucleodevel.sisacad.services.VestibulandoService;
@@ -30,6 +31,11 @@ public class OfertaCursoResource extends AbstractResource<OfertaCurso, OfertaCur
 	private EstruturaCurricularService estruturaCurricularService;
 	@Autowired
 	private VestibularService vestibularService;
+
+	@Override
+	public List<Role> getSpecificListAllowedRole() {
+		return List.of(Role.USER);
+	}
 
 	@Override
 	public OfertaCurso mergeDtoIntoEntity(OfertaCursoDto dto, OfertaCurso entity) {
@@ -71,6 +77,7 @@ public class OfertaCursoResource extends AbstractResource<OfertaCurso, OfertaCur
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return findAllSubList(VestibulandoService.class, VestibulandoDto.class, id);
 	}
 

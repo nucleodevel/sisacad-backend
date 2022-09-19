@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
+import org.nucleodevel.sisacad.services.exceptions.ForbiddenException;
 import org.nucleodevel.sisacad.services.exceptions.NotGivenIdException;
 import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,14 @@ public class ResourceExceptionHandler {
 
 		StandardError erro = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+
+	}
+
+	@ExceptionHandler(ForbiddenException.class)
+	public ResponseEntity<StandardError> handleForbiddenException(ForbiddenException e, HttpServletRequest request) {
+
+		StandardError erro = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(erro);
 
 	}
 

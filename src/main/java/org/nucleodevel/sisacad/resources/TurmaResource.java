@@ -7,6 +7,7 @@ import org.nucleodevel.sisacad.domain.OfertaCurso;
 import org.nucleodevel.sisacad.domain.Turma;
 import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
 import org.nucleodevel.sisacad.dto.TurmaDto;
+import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.OfertaCursoService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
 import org.nucleodevel.sisacad.services.TurmaService;
@@ -28,6 +29,11 @@ public class TurmaResource extends AbstractResource<Turma, TurmaDto, Integer, Tu
 	private OfertaCursoService ofertaCursoService;
 	@Autowired
 	private OfertaDisciplinaService ofertaDisciplinaService;
+
+	@Override
+	public List<Role> getSpecificListAllowedRole() {
+		return List.of(Role.USER);
+	}
 
 	@Override
 	public Turma mergeDtoIntoEntity(TurmaDto dto, Turma entity) {
@@ -58,6 +64,7 @@ public class TurmaResource extends AbstractResource<Turma, TurmaDto, Integer, Tu
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return findAllSubList(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id);
 	}
 
@@ -66,6 +73,7 @@ public class TurmaResource extends AbstractResource<Turma, TurmaDto, Integer, Tu
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return insertSubList(id, itemId, ofertaDisciplinaService);
 	}
 
@@ -74,6 +82,7 @@ public class TurmaResource extends AbstractResource<Turma, TurmaDto, Integer, Tu
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return deleteSubList(id, itemId, ofertaDisciplinaService);
 	}
 

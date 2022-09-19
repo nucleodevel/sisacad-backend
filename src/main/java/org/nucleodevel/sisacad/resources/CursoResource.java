@@ -6,6 +6,7 @@ import java.util.List;
 import org.nucleodevel.sisacad.domain.Curso;
 import org.nucleodevel.sisacad.dto.CursoDto;
 import org.nucleodevel.sisacad.dto.EstruturaCurricularDto;
+import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.CursoService;
 import org.nucleodevel.sisacad.services.EstruturaCurricularService;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class CursoResource extends AbstractResource<Curso, CursoDto, Integer, CursoService> {
 
 	@Override
+	public List<Role> getSpecificListAllowedRole() {
+		return List.of(Role.USER);
+	}
+
+	@Override
 	public Curso mergeDtoIntoEntity(CursoDto dto, Curso entity) {
 		entity.setId(dto.getId());
 		entity.setCodigo(dto.getCodigo());
@@ -34,6 +40,7 @@ public class CursoResource extends AbstractResource<Curso, CursoDto, Integer, Cu
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return findAllSubList(EstruturaCurricularService.class, EstruturaCurricularDto.class, id);
 	}
 

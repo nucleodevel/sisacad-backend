@@ -1,11 +1,13 @@
 package org.nucleodevel.sisacad.resources;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import org.nucleodevel.sisacad.domain.Aula;
 import org.nucleodevel.sisacad.domain.Discente;
 import org.nucleodevel.sisacad.domain.ParticipacaoAula;
 import org.nucleodevel.sisacad.dto.ParticipacaoAulaDto;
+import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.AulaService;
 import org.nucleodevel.sisacad.services.DiscenteService;
 import org.nucleodevel.sisacad.services.ParticipacaoAulaService;
@@ -28,6 +30,11 @@ public class ParticipacaoAulaResource
 	private AulaService aulaService;
 	@Autowired
 	private DiscenteService discenteService;
+
+	@Override
+	public List<Role> getSpecificListAllowedRole() {
+		return List.of(Role.USER);
+	}
 
 	@Override
 	public ParticipacaoAula mergeDtoIntoEntity(ParticipacaoAulaDto dto, ParticipacaoAula entity) {
@@ -66,6 +73,8 @@ public class ParticipacaoAulaResource
 	public ResponseEntity<ParticipacaoAulaDto> findByAulaAndDiscente(@PathVariable Integer aulaId,
 			@PathVariable Integer discenteId) throws NoSuchMethodException, SecurityException, InstantiationException,
 			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+
+		validatePermissions();
 
 		Aula aula = aulaService.find(aulaId);
 		Discente discente = discenteService.find(discenteId);

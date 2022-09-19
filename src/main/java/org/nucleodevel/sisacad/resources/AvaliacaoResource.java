@@ -8,6 +8,7 @@ import org.nucleodevel.sisacad.domain.Avaliacao;
 import org.nucleodevel.sisacad.domain.OfertaDisciplina;
 import org.nucleodevel.sisacad.dto.AvaliacaoDto;
 import org.nucleodevel.sisacad.dto.ParticipacaoAvaliacaoDto;
+import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.AvaliacaoService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
 import org.nucleodevel.sisacad.services.ParticipacaoAvaliacaoService;
@@ -27,6 +28,11 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao, AvaliacaoDto,
 
 	@Autowired
 	private OfertaDisciplinaService ofertaDisciplinaService;
+
+	@Override
+	public List<Role> getSpecificListAllowedRole() {
+		return List.of(Role.USER);
+	}
 
 	@Override
 	public Avaliacao mergeDtoIntoEntity(AvaliacaoDto dto, Avaliacao entity) {
@@ -63,6 +69,7 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao, AvaliacaoDto,
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return findAllSubList(ParticipacaoAvaliacaoService.class, ParticipacaoAvaliacaoDto.class, id);
 	}
 

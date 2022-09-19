@@ -8,6 +8,7 @@ import org.nucleodevel.sisacad.domain.EstruturaCurricular;
 import org.nucleodevel.sisacad.dto.DisciplinaDto;
 import org.nucleodevel.sisacad.dto.EstruturaCurricularDto;
 import org.nucleodevel.sisacad.dto.OfertaCursoDto;
+import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.CursoService;
 import org.nucleodevel.sisacad.services.DisciplinaService;
 import org.nucleodevel.sisacad.services.EstruturaCurricularService;
@@ -31,6 +32,11 @@ public class EstruturaCurricularResource
 	private CursoService cursoService;
 	@Autowired
 	private DisciplinaService disciplinaService;
+
+	@Override
+	public List<Role> getSpecificListAllowedRole() {
+		return List.of(Role.USER);
+	}
 
 	@Override
 	public EstruturaCurricular mergeDtoIntoEntity(EstruturaCurricularDto dto, EstruturaCurricular entity) {
@@ -63,6 +69,7 @@ public class EstruturaCurricularResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return findAllSubList(OfertaCursoService.class, OfertaCursoDto.class, id);
 	}
 
@@ -71,6 +78,7 @@ public class EstruturaCurricularResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return findAllSubList(DisciplinaService.class, DisciplinaDto.class, id);
 	}
 
@@ -79,6 +87,7 @@ public class EstruturaCurricularResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return insertSubList(id, itemId, disciplinaService);
 	}
 
@@ -87,6 +96,7 @@ public class EstruturaCurricularResource
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
 
+		validatePermissions();
 		return deleteSubList(id, itemId, disciplinaService);
 	}
 

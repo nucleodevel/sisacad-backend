@@ -1,9 +1,12 @@
 package org.nucleodevel.sisacad.resources;
 
+import java.util.List;
+
 import org.nucleodevel.sisacad.domain.Avaliacao;
 import org.nucleodevel.sisacad.domain.Discente;
 import org.nucleodevel.sisacad.domain.ParticipacaoAvaliacao;
 import org.nucleodevel.sisacad.dto.ParticipacaoAvaliacaoDto;
+import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.AvaliacaoService;
 import org.nucleodevel.sisacad.services.DiscenteService;
 import org.nucleodevel.sisacad.services.ParticipacaoAvaliacaoService;
@@ -23,6 +26,11 @@ public class ParticipacaoAvaliacaoResource extends
 	private AvaliacaoService avaliacaoService;
 	@Autowired
 	private DiscenteService discenteService;
+
+	@Override
+	public List<Role> getSpecificListAllowedRole() {
+		return List.of(Role.USER);
+	}
 
 	@Override
 	public ParticipacaoAvaliacao mergeDtoIntoEntity(ParticipacaoAvaliacaoDto dto, ParticipacaoAvaliacao entity) {

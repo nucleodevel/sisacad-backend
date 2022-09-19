@@ -8,6 +8,7 @@ import java.util.List;
 import org.nucleodevel.sisacad.domain.OfertaCurso;
 import org.nucleodevel.sisacad.domain.Vestibulando;
 import org.nucleodevel.sisacad.dto.VestibulandoDto;
+import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.OfertaCursoService;
 import org.nucleodevel.sisacad.services.VestibulandoService;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
@@ -26,6 +27,11 @@ public class VestibulandoResource
 
 	@Autowired
 	private OfertaCursoService ofertaCursoService;
+
+	@Override
+	public List<Role> getSpecificListAllowedRole() {
+		return List.of(Role.USER);
+	}
 
 	@Override
 	public Vestibulando mergeDtoIntoEntity(VestibulandoDto dto, Vestibulando entity) {
@@ -63,6 +69,8 @@ public class VestibulandoResource
 	public ResponseEntity<List<VestibulandoDto>> findByAulaAndDiscente()
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
+
+		validatePermissions();
 
 		List<Vestibulando> listEntity = service.findListByIsNotDiscente();
 		List<VestibulandoDto> listDto = new ArrayList<>();
