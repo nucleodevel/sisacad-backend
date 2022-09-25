@@ -12,12 +12,10 @@ import org.nucleodevel.sisacad.services.DiscenteService;
 import org.nucleodevel.sisacad.services.ParticipacaoAvaliacaoService;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/participacao-avaliacao")
 public class ParticipacaoAvaliacaoResource extends
 		AbstractResource<ParticipacaoAvaliacao, ParticipacaoAvaliacaoDto, Integer, ParticipacaoAvaliacaoService> {

@@ -14,13 +14,11 @@ import org.nucleodevel.sisacad.services.VestibulandoService;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/vestibulando")
 public class VestibulandoResource
 		extends AbstractResource<Vestibulando, VestibulandoDto, Integer, VestibulandoService> {
