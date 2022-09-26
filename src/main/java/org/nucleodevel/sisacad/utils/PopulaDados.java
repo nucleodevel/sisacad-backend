@@ -89,22 +89,25 @@ public class PopulaDados {
 
 		if (preencherBase) {
 
-			Usuario usr01 = new Usuario("user01", "password01", "ROLE_DOCENTE");
-			Usuario usr02 = new Usuario("user02", "password02", "ROLE_DOCENTE");
-			Usuario usr03 = new Usuario("user03", "password03", "ROLE_DOCENTE");
-			Usuario usr04 = new Usuario("user04", "password04", "ROLE_VESTIBULANDO");
-			Usuario usr05 = new Usuario("user05", "password05", "ROLE_VESTIBULANDO");
-			Usuario usr06 = new Usuario("user06", "password06", "ROLE_VESTIBULANDO");
-			Usuario usr07 = new Usuario("user07", "password07", "ROLE_VESTIBULANDO");
-			Usuario usr08 = new Usuario("user08", "password08", "ROLE_VESTIBULANDO");
-			Usuario usr09 = new Usuario("user09", "password09", "ROLE_VESTIBULANDO");
-			Usuario usr10 = new Usuario("user10", "password10", "ROLE_VESTIBULANDO");
-			Usuario usr11 = new Usuario("user11", "password11", "ROLE_VESTIBULANDO");
-			Usuario usr12 = new Usuario("user12", "password12", "ROLE_VESTIBULANDO");
-			Usuario usr13 = new Usuario("user13", "password13", "ROLE_VESTIBULANDO");
+			Usuario usr01 = new Usuario("docente01", "passdocente01", "ROLE_DOCENTE");
+			Usuario usr02 = new Usuario("docente02", "passdocente02", "ROLE_DOCENTE");
+			Usuario usr03 = new Usuario("docente03", "passdocente03", "ROLE_DOCENTE");
+			Usuario usr04 = new Usuario("vestibulando01", "passvestibulando01", "ROLE_DISCENTE,ROLE_VESTIBULANDO");
+			Usuario usr05 = new Usuario("vestibulando02", "passvestibulando02", "ROLE_DISCENTE,ROLE_VESTIBULANDO");
+			Usuario usr06 = new Usuario("vestibulando03", "passvestibulando03", "ROLE_DISCENTE,ROLE_VESTIBULANDO");
+			Usuario usr07 = new Usuario("vestibulando04", "passvestibulando04", "ROLE_VESTIBULANDO");
+			Usuario usr08 = new Usuario("vestibulando05", "passvestibulando05", "ROLE_DISCENTE,ROLE_VESTIBULANDO");
+			Usuario usr09 = new Usuario("vestibulando06", "passvestibulando06", "ROLE_DISCENTE,ROLE_VESTIBULANDO");
+			Usuario usr10 = new Usuario("vestibulando07", "passvestibulando07", "ROLE_VESTIBULANDO");
+			Usuario usr11 = new Usuario("vestibulando08", "passvestibulando08", "ROLE_DISCENTE,ROLE_VESTIBULANDO");
+			Usuario usr12 = new Usuario("vestibulando09", "passvestibulando09", "ROLE_DISCENTE,ROLE_VESTIBULANDO");
+			Usuario usr13 = new Usuario("vestibulando10", "passvestibulando10", "ROLE_DISCENTE,ROLE_VESTIBULANDO");
+			Usuario usr14 = new Usuario("admin01", "passadmin01", "ROLE_ADMIN");
+			Usuario usr15 = new Usuario("pedagogico01", "passpedagogico01", "ROLE_PEDAGOGICO");
+			Usuario usr16 = new Usuario("graduacao01", "passgraduacao01", "ROLE_GRADUACAO");
 
-			usuarioRepository.saveAll(
-					List.of(usr01, usr02, usr03, usr04, usr05, usr06, usr07, usr08, usr09, usr10, usr11, usr12, usr13));
+			usuarioRepository.saveAll(List.of(usr01, usr02, usr03, usr04, usr05, usr06, usr07, usr08, usr09, usr10,
+					usr11, usr12, usr13, usr14, usr15, usr16));
 
 			Curso cur1 = new Curso("CRS01", "Engenharia da Computação");
 			Curso cur2 = new Curso("CRS02", "Ciência da Computação");

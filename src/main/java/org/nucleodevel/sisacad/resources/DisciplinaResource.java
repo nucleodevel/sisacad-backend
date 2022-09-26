@@ -27,7 +27,7 @@ public class DisciplinaResource extends AbstractResource<Disciplina, DisciplinaD
 
 	@Override
 	public List<Role> getListAllowedRoleToRead() {
-		return List.of(Role.PEDAGOGICO);
+		return List.of(Role.DISCENTE, Role.DOCENTE);
 	}
 
 	@Override

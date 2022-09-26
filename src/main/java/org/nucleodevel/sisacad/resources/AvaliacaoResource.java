@@ -29,7 +29,7 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao, AvaliacaoDto,
 
 	@Override
 	public List<Role> getListAllowedRoleToRead() {
-		return List.of(Role.DISCENTE, Role.DOCENTE);
+		return List.of(Role.DISCENTE);
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class OfertaCursoResource extends AbstractResource<OfertaCurso, OfertaCur
 
 	@Override
 	public List<Role> getListAllowedRoleToRead() {
-		return List.of(Role.PEDAGOGICO);
+		return List.of(Role.DISCENTE, Role.DOCENTE);
 	}
 
 	@Override

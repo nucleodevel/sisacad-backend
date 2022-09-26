@@ -21,7 +21,7 @@ public class VestibularResource extends AbstractResource<Vestibular, VestibularD
 
 	@Override
 	public List<Role> getListAllowedRoleToRead() {
-		return List.of(Role.PEDAGOGICO);
+		return List.of(Role.USER);
 	}
 
 	@Override

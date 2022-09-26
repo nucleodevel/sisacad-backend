@@ -28,7 +28,7 @@ public class VestibulandoResource
 
 	@Override
 	public List<Role> getListAllowedRoleToRead() {
-		return List.of(Role.PEDAGOGICO);
+		return List.of(Role.VESTIBULANDO);
 	}
 
 	@Override

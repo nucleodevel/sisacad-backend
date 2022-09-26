@@ -36,7 +36,7 @@ public class AulaResource extends AbstractResource<Aula, AulaDto, Integer, AulaS
 
 	@Override
 	public List<Role> getListAllowedRoleToRead() {
-		return List.of(Role.DISCENTE, Role.DOCENTE);
+		return List.of(Role.DISCENTE);
 	}
 
 	@Override

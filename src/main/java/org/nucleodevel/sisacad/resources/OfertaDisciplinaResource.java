@@ -43,7 +43,7 @@ public class OfertaDisciplinaResource
 
 	@Override
 	public List<Role> getListAllowedRoleToRead() {
-		return List.of(Role.PEDAGOGICO);
+		return List.of(Role.DISCENTE, Role.DOCENTE);
 	}
 
 	@Override

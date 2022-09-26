@@ -22,12 +22,12 @@ public class DocenteResource extends AbstractResource<Docente, DocenteDto, Integ
 
 	@Override
 	public List<Role> getListAllowedRoleToRead() {
-		return List.of(Role.RH);
+		return List.of(Role.DISCENTE, Role.DOCENTE);
 	}
 
 	@Override
 	public List<Role> getListAllowedRoleToWrite() {
-		return List.of(Role.RH);
+		return List.of(Role.PEDAGOGICO);
 	}
 
 	@Override
