@@ -8,12 +8,14 @@ public class UsuarioDto extends AbstractDto<Usuario, Integer> {
 
 	private String username;
 	private String password;
+	private String roles;
 
 	@Override
 	public void copyFromEntity(Usuario entity) {
 		this.id = entity.getId();
 		this.username = entity.getUsername();
 		this.password = entity.getPassword();
+		this.roles = entity.getRoles();
 	}
 
 	public String getUsername() {
@@ -30,6 +32,14 @@ public class UsuarioDto extends AbstractDto<Usuario, Integer> {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getRoles() {
+		return roles;
+	}
+
+	public void setRoles(String roles) {
+		this.roles = roles;
 	}
 
 }

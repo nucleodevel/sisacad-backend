@@ -8,13 +8,15 @@ import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/usuario")
-public class UsuarioResource extends AbstractResource<Usuario, UsuarioDto, Integer, UsuarioService> {
+@RequestMapping(value = "/auth")
+public class AuthResource extends AbstractResource<Usuario, UsuarioDto, Integer, UsuarioService> {
 
 	@Override
 	public List<Role> getListAllowedRoleToRead() {
@@ -36,9 +38,10 @@ public class UsuarioResource extends AbstractResource<Usuario, UsuarioDto, Integ
 	}
 
 	@GetMapping(produces = "application/json")
-	@RequestMapping({ "/validateLogin" })
-	public ResponseEntity<UsuarioDto> validateLogin() {
-		String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	@RequestMapping({ "/validate" })
+	public ResponseEntity<UsuarioDto> validate() {
+		UserDetails userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = userDetails.getUsername();
 
 		Usuario entity = service.findByUsername(username);
 		UsuarioDto dto = getDtoFromEntity(entity);

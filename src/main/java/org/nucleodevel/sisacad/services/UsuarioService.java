@@ -41,4 +41,8 @@ public class UsuarioService extends AbstractService<Usuario, Integer, UsuarioRep
 		return repository.findByOrderByUsernameAsc();
 	}
 
+	public Usuario findByUsername(String username) {
+		return repository.findByUsername(username);
+	}
+
 }
