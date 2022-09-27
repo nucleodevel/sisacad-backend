@@ -42,7 +42,6 @@ public class VestibulandoResource
 
 		entity.setId(dto.getId());
 		entity.setCpf(dto.getCpf());
-		entity.setNome(dto.getNome());
 		entity.setDataNascimento(dto.getDataNascimento() == null ? null : new Date(dto.getDataNascimento()));
 		entity.setEndereco(dto.getEndereco());
 		entity.setTelefones(dto.getTelefones());

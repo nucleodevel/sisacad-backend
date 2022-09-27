@@ -14,7 +14,7 @@ public interface ParticipacaoAvaliacaoRepository extends AbstractRepository<Part
 
 	@Query(value = "SELECT x FROM ParticipacaoAvaliacao x "
 			+ "ORDER BY x.avaliacao.inicio DESC, x.avaliacao.termino DESC, x.avaliacao.descricao DESC, "
-			+ "x.discente.vestibulando.nome ASC")
+			+ "x.discente.vestibulando.usuario.nome ASC")
 	List<ParticipacaoAvaliacao> findByOrderByAvaliacaoDescDiscenteAsc();
 
 	@Query(value = "SELECT x FROM ParticipacaoAvaliacao x "

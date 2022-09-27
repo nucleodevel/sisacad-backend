@@ -28,6 +28,7 @@ public class UsuarioResource extends AbstractResource<Usuario, UsuarioDto, Integ
 		entity.setId(dto.getId());
 		entity.setUsername(dto.getUsername());
 		entity.setPassword(dto.getPassword());
+		entity.setNome(dto.getNome());
 
 		return entity;
 	}

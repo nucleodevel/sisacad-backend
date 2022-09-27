@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DocenteRepository extends AbstractRepository<Docente, Integer> {
 
+	@Query(value = "SELECT x FROM Docente x ORDER BY x.usuario.nome ASC")
 	List<Docente> findByOrderByNomeAsc();
 
 	@Query(value = "SELECT x FROM Docente x WHERE (?1 IS NULL OR x.id <> ?1) AND x.cpf = ?2")

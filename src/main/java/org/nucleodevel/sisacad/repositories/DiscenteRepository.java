@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DiscenteRepository extends AbstractRepository<Discente, Integer> {
 
-	@Query(value = "SELECT x FROM Discente x ORDER BY x.vestibulando.nome ASC")
+	@Query(value = "SELECT x FROM Discente x ORDER BY x.vestibulando.usuario.nome ASC")
 	List<Discente> findByOrderByVestibulandoAsc();
 
 	@Query(value = "SELECT x FROM Discente x WHERE (?1 IS NULL OR x.id <> ?1) AND x.vestibulando = ?2")

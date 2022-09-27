@@ -23,9 +23,6 @@ public class Vestibulando extends AbstractEntity<Integer> {
 	@Column(name = "cpf")
 	private String cpf;
 
-	@Column(name = "nome")
-	private String nome;
-
 	@Column(name = "data_nascimento")
 	private Date dataNascimento;
 
@@ -53,11 +50,10 @@ public class Vestibulando extends AbstractEntity<Integer> {
 		super();
 	}
 
-	public Vestibulando(String cpf, String nome, Date dataNascimento, String endereco, String telefones,
-			Usuario usuario, OfertaCurso ofertaCurso) {
+	public Vestibulando(String cpf, Date dataNascimento, String endereco, String telefones, Usuario usuario,
+			OfertaCurso ofertaCurso) {
 		super();
 		this.cpf = cpf;
-		this.nome = nome;
 		this.dataNascimento = dataNascimento;
 		this.endereco = endereco;
 		this.telefones = telefones;
@@ -81,14 +77,6 @@ public class Vestibulando extends AbstractEntity<Integer> {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 
 	public Date getDataNascimento() {

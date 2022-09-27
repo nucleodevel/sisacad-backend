@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface ParticipacaoAulaRepository extends AbstractRepository<ParticipacaoAula, Integer> {
 
 	@Query(value = "SELECT x FROM ParticipacaoAula x "
-			+ "ORDER BY x.aula.inicio DESC, x.aula.termino DESC, x.discente.vestibulando.nome ASC")
+			+ "ORDER BY x.aula.inicio DESC, x.aula.termino DESC, x.discente.vestibulando.usuario.nome ASC")
 	List<ParticipacaoAula> findByOrderByAulaDescDiscenteAsc();
 
 	@Query(value = "SELECT x FROM ParticipacaoAula x "

@@ -20,10 +20,6 @@ public class DocenteService extends AbstractService<Docente, Integer, DocenteRep
 			error += "CPF pendente; ";
 		}
 
-		if (entity.getNome() == null) {
-			error += "Nome pendente; ";
-		}
-
 		if (entity.getDataNascimento() == null) {
 			error += "Data de nascimento pendente; ";
 		}

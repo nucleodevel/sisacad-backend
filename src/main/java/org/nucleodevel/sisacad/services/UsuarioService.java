@@ -24,6 +24,10 @@ public class UsuarioService extends AbstractService<Usuario, Integer, UsuarioRep
 			error += "Password pendente; ";
 		}
 
+		if (entity.getNome() == null) {
+			error += "Nome pendente; ";
+		}
+
 		if (!error.isEmpty()) {
 			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
 		}

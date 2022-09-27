@@ -28,6 +28,9 @@ public class Usuario extends AbstractEntity<Integer> {
 	@Column(name = "password")
 	private String password;
 
+	@Column(name = "nome")
+	private String nome;
+
 	@Column(name = "roles")
 	private String roles;
 
@@ -35,16 +38,18 @@ public class Usuario extends AbstractEntity<Integer> {
 		super();
 	}
 
-	public Usuario(String username, String password) {
+	public Usuario(String username, String password, String nome) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.nome = nome;
 	}
 
-	public Usuario(String username, String password, String roles) {
+	public Usuario(String username, String password, String nome, String roles) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.nome = nome;
 		this.roles = roles;
 	}
 
@@ -72,6 +77,14 @@ public class Usuario extends AbstractEntity<Integer> {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getRoles() {

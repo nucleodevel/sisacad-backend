@@ -26,10 +26,6 @@ public class VestibulandoService extends AbstractService<Vestibulando, Integer, 
 			error += "CPF pendente; ";
 		}
 
-		if (entity.getNome() == null) {
-			error += "Nome pendente; ";
-		}
-
 		if (entity.getDataNascimento() == null) {
 			error += "Data de nascimento pendente; ";
 		}

@@ -7,19 +7,19 @@ public class DocenteDto extends AbstractDto<Docente, Integer> {
 	private static final long serialVersionUID = 8835147583838231255L;
 
 	private String cpf;
-	private String nome;
 	private Long dataNascimento;
 	private String endereco;
 	private String telefones;
+	private Integer usuario;
 
 	@Override
 	public void copyFromEntity(Docente entity) {
 		this.id = entity.getId();
 		this.cpf = entity.getCpf();
-		this.nome = entity.getNome();
 		this.dataNascimento = entity.getDataNascimento() == null ? null : entity.getDataNascimento().getTime();
 		this.endereco = entity.getEndereco();
 		this.telefones = entity.getTelefones();
+		this.usuario = entity.getUsuario().getId();
 	}
 
 	public String getCpf() {
@@ -28,14 +28,6 @@ public class DocenteDto extends AbstractDto<Docente, Integer> {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 
 	public Long getDataNascimento() {
@@ -60,6 +52,14 @@ public class DocenteDto extends AbstractDto<Docente, Integer> {
 
 	public void setTelefones(String telefones) {
 		this.telefones = telefones;
+	}
+
+	public Integer getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Integer usuario) {
+		this.usuario = usuario;
 	}
 
 }
