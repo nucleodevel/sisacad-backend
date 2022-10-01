@@ -32,5 +32,6 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
 			cors.setAllowedHeaders(List.of("*"));
 			return cors;
 		});
+		http.csrf().disable();
 	}
 }

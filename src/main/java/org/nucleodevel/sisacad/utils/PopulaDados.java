@@ -89,6 +89,8 @@ public class PopulaDados {
 
 		if (preencherBase) {
 
+			Usuario usr00 = new Usuario("frontend.key", "frontend.secret", "Siscadad- Frontend", "ROLE_ADMIN");
+
 			Usuario usr01 = new Usuario("docente01", "passdocente01", "João Santos", "ROLE_DOCENTE");
 			Usuario usr02 = new Usuario("docente02", "passdocente02", "Carlos Pereira", "ROLE_DOCENTE");
 			Usuario usr03 = new Usuario("docente03", "passdocente03", "Marcos Benevides", "ROLE_DOCENTE");
@@ -114,8 +116,8 @@ public class PopulaDados {
 			Usuario usr15 = new Usuario("pedagogico01", "passpedagogico01", "Kelvin Tavarez", "ROLE_PEDAGOGICO");
 			Usuario usr16 = new Usuario("graduacao01", "passgraduacao01", "Marina Coelho", "ROLE_GRADUACAO");
 
-			usuarioRepository.saveAll(List.of(usr01, usr02, usr03, usr04, usr05, usr06, usr07, usr08, usr09, usr10,
-					usr11, usr12, usr13, usr14, usr15, usr16));
+			usuarioRepository.saveAll(List.of(usr00, usr01, usr02, usr03, usr04, usr05, usr06, usr07, usr08, usr09,
+					usr10, usr11, usr12, usr13, usr14, usr15, usr16));
 
 			Curso cur1 = new Curso("CRS01", "Engenharia da Computação");
 			Curso cur2 = new Curso("CRS02", "Ciência da Computação");
