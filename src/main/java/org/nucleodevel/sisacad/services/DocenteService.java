@@ -49,4 +49,9 @@ public class DocenteService extends AbstractService<Docente, Integer, DocenteRep
 		return repository.findByOrderByNomeAsc();
 	}
 
+	public Docente findByUsername(String username) {
+		Optional<Docente> entity = repository.findByUsername(username);
+		return entity.isPresent() ? entity.get() : null;
+	}
+
 }

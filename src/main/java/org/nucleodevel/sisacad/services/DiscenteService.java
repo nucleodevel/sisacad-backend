@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.nucleodevel.sisacad.domain.Discente;
+import org.nucleodevel.sisacad.domain.Docente;
 import org.nucleodevel.sisacad.domain.Vestibulando;
 import org.nucleodevel.sisacad.repositories.DiscenteRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
@@ -46,6 +47,10 @@ public class DiscenteService extends AbstractService<Discente, Integer, Discente
 	@Override
 	public List<Discente> findAll() {
 		return repository.findByOrderByVestibulandoAsc();
+	}
+
+	public List<Discente> findAllByDocente(Docente item) {
+		return repository.findByDocente(item);
 	}
 
 }
