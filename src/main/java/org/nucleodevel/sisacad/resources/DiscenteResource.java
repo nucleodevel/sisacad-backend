@@ -1,15 +1,21 @@
 package org.nucleodevel.sisacad.resources;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
+import org.nucleodevel.sisacad.domain.Aula;
 import org.nucleodevel.sisacad.domain.Discente;
 import org.nucleodevel.sisacad.domain.Vestibulando;
+import org.nucleodevel.sisacad.dto.AulaDto;
 import org.nucleodevel.sisacad.dto.DiscenteDto;
 import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
 import org.nucleodevel.sisacad.dto.ParticipacaoAulaDto;
 import org.nucleodevel.sisacad.dto.ParticipacaoAvaliacaoDto;
 import org.nucleodevel.sisacad.security.Role;
+import org.nucleodevel.sisacad.services.AulaService;
 import org.nucleodevel.sisacad.services.DiscenteService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
 import org.nucleodevel.sisacad.services.ParticipacaoAulaService;
@@ -27,6 +33,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/discente")
 public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, Integer, DiscenteService> {
 
+	@Autowired
+	private AulaService aulaService;
 	@Autowired
 	private OfertaDisciplinaService ofertaDisciplinaService;
 	@Autowired
@@ -63,6 +71,23 @@ public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, In
 		}
 
 		return entity;
+	}
+
+	@RequestMapping(value = "/by-username/{username}", method = RequestMethod.GET)
+	public ResponseEntity<List<DiscenteDto>> findByUsername(@PathVariable String username) {
+		validatePermissionsToRead();
+
+		if (username != null && !username.equals("")) {
+			Discente entity = service.findByUsername(username);
+			DiscenteDto dto = getDtoFromEntity(entity);
+
+			List<DiscenteDto> listAllDto = new ArrayList<>();
+			listAllDto.add(dto);
+
+			return ResponseEntity.ok().body(listAllDto);
+		}
+
+		return super.findAll();
 	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina", method = RequestMethod.GET)
@@ -108,6 +133,30 @@ public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, In
 
 		validatePermissionsToRead();
 		return findAllSubList(ParticipacaoAvaliacaoService.class, ParticipacaoAvaliacaoDto.class, id);
+	}
+
+	@RequestMapping(value = "/{id}/aula", method = RequestMethod.GET)
+	public ResponseEntity<List<AulaDto>> findAllAula(@PathVariable Integer id)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		validatePermissionsToRead();
+
+		Discente entity = service.find(id);
+
+		List<Aula> listaAula = aulaService.findAllByDiscente(entity);
+		Map<Integer, AulaDto> mapAulaDto = new TreeMap<>();
+
+		for (Aula item : listaAula) {
+			AulaDto dto = new AulaDto();
+			dto.copyFromEntity(item);
+
+			if (!mapAulaDto.containsKey(dto.getId())) {
+				mapAulaDto.put(item.getId(), dto);
+			}
+		}
+
+		return ResponseEntity.ok().body(new ArrayList<>(mapAulaDto.values()));
 	}
 
 }

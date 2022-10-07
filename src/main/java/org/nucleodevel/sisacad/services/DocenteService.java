@@ -7,6 +7,7 @@ import org.nucleodevel.sisacad.domain.Docente;
 import org.nucleodevel.sisacad.repositories.DocenteRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
+import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,7 +52,7 @@ public class DocenteService extends AbstractService<Docente, Integer, DocenteRep
 
 	public Docente findByUsername(String username) {
 		Optional<Docente> entity = repository.findByUsername(username);
-		return entity.isPresent() ? entity.get() : null;
+		return entity.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado: " + username));
 	}
 
 }

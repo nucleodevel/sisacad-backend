@@ -14,6 +14,7 @@ import org.nucleodevel.sisacad.services.VestibulandoService;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,6 +66,23 @@ public class VestibulandoResource
 		}
 
 		return entity;
+	}
+
+	@RequestMapping(value = "/by-username/{username}", method = RequestMethod.GET)
+	public ResponseEntity<List<VestibulandoDto>> findByUsername(@PathVariable String username) {
+		validatePermissionsToRead();
+
+		if (username != null && !username.equals("")) {
+			Vestibulando entity = service.findByUsername(username);
+			VestibulandoDto dto = getDtoFromEntity(entity);
+
+			List<VestibulandoDto> listAllDto = new ArrayList<>();
+			listAllDto.add(dto);
+
+			return ResponseEntity.ok().body(listAllDto);
+		}
+
+		return super.findAll();
 	}
 
 	@RequestMapping(value = "/is-not-discente", method = RequestMethod.GET)

@@ -67,6 +67,11 @@ public class VestibulandoService extends AbstractService<Vestibulando, Integer, 
 		return repository.findByOrderByNomeAsc();
 	}
 
+	public Vestibulando findByUsername(String username) {
+		Optional<Vestibulando> entity = repository.findByUsername(username);
+		return entity.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado: " + username));
+	}
+
 	public List<Vestibulando> findListByIsNotDiscente() {
 		return repository.findByIsNotDiscente();
 	}

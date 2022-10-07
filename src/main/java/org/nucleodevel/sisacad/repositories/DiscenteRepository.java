@@ -18,6 +18,9 @@ public interface DiscenteRepository extends AbstractRepository<Discente, Integer
 	@Query(value = "SELECT x FROM Discente x WHERE (?1 IS NULL OR x.id <> ?1) AND x.vestibulando = ?2")
 	Optional<Discente> findSimilarByVestibulando(Integer id, Vestibulando item);
 
+	@Query(value = "SELECT x FROM Discente x WHERE x.vestibulando.usuario.username = ?1")
+	Optional<Discente> findByUsername(String username);
+
 	@Query(value = "SELECT x FROM Discente x LEFT JOIN x.listOfertaDisciplina ofertaDisciplina "
 			+ "WHERE ofertaDisciplina.docente = ?1")
 	List<Discente> findByDocente(Docente item);

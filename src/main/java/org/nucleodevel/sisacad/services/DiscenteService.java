@@ -49,6 +49,11 @@ public class DiscenteService extends AbstractService<Discente, Integer, Discente
 		return repository.findByOrderByVestibulandoAsc();
 	}
 
+	public Discente findByUsername(String username) {
+		Optional<Discente> entity = repository.findByUsername(username);
+		return entity.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado: " + username));
+	}
+
 	public List<Discente> findAllByDocente(Docente item) {
 		return repository.findByDocente(item);
 	}

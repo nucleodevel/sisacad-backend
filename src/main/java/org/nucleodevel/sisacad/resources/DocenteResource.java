@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.nucleodevel.sisacad.domain.Aula;
 import org.nucleodevel.sisacad.domain.Discente;
 import org.nucleodevel.sisacad.domain.Docente;
+import org.nucleodevel.sisacad.dto.AulaDto;
 import org.nucleodevel.sisacad.dto.DiscenteDto;
 import org.nucleodevel.sisacad.dto.DocenteDto;
 import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
 import org.nucleodevel.sisacad.security.Role;
+import org.nucleodevel.sisacad.services.AulaService;
 import org.nucleodevel.sisacad.services.DiscenteService;
 import org.nucleodevel.sisacad.services.DocenteService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
@@ -27,6 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/docente")
 public class DocenteResource extends AbstractResource<Docente, DocenteDto, Integer, DocenteService> {
 
+	@Autowired
+	private AulaService aulaService;
 	@Autowired
 	private DiscenteService discenteService;
 
@@ -52,7 +57,7 @@ public class DocenteResource extends AbstractResource<Docente, DocenteDto, Integ
 	}
 
 	@RequestMapping(value = "/by-username/{username}", method = RequestMethod.GET)
-	public ResponseEntity<List<DocenteDto>> findAll(@PathVariable String username) {
+	public ResponseEntity<List<DocenteDto>> findByUsername(@PathVariable String username) {
 		validatePermissionsToRead();
 
 		if (username != null && !username.equals("")) {
@@ -99,6 +104,30 @@ public class DocenteResource extends AbstractResource<Docente, DocenteDto, Integ
 		}
 
 		return ResponseEntity.ok().body(new ArrayList<>(mapDiscenteDto.values()));
+	}
+
+	@RequestMapping(value = "/{id}/aula", method = RequestMethod.GET)
+	public ResponseEntity<List<AulaDto>> findAllAula(@PathVariable Integer id)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		validatePermissionsToRead();
+
+		Docente entity = service.find(id);
+
+		List<Aula> listaAula = aulaService.findAllByDocente(entity);
+		Map<Integer, AulaDto> mapAulaDto = new TreeMap<>();
+
+		for (Aula item : listaAula) {
+			AulaDto dto = new AulaDto();
+			dto.copyFromEntity(item);
+
+			if (!mapAulaDto.containsKey(dto.getId())) {
+				mapAulaDto.put(item.getId(), dto);
+			}
+		}
+
+		return ResponseEntity.ok().body(new ArrayList<>(mapAulaDto.values()));
 	}
 
 }

@@ -3,6 +3,8 @@ package org.nucleodevel.sisacad.services;
 import java.util.List;
 
 import org.nucleodevel.sisacad.domain.Aula;
+import org.nucleodevel.sisacad.domain.Discente;
+import org.nucleodevel.sisacad.domain.Docente;
 import org.nucleodevel.sisacad.repositories.AulaRepository;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
@@ -50,6 +52,14 @@ public class AulaService extends AbstractService<Aula, Integer, AulaRepository> 
 	@Override
 	public List<Aula> findAll() {
 		return repository.findByOrderByInicioDescTerminoDesc();
+	}
+
+	public List<Aula> findAllByDocente(Docente item) {
+		return repository.findByDocente(item);
+	}
+
+	public List<Aula> findAllByDiscente(Discente item) {
+		return repository.findByDiscente(item);
 	}
 
 }
