@@ -27,10 +27,6 @@ public class OfertaDisciplinaService extends AbstractService<OfertaDisciplina, I
 			error += "Código pendente; ";
 		}
 
-		if (entity.getSemestre() == null) {
-			error += "Semestre pendente; ";
-		}
-
 		if (entity.getDisciplina() == null) {
 			error += "Disciplina pendente; ";
 		} else {

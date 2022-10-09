@@ -26,9 +26,6 @@ public class OfertaDisciplina extends AbstractEntity<Integer> {
 	@Column(name = "codigo")
 	private String codigo;
 
-	@Column(name = "semestre")
-	private Integer semestre;
-
 	@ManyToOne
 	@JoinColumn(name = "id_disciplina")
 	private Disciplina disciplina;
@@ -55,10 +52,9 @@ public class OfertaDisciplina extends AbstractEntity<Integer> {
 		super();
 	}
 
-	public OfertaDisciplina(String codigo, Integer semestre, Disciplina disciplina, Docente docente) {
+	public OfertaDisciplina(String codigo, Disciplina disciplina, Docente docente) {
 		super();
 		this.codigo = codigo;
-		this.semestre = semestre;
 		this.disciplina = disciplina;
 		this.docente = docente;
 	}
@@ -79,14 +75,6 @@ public class OfertaDisciplina extends AbstractEntity<Integer> {
 
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
-	}
-
-	public Integer getSemestre() {
-		return semestre;
-	}
-
-	public void setSemestre(Integer semestre) {
-		this.semestre = semestre;
 	}
 
 	public Disciplina getDisciplina() {

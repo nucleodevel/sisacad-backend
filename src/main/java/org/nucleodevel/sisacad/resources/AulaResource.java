@@ -126,7 +126,10 @@ public class AulaResource extends AbstractResource<Aula, AulaDto, Integer, AulaS
 		Usuario usuario = docente.getUsuario();
 
 		SimpleMailMessage message = new SimpleMailMessage();
-		message.setText("Aula criada com sucesso");
+		message.setText(
+				"Aula criada com sucesso" + "\nDocente: " + docente.getUsuario().getNome() + "\nOferta de disciplina: "
+						+ ofertaDisciplina.getCodigo() + " - " + ofertaDisciplina.getDisciplina().getNome()
+						+ "\nInício: " + entity.getInicio() + "\nTérmino: " + entity.getTermino());
 		message.setTo(usuario.getEmail());
 		message.setFrom("noreply@sisacad.hopto.org");
 
