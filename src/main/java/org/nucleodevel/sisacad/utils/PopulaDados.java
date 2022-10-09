@@ -89,32 +89,41 @@ public class PopulaDados {
 
 		if (preencherBase) {
 
-			Usuario usr00 = new Usuario("frontend.key", "frontend.secret", "Siscadad- Frontend", "ROLE_ADMIN");
+			Usuario usr00 = new Usuario("frontend.key", "frontend.secret", "Siscadad- Frontend",
+					"sisacad.frontend@email.com", "ROLE_ADMIN");
 
-			Usuario usr01 = new Usuario("docente01", "passdocente01", "João Santos", "ROLE_DOCENTE");
-			Usuario usr02 = new Usuario("docente02", "passdocente02", "Carlos Pereira", "ROLE_DOCENTE");
-			Usuario usr03 = new Usuario("docente03", "passdocente03", "Marcos Benevides", "ROLE_DOCENTE");
-			Usuario usr04 = new Usuario("vestibulando01", "passvestibulando01", "Rosana Martins",
+			Usuario usr01 = new Usuario("docente01", "passdocente01", "João Santos", "joao.santos@email.com",
+					"ROLE_DOCENTE");
+			Usuario usr02 = new Usuario("docente02", "passdocente02", "Carlos Pereira", "carlos.pereira@email.com",
+					"ROLE_DOCENTE");
+			Usuario usr03 = new Usuario("docente03", "passdocente03", "Marcos Benevides", "marcos.benevides@email.com",
+					"ROLE_DOCENTE");
+			Usuario usr04 = new Usuario("discente01", "passdiscente01", "Rosana Martins", "rosana.martins@email.com",
 					"ROLE_DISCENTE,ROLE_VESTIBULANDO");
 			Usuario usr05 = new Usuario("vestibulando02", "passvestibulando02", "Osvaldo Picci",
-					"ROLE_DISCENTE,ROLE_VESTIBULANDO");
+					"osvaldo.picci@email.com", "ROLE_DISCENTE,ROLE_VESTIBULANDO");
 			Usuario usr06 = new Usuario("vestibulando03", "passvestibulando03", "José Albertino",
-					"ROLE_DISCENTE,ROLE_VESTIBULANDO");
-			Usuario usr07 = new Usuario("vestibulando04", "passvestibulando04", "Kelvin Smith", "ROLE_VESTIBULANDO");
+					"jose.albertino@email.com", "ROLE_DISCENTE,ROLE_VESTIBULANDO");
+			Usuario usr07 = new Usuario("vestibulando04", "passvestibulando04", "Kelvin Smith",
+					"kelvin.smith@email.com", "ROLE_VESTIBULANDO");
 			Usuario usr08 = new Usuario("vestibulando05", "passvestibulando05", "Melinda Flores",
-					"ROLE_DISCENTE,ROLE_VESTIBULANDO");
+					"melinda.flores@email.com", "ROLE_DISCENTE,ROLE_VESTIBULANDO");
 			Usuario usr09 = new Usuario("vestibulando06", "passvestibulando06", "Guilherme Toledo",
-					"ROLE_DISCENTE,ROLE_VESTIBULANDO");
-			Usuario usr10 = new Usuario("vestibulando07", "passvestibulando07", "Homero Assis", "ROLE_VESTIBULANDO");
+					"guilherme.toledo@email.com", "ROLE_DISCENTE,ROLE_VESTIBULANDO");
+			Usuario usr10 = new Usuario("vestibulando07", "passvestibulando07", "Homero Assis",
+					"homero.assis@email.com", "ROLE_VESTIBULANDO");
 			Usuario usr11 = new Usuario("vestibulando08", "passvestibulando08", "Carlos Balbuena",
-					"ROLE_DISCENTE,ROLE_VESTIBULANDO");
-			Usuario usr12 = new Usuario("vestibulando09", "passvestibulando09", "Teo Lee",
+					"carlos.balbuena@email.com", "ROLE_DISCENTE,ROLE_VESTIBULANDO");
+			Usuario usr12 = new Usuario("vestibulando09", "passvestibulando09", "Teo Lee", "teo.lee@email.com",
 					"ROLE_DISCENTE,ROLE_VESTIBULANDO");
 			Usuario usr13 = new Usuario("vestibulando10", "passvestibulando10", "Neusa Feltrin",
-					"ROLE_DISCENTE,ROLE_VESTIBULANDO");
-			Usuario usr14 = new Usuario("admin01", "passadmin01", "Rolando Neves", "ROLE_ADMIN");
-			Usuario usr15 = new Usuario("pedagogico01", "passpedagogico01", "Kelvin Tavarez", "ROLE_PEDAGOGICO");
-			Usuario usr16 = new Usuario("graduacao01", "passgraduacao01", "Marina Coelho", "ROLE_GRADUACAO");
+					"neusa.feltrin@email.com", "ROLE_DISCENTE,ROLE_VESTIBULANDO");
+			Usuario usr14 = new Usuario("admin01", "passadmin01", "Rolando Neves", "rolando.neves@email.com",
+					"ROLE_ADMIN");
+			Usuario usr15 = new Usuario("pedagogico01", "passpedagogico01", "Paulo Tavarez", "paulo.tavarez@email.com",
+					"ROLE_PEDAGOGICO");
+			Usuario usr16 = new Usuario("graduacao01", "passgraduacao01", "Marina Coelho", "marina.coelho@email.com",
+					"ROLE_GRADUACAO");
 
 			usuarioRepository.saveAll(List.of(usr00, usr01, usr02, usr03, usr04, usr05, usr06, usr07, usr08, usr09,
 					usr10, usr11, usr12, usr13, usr14, usr15, usr16));

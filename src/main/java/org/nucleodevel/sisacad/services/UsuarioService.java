@@ -28,6 +28,10 @@ public class UsuarioService extends AbstractService<Usuario, Integer, UsuarioRep
 			error += "Nome pendente; ";
 		}
 
+		if (entity.getEmail() == null) {
+			error += "E-mail pendente; ";
+		}
+
 		if (!error.isEmpty()) {
 			throw new FieldValidationException(entity.getId(), getEntityClass(), error);
 		}

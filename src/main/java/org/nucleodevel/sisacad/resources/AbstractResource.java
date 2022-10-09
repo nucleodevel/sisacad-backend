@@ -18,10 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends AbstractDto<E, ID>, ID, S extends AbstractService<E, ID, ?>> {
@@ -181,8 +177,7 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 	 * 
 	 */
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<DTO> find(@PathVariable ID id) {
+	public ResponseEntity<DTO> find(ID id) {
 		validatePermissionsToRead();
 
 		E entity = service.find(id);
@@ -190,8 +185,7 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 		return ResponseEntity.ok().body(dto);
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<DTO> insert(@RequestBody DTO dto) {
+	public ResponseEntity<DTO> insert(DTO dto) {
 		validatePermissionsToWrite();
 
 		E entity = service.insert(getEntityFromDto(dto));
@@ -201,8 +195,7 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 		return ResponseEntity.created(uri).body(dto);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody DTO dto, @PathVariable ID id) {
+	public ResponseEntity<Void> update(DTO dto, ID id) {
 		validatePermissionsToWrite();
 
 		E oldEntity = service.find(id);
@@ -214,15 +207,13 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 		return ResponseEntity.noContent().build();
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> delete(@PathVariable ID id) {
+	public ResponseEntity<Void> delete(ID id) {
 		validatePermissionsToWrite();
 
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<DTO>> findAll() {
 		validatePermissionsToRead();
 

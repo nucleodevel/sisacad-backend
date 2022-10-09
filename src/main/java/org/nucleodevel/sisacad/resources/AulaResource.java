@@ -7,7 +7,9 @@ import java.util.List;
 
 import org.nucleodevel.sisacad.domain.Aula;
 import org.nucleodevel.sisacad.domain.Discente;
+import org.nucleodevel.sisacad.domain.Docente;
 import org.nucleodevel.sisacad.domain.OfertaDisciplina;
+import org.nucleodevel.sisacad.domain.Usuario;
 import org.nucleodevel.sisacad.dto.AulaDto;
 import org.nucleodevel.sisacad.dto.DiscenteDto;
 import org.nucleodevel.sisacad.dto.ParticipacaoAulaDto;
@@ -20,7 +22,10 @@ import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +33,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/aula")
 public class AulaResource extends AbstractResource<Aula, AulaDto, Integer, AulaService> {
+
+	@Autowired
+	private JavaMailSender mailSender;
 
 	@Autowired
 	private DiscenteService discenteService;
@@ -98,6 +106,52 @@ public class AulaResource extends AbstractResource<Aula, AulaDto, Integer, AulaS
 		if (!error.isEmpty()) {
 			throw new FieldValidationException(dto.getId(), getEntityClass(), error);
 		}
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<AulaDto> find(@PathVariable Integer id) {
+		return super.find(id);
+	}
+
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<AulaDto> insert(@RequestBody AulaDto dto) {
+
+		ResponseEntity<AulaDto> response = super.insert(dto);
+
+		dto = response.getBody();
+
+		Aula entity = getEntityFromDto(dto);
+		OfertaDisciplina ofertaDisciplina = entity.getOfertaDisciplina();
+		Docente docente = ofertaDisciplina.getDocente();
+		Usuario usuario = docente.getUsuario();
+
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setText("Aula criada com sucesso");
+		message.setTo(usuario.getEmail());
+		message.setFrom("noreply@sisacad.hopto.org");
+
+		try {
+			mailSender.send(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return response;
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody AulaDto dto, @PathVariable Integer id) {
+		return super.update(dto, id);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		return super.delete(id);
+	}
+
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<AulaDto>> findAll() {
+		return super.findAll();
 	}
 
 	@RequestMapping(value = "/{id}/participacao-aula", method = RequestMethod.GET)
