@@ -58,6 +58,7 @@ public class OfertaDisciplinaResource
 
 		entity.setId(dto.getId());
 		entity.setCodigo(dto.getCodigo());
+		entity.setSemestre(dto.getSemestre());
 
 		if (dto.getDisciplina() != null) {
 			Disciplina disciplina = disciplinaService.find(dto.getDisciplina());
