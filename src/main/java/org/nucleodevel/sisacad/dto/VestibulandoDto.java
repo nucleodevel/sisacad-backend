@@ -23,7 +23,11 @@ public class VestibulandoDto extends AbstractDto<Vestibulando, Integer> {
 		this.endereco = entity.getEndereco();
 		this.telefones = entity.getTelefones();
 		this.ofertaCurso = entity.getOfertaCurso().getId();
-		this.usuario = entity.getUsuario().getId();
+
+		if (entity.getUsuario() != null) {
+			this.usuario = entity.getUsuario().getId();
+		}
+
 		this.avaliacaoVestibulando = entity.getAvaliacaoVestibulando() == null ? null
 				: entity.getAvaliacaoVestibulando().getId();
 		this.discente = entity.getDiscente() == null ? null : entity.getDiscente().getId();

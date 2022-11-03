@@ -6,10 +6,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.nucleodevel.sisacad.domain.OfertaCurso;
+import org.nucleodevel.sisacad.domain.Usuario;
 import org.nucleodevel.sisacad.domain.Vestibulando;
 import org.nucleodevel.sisacad.dto.VestibulandoDto;
 import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.OfertaCursoService;
+import org.nucleodevel.sisacad.services.UsuarioService;
 import org.nucleodevel.sisacad.services.VestibulandoService;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class VestibulandoResource
 
 	@Autowired
 	private OfertaCursoService ofertaCursoService;
+	@Autowired
+	private UsuarioService usuarioService;
 
 	@Override
 	public List<Role> getListAllowedRoleToRead() {
@@ -47,6 +51,16 @@ public class VestibulandoResource
 		entity.setDataNascimento(dto.getDataNascimento() == null ? null : new Date(dto.getDataNascimento()));
 		entity.setEndereco(dto.getEndereco());
 		entity.setTelefones(dto.getTelefones());
+
+		if (dto.getUsuario() != null) {
+			Usuario usuario = usuarioService.find(dto.getOfertaCurso());
+			if (usuario == null) {
+				error += "Usuario com ID " + entity.getUsuario().getId() + " não existente; ";
+			}
+			entity.setUsuario(usuario);
+		} else {
+			entity.setUsuario(null);
+		}
 
 		if (dto.getOfertaCurso() != null) {
 			OfertaCurso ofertaCurso = ofertaCursoService.find(dto.getOfertaCurso());
