@@ -9,6 +9,7 @@ import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class DocenteService extends AbstractService<Docente, Integer, DocenteRepository> {
@@ -17,7 +18,7 @@ public class DocenteService extends AbstractService<Docente, Integer, DocenteRep
 	public void validadeForInsertUpdate(Docente entity) {
 		String error = "";
 
-		if (entity.getCpf() == null) {
+		if (!StringUtils.hasText(entity.getCpf())) {
 			error += "CPF pendente; ";
 		}
 
@@ -25,11 +26,11 @@ public class DocenteService extends AbstractService<Docente, Integer, DocenteRep
 			error += "Data de nascimento pendente; ";
 		}
 
-		if (entity.getEndereco() == null) {
+		if (!StringUtils.hasText(entity.getEndereco())) {
 			error += "Endereço pendente; ";
 		}
 
-		if (entity.getTelefones() == null) {
+		if (!StringUtils.hasText(entity.getTelefones())) {
 			error += "Telefones pendentes; ";
 		}
 

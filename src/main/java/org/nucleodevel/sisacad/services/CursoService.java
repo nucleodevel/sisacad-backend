@@ -8,6 +8,7 @@ import org.nucleodevel.sisacad.repositories.CursoRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class CursoService extends AbstractService<Curso, Integer, CursoRepository> {
@@ -16,11 +17,11 @@ public class CursoService extends AbstractService<Curso, Integer, CursoRepositor
 	public void validadeForInsertUpdate(Curso entity) {
 		String error = "";
 
-		if (entity.getCodigo() == null) {
+		if (!StringUtils.hasText(entity.getCodigo())) {
 			error += "Código pendente; ";
 		}
 
-		if (entity.getNome() == null) {
+		if (!StringUtils.hasText(entity.getNome())) {
 			error += "Nome pendente; ";
 		}
 

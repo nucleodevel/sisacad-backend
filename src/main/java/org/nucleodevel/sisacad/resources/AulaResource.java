@@ -16,14 +16,13 @@ import org.nucleodevel.sisacad.dto.ParticipacaoAulaDto;
 import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.AulaService;
 import org.nucleodevel.sisacad.services.DiscenteService;
+import org.nucleodevel.sisacad.services.MailService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
 import org.nucleodevel.sisacad.services.ParticipacaoAulaService;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AulaResource extends AbstractResource<Aula, AulaDto, Integer, AulaService> {
 
 	@Autowired
-	private JavaMailSender mailSender;
+	private MailService mailService;
 
 	@Autowired
 	private DiscenteService discenteService;
@@ -125,19 +124,12 @@ public class AulaResource extends AbstractResource<Aula, AulaDto, Integer, AulaS
 		Docente docente = ofertaDisciplina.getDocente();
 		Usuario usuario = docente.getUsuario();
 
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setText(
-				"Aula criada com sucesso" + "\nDocente: " + docente.getUsuario().getNome() + "\nOferta de disciplina: "
-						+ ofertaDisciplina.getCodigo() + " - " + ofertaDisciplina.getDisciplina().getNome()
-						+ "\nInício: " + entity.getInicio() + "\nTérmino: " + entity.getTermino());
-		message.setTo(usuario.getEmail());
-		message.setFrom("noreply@sisacad.hopto.org");
+		String mailText = "Aula criada com sucesso" + "\nDocente: " + docente.getUsuario().getNome()
+				+ "\nOferta de disciplina: " + ofertaDisciplina.getCodigo() + " - "
+				+ ofertaDisciplina.getDisciplina().getNome() + "\nInício: " + entity.getInicio() + "\nTérmino: "
+				+ entity.getTermino();
 
-		try {
-			mailSender.send(message);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		mailService.send(usuario.getEmail(), "Aula criada com sucesso", mailText);
 
 		return response;
 	}

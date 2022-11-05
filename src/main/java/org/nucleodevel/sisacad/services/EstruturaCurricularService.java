@@ -10,6 +10,7 @@ import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class EstruturaCurricularService
@@ -22,7 +23,7 @@ public class EstruturaCurricularService
 	public void validadeForInsertUpdate(EstruturaCurricular entity) {
 		String error = "";
 
-		if (entity.getCodigo() == null) {
+		if (!StringUtils.hasText(entity.getCodigo())) {
 			error += "Código pendente; ";
 		}
 

@@ -12,6 +12,7 @@ import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class OfertaCursoService extends AbstractService<OfertaCurso, Integer, OfertaCursoRepository> {
@@ -25,7 +26,7 @@ public class OfertaCursoService extends AbstractService<OfertaCurso, Integer, Of
 	public void validadeForInsertUpdate(OfertaCurso entity) {
 		String error = "";
 
-		if (entity.getCodigo() == null) {
+		if (!StringUtils.hasText(entity.getCodigo())) {
 			error += "Código pendente; ";
 		}
 

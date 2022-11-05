@@ -8,6 +8,7 @@ import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class AvaliacaoService extends AbstractService<Avaliacao, Integer, AvaliacaoRepository> {
@@ -19,7 +20,7 @@ public class AvaliacaoService extends AbstractService<Avaliacao, Integer, Avalia
 	public void validadeForInsertUpdate(Avaliacao entity) {
 		String error = "";
 
-		if (entity.getDescricao() == null) {
+		if (!StringUtils.hasText(entity.getDescricao())) {
 			error += "Descrição pendente; ";
 		}
 

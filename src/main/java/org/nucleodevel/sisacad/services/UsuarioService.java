@@ -8,6 +8,7 @@ import org.nucleodevel.sisacad.repositories.UsuarioRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class UsuarioService extends AbstractService<Usuario, Integer, UsuarioRepository> {
@@ -16,19 +17,19 @@ public class UsuarioService extends AbstractService<Usuario, Integer, UsuarioRep
 	public void validadeForInsertUpdate(Usuario entity) {
 		String error = "";
 
-		if (entity.getUsername() == null) {
+		if (!StringUtils.hasText(entity.getUsername())) {
 			error += "Username pendente; ";
 		}
 
-		if (entity.getPassword() == null) {
+		if (!StringUtils.hasText(entity.getPassword())) {
 			error += "Password pendente; ";
 		}
 
-		if (entity.getNome() == null) {
+		if (!StringUtils.hasText(entity.getNome())) {
 			error += "Nome pendente; ";
 		}
 
-		if (entity.getEmail() == null) {
+		if (!StringUtils.hasText(entity.getEmail())) {
 			error += "E-mail pendente; ";
 		}
 

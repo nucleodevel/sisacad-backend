@@ -11,6 +11,7 @@ import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class VestibulandoService extends AbstractService<Vestibulando, Integer, VestibulandoRepository> {
@@ -22,7 +23,7 @@ public class VestibulandoService extends AbstractService<Vestibulando, Integer, 
 	public void validadeForInsertUpdate(Vestibulando entity) {
 		String error = "";
 
-		if (entity.getCpf() == null) {
+		if (!StringUtils.hasText(entity.getCpf())) {
 			error += "CPF pendente; ";
 		}
 
@@ -30,11 +31,11 @@ public class VestibulandoService extends AbstractService<Vestibulando, Integer, 
 			error += "Data de nascimento pendente; ";
 		}
 
-		if (entity.getEndereco() == null) {
+		if (!StringUtils.hasText(entity.getEndereco())) {
 			error += "Endereço pendente; ";
 		}
 
-		if (entity.getTelefones() == null) {
+		if (!StringUtils.hasText(entity.getTelefones())) {
 			error += "Telefones pendentes; ";
 		}
 

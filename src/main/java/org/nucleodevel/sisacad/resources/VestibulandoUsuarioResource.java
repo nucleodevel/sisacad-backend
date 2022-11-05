@@ -11,6 +11,7 @@ import org.nucleodevel.sisacad.domain.Usuario;
 import org.nucleodevel.sisacad.domain.Vestibulando;
 import org.nucleodevel.sisacad.dto.VestibulandoUsuarioDto;
 import org.nucleodevel.sisacad.security.Role;
+import org.nucleodevel.sisacad.services.MailService;
 import org.nucleodevel.sisacad.services.OfertaCursoService;
 import org.nucleodevel.sisacad.services.UsuarioService;
 import org.nucleodevel.sisacad.services.VestibulandoService;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +32,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RestController
 @RequestMapping(value = "/vestibulando-usuario")
 public class VestibulandoUsuarioResource {
+
+	@Autowired
+	private MailService mailService;
 
 	@Autowired
 	private VestibulandoService vestibulandoService;
@@ -109,7 +114,7 @@ public class VestibulandoUsuarioResource {
 			vestibulando.setEndereco(dto.getVestibulando().getEndereco());
 			vestibulando.setTelefones(dto.getVestibulando().getTelefones());
 
-			if (dto.getUsuario() != null) {
+			if (dto.getUsuario() != null && dto.getUsuario().getId() != null) {
 				Usuario usuario = usuarioService.find(dto.getUsuario().getId());
 				if (usuario == null) {
 					error += "Usuario com ID " + vestibulando.getUsuario().getId() + " não existente; ";
@@ -119,7 +124,7 @@ public class VestibulandoUsuarioResource {
 				vestibulando.setUsuario(null);
 			}
 
-			if (dto.getVestibulando().getOfertaCurso() != null) {
+			if (dto.getVestibulando() != null && dto.getVestibulando().getOfertaCurso() != null) {
 				OfertaCurso ofertaCurso = ofertaCursoService.find(dto.getVestibulando().getOfertaCurso());
 				if (ofertaCurso == null) {
 					error += "OfertaCurso com ID " + vestibulando.getOfertaCurso().getId() + " não existente; ";
@@ -181,13 +186,42 @@ public class VestibulandoUsuarioResource {
 		Usuario usuarioEntity = getUsuarioEntityFromDto(dto);
 		usuarioEntity.setRoles("ROLE_VESTIBULANDO");
 
+		Vestibulando vestibulandoEntity = getVestibulandoEntityFromDto(dto);
+
+		String errorMsg = "";
+
+		try {
+			usuarioService.validadeForInsertUpdate(usuarioEntity);
+		} catch (FieldValidationException e) {
+			errorMsg += e.getMsg();
+		}
+
+		try {
+			vestibulandoService.validadeForInsertUpdate(vestibulandoEntity);
+		} catch (FieldValidationException e) {
+			errorMsg += e.getMsg();
+		}
+
+		if (StringUtils.hasText(errorMsg)) {
+			throw new FieldValidationException(errorMsg);
+		}
+
 		usuarioEntity = usuarioService.insert(usuarioEntity);
 		dto.getUsuario().setId(usuarioEntity.getId());
 
-		Vestibulando vestibulandoEntity = vestibulandoService.insert(getVestibulandoEntityFromDto(dto));
+		vestibulandoEntity.setUsuario(usuarioEntity);
+		vestibulandoEntity = vestibulandoService.insert(vestibulandoEntity);
 
 		dto = new VestibulandoUsuarioDto();
 		dto.copyFromEntity(vestibulandoEntity, usuarioEntity);
+
+		String mailText = "Inscrição realizada com sucesso\n" + "\nNome: " + usuarioEntity.getNome() + "\nE-mail: "
+				+ usuarioEntity.getEmail() + "\nCPF: " + vestibulandoEntity.getCpf() + "\nOferta de curso: "
+				+ vestibulandoEntity.getOfertaCurso().getEstruturaCurricular().getCurso().getNome() + "/"
+				+ vestibulandoEntity.getOfertaCurso().getVestibular().getAno() + "\nUsername: "
+				+ usuarioEntity.getUsername() + "\nPassword: " + usuarioEntity.getPassword();
+
+		mailService.send(usuarioEntity.getEmail(), "Inscrição realizada com sucesso", mailText);
 
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);

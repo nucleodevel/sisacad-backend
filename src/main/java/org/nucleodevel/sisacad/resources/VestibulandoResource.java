@@ -53,7 +53,7 @@ public class VestibulandoResource
 		entity.setTelefones(dto.getTelefones());
 
 		if (dto.getUsuario() != null) {
-			Usuario usuario = usuarioService.find(dto.getOfertaCurso());
+			Usuario usuario = usuarioService.find(dto.getUsuario());
 			if (usuario == null) {
 				error += "Usuario com ID " + entity.getUsuario().getId() + " não existente; ";
 			}
