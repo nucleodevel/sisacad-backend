@@ -15,4 +15,7 @@ public interface DisciplinaRepository extends AbstractRepository<Disciplina, Int
 	@Query(value = "SELECT x FROM Disciplina x WHERE (?1 IS NULL OR x.id <> ?1) AND x.codigo = ?2")
 	Optional<Disciplina> findSimilarByCodigo(Integer id, String codigo);
 
+	@Query(value = "SELECT x FROM Disciplina x WHERE (?1 IS NULL OR x.id <> ?1) AND x.nome = ?2")
+	Optional<Disciplina> findSimilarByNome(Integer id, String nome);
+
 }

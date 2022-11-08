@@ -39,9 +39,16 @@ public class UsuarioService extends AbstractService<Usuario, Integer, UsuarioRep
 
 		String myUsername = entity.getUsername();
 
-		Optional<Usuario> similar = repository.findSimilarByUsername(entity.getId(), myUsername);
-		similar.ifPresent(obj -> {
+		Optional<Usuario> similarByUsername = repository.findSimilarByUsername(entity.getId(), myUsername);
+		similarByUsername.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe um Usuario com esse username!");
+		});
+
+		String myEmail = entity.getEmail();
+
+		Optional<Usuario> similarByEmail = repository.findSimilarByEmail(entity.getId(), myEmail);
+		similarByEmail.ifPresent(obj -> {
+			throw new DataIntegrityException("Já existe um Usuario com esse e-mail!");
 		});
 	}
 

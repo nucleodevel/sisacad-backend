@@ -31,8 +31,15 @@ public class CursoService extends AbstractService<Curso, Integer, CursoRepositor
 
 		String myCodigo = entity.getCodigo();
 
-		Optional<Curso> similar = repository.findSimilarByCodigo(entity.getId(), myCodigo);
-		similar.ifPresent(obj -> {
+		Optional<Curso> similarByCodigo = repository.findSimilarByCodigo(entity.getId(), myCodigo);
+		similarByCodigo.ifPresent(obj -> {
+			throw new DataIntegrityException("Já existe um curso com este código!");
+		});
+
+		String myNome = entity.getNome();
+
+		Optional<Curso> similarByNome = repository.findSimilarByNome(entity.getId(), myNome);
+		similarByNome.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe um curso com este nome!");
 		});
 	}

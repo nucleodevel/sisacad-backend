@@ -17,4 +17,7 @@ public interface UsuarioRepository extends AbstractRepository<Usuario, Integer> 
 	@Query(value = "SELECT x FROM Usuario x WHERE (?1 IS NULL OR x.id <> ?1) AND x.username = ?2")
 	Optional<Usuario> findSimilarByUsername(Integer id, String username);
 
+	@Query(value = "SELECT x FROM Usuario x WHERE (?1 IS NULL OR x.id <> ?1) AND x.email = ?2")
+	Optional<Usuario> findSimilarByEmail(Integer id, String email);
+
 }

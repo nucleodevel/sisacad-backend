@@ -8,6 +8,7 @@ import org.nucleodevel.sisacad.repositories.DocenteRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
+import org.nucleodevel.sisacad.utils.CpfValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -20,6 +21,10 @@ public class DocenteService extends AbstractService<Docente, Integer, DocenteRep
 
 		if (!StringUtils.hasText(entity.getCpf())) {
 			error += "CPF pendente; ";
+		}
+
+		if (!CpfValidator.isValid(entity.getCpf())) {
+			error += "CPF inválido; ";
 		}
 
 		if (entity.getDataNascimento() == null) {

@@ -15,4 +15,7 @@ public interface CursoRepository extends AbstractRepository<Curso, Integer> {
 	@Query(value = "SELECT x FROM Curso x WHERE (?1 IS NULL OR x.id <> ?1) AND x.codigo = ?2")
 	Optional<Curso> findSimilarByCodigo(Integer id, String codigo);
 
+	@Query(value = "SELECT x FROM Curso x WHERE (?1 IS NULL OR x.id <> ?1) AND x.nome = ?2")
+	Optional<Curso> findSimilarByNome(Integer id, String nome);
+
 }

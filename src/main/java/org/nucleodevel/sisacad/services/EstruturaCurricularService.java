@@ -55,8 +55,8 @@ public class EstruturaCurricularService
 
 		String myCodigo = entity.getCodigo();
 
-		Optional<EstruturaCurricular> similar = repository.findSimilarByCodigo(entity.getId(), myCodigo);
-		similar.ifPresent(obj -> {
+		Optional<EstruturaCurricular> similarByCodigo = repository.findSimilarByCodigo(entity.getId(), myCodigo);
+		similarByCodigo.ifPresent(obj -> {
 			throw new DataIntegrityException("Já existe uma estrutura curricular com esse código!");
 		});
 	}

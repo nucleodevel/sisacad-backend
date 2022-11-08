@@ -9,6 +9,7 @@ import org.nucleodevel.sisacad.repositories.VestibulandoRepository;
 import org.nucleodevel.sisacad.services.exceptions.DataIntegrityException;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.nucleodevel.sisacad.services.exceptions.ObjectNotFoundException;
+import org.nucleodevel.sisacad.utils.CpfValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -25,6 +26,10 @@ public class VestibulandoService extends AbstractService<Vestibulando, Integer, 
 
 		if (!StringUtils.hasText(entity.getCpf())) {
 			error += "CPF pendente; ";
+		}
+
+		if (StringUtils.hasText(entity.getCpf()) && !CpfValidator.isValid(entity.getCpf())) {
+			error += "CPF inválido; ";
 		}
 
 		if (entity.getDataNascimento() == null) {
