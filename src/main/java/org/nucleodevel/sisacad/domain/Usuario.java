@@ -124,4 +124,10 @@ public class Usuario extends AbstractEntity<Integer> {
 		return listAuthority;
 	}
 
+	public void addRole(Role role) {
+		if (!getListRole().contains(role)) {
+			roles += "," + role.getTag();
+		}
+	}
+
 }

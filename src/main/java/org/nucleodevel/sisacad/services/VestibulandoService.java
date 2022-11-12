@@ -78,8 +78,16 @@ public class VestibulandoService extends AbstractService<Vestibulando, Integer, 
 		return entity.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado: " + username));
 	}
 
+	public List<Vestibulando> findListByAprovado() {
+		return repository.findByAprovado();
+	}
+
 	public List<Vestibulando> findListByIsNotDiscente() {
 		return repository.findByIsNotDiscente();
+	}
+
+	public List<Vestibulando> findListByAprovadoAndIsNotDiscente() {
+		return repository.findByAprovadoAndIsNotDiscente();
 	}
 
 }

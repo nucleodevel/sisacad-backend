@@ -21,7 +21,15 @@ public interface VestibulandoRepository extends AbstractRepository<Vestibulando,
 	@Query(value = "SELECT x FROM Vestibulando x WHERE x.usuario.username = ?1")
 	Optional<Vestibulando> findByUsername(String username);
 
+	@Query(value = "SELECT x FROM Vestibulando x LEFT JOIN x.avaliacaoVestibulando av "
+			+ "WHERE av IS NOT NULL ORDER BY x.usuario.nome ASC")
+	List<Vestibulando> findByAprovado();
+
 	@Query(value = "SELECT x FROM Vestibulando x LEFT JOIN x.discente d WHERE d IS NULL ORDER BY x.usuario.nome ASC")
 	List<Vestibulando> findByIsNotDiscente();
+
+	@Query(value = "SELECT x FROM Vestibulando x LEFT JOIN x.avaliacaoVestibulando av LEFT JOIN x.discente d "
+			+ "WHERE av IS NOT NULL AND d IS NULL ORDER BY x.usuario.nome ASC")
+	List<Vestibulando> findByAprovadoAndIsNotDiscente();
 
 }

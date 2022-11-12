@@ -8,6 +8,9 @@ import java.util.TreeMap;
 
 import org.nucleodevel.sisacad.domain.Aula;
 import org.nucleodevel.sisacad.domain.Discente;
+import org.nucleodevel.sisacad.domain.OfertaDisciplina;
+import org.nucleodevel.sisacad.domain.Turma;
+import org.nucleodevel.sisacad.domain.Usuario;
 import org.nucleodevel.sisacad.domain.Vestibulando;
 import org.nucleodevel.sisacad.dto.AulaDto;
 import org.nucleodevel.sisacad.dto.DiscenteDto;
@@ -20,6 +23,7 @@ import org.nucleodevel.sisacad.services.DiscenteService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
 import org.nucleodevel.sisacad.services.ParticipacaoAulaService;
 import org.nucleodevel.sisacad.services.ParticipacaoAvaliacaoService;
+import org.nucleodevel.sisacad.services.UsuarioService;
 import org.nucleodevel.sisacad.services.VestibulandoService;
 import org.nucleodevel.sisacad.services.exceptions.FieldValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +44,8 @@ public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, In
 	private OfertaDisciplinaService ofertaDisciplinaService;
 	@Autowired
 	private VestibulandoService vestibulandoService;
+	@Autowired
+	private UsuarioService usuarioService;
 
 	@Override
 	public List<Role> getListAllowedRoleToRead() {
@@ -81,7 +87,24 @@ public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, In
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<DiscenteDto> insert(@RequestBody DiscenteDto dto) {
-		return super.insert(dto);
+
+		ResponseEntity<DiscenteDto> result = super.insert(dto);
+		DiscenteDto newDto = result.getBody();
+
+		Discente entity = getEntityFromDto(newDto);
+
+		Usuario usuarioEntity = entity.getVestibulando().getUsuario();
+		usuarioEntity.addRole(Role.DISCENTE);
+		usuarioEntity = usuarioService.update(usuarioEntity);
+
+		Turma turma = entity.getVestibulando().getOfertaCurso().getTurma();
+		if (turma != null) {
+			List<OfertaDisciplina> listaOfertaDisciplina = turma.getListOfertaDisciplina();
+			entity.setListOfertaDisciplina(new ArrayList<>(listaOfertaDisciplina));
+		}
+
+		service.update(entity);
+		return result;
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)

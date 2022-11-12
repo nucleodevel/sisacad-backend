@@ -125,6 +125,24 @@ public class VestibulandoResource
 		return super.findAll();
 	}
 
+	@RequestMapping(value = "/aprovado", method = RequestMethod.GET)
+	public ResponseEntity<List<VestibulandoDto>> findAprovado() throws NoSuchMethodException, SecurityException,
+			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+
+		validatePermissionsToRead();
+
+		List<Vestibulando> listEntity = service.findListByAprovado();
+		List<VestibulandoDto> listDto = new ArrayList<>();
+
+		listEntity.forEach((entity) -> {
+			VestibulandoDto dto = new VestibulandoDto();
+			dto.copyFromEntity(entity);
+			listDto.add(dto);
+		});
+
+		return ResponseEntity.ok().body(listDto);
+	}
+
 	@RequestMapping(value = "/is-not-discente", method = RequestMethod.GET)
 	public ResponseEntity<List<VestibulandoDto>> findByAulaAndDiscente()
 			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
@@ -133,6 +151,25 @@ public class VestibulandoResource
 		validatePermissionsToRead();
 
 		List<Vestibulando> listEntity = service.findListByIsNotDiscente();
+		List<VestibulandoDto> listDto = new ArrayList<>();
+
+		listEntity.forEach((entity) -> {
+			VestibulandoDto dto = new VestibulandoDto();
+			dto.copyFromEntity(entity);
+			listDto.add(dto);
+		});
+
+		return ResponseEntity.ok().body(listDto);
+	}
+
+	@RequestMapping(value = "/aprovado-not-discente", method = RequestMethod.GET)
+	public ResponseEntity<List<VestibulandoDto>> findAprovadoNotDiscente()
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
+
+		validatePermissionsToRead();
+
+		List<Vestibulando> listEntity = service.findListByAprovadoAndIsNotDiscente();
 		List<VestibulandoDto> listDto = new ArrayList<>();
 
 		listEntity.forEach((entity) -> {

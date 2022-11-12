@@ -29,6 +29,9 @@ public class DiscenteService extends AbstractService<Discente, Integer, Discente
 		} else {
 			try {
 				myVestibulando = vestibulandoService.find(entity.getVestibulando().getId());
+				if (myVestibulando != null && myVestibulando.getAvaliacaoVestibulando() == null) {
+					error += "Avaliação do vestibulando pendente; ";
+				}
 			} catch (ObjectNotFoundException e) {
 				error += "Vestibulando com ID " + entity.getVestibulando().getId() + " não existente; ";
 			}
