@@ -119,40 +119,7 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, R extend
 	}
 
 	@SuppressWarnings("unchecked")
-	public <IE extends AbstractEntity<IID>, IID> List<IE> findAllSubEntityList(Class<IE> subEntityClass, ID id)
-			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-			NoSuchMethodException, SecurityException {
-
-		List<Object> subObjectList = findAllSubObjectList(subEntityClass, id);
-
-		List<IE> subEntityList = new ArrayList<>();
-		subObjectList.forEach((x) -> subEntityList.add((IE) x));
-
-		return subEntityList;
-	}
-
-	public <IS extends AbstractService<IE, IID, ?>, IE extends AbstractEntity<IID>, IID> ResponseEntity<Void> insertSubEntityList(
-			ID id, IID subEntityId, IS subService) throws NoSuchMethodException, SecurityException,
-			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-
-		return insertSubObjectList(id, subEntityId, subService);
-	}
-
-	public <IS extends AbstractService<IE, IID, ?>, IE extends AbstractEntity<IID>, IID> ResponseEntity<Void> deleteSubEntityList(
-			ID id, IID subEntityId, IS subService) throws NoSuchMethodException, SecurityException,
-			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-
-		return deleteSubObjectList(id, subEntityId, subService);
-	}
-
-	/*
-	 * 
-	 * Auxiliar operations
-	 * 
-	 */
-
-	@SuppressWarnings("unchecked")
-	public List<Object> findAllSubObjectList(Class<?> subEntityClass, ID id)
+	public <IE extends AbstractEntity<?>> List<IE> findAllSubList(Class<IE> subEntityClass, ID id)
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
 
@@ -161,37 +128,41 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, R extend
 		E entity = find(id);
 		Method subListMethod = entity.getClass().getMethod(subListMethodName);
 
-		return (List<Object>) subListMethod.invoke(entity);
+		List<Object> subObjectList = (List<Object>) subListMethod.invoke(entity);
+
+		List<IE> subEntityList = new ArrayList<>();
+		subObjectList.forEach((x) -> subEntityList.add((IE) x));
+
+		return subEntityList;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <IS extends AbstractService<?, IID, ?>, IID> ResponseEntity<Void> insertSubObjectList(ID id, IID subEntityId,
-			IS subService) throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public <IS extends AbstractService<IE, IID, ?>, IE extends AbstractEntity<IID>, IID> ResponseEntity<Void> insertIntoSubList(
+			ID id, IID subEntityId, IS subService, Class<IE> subEntityClass)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
 
-		Class<?> subEntityClass = subService.getEntityClass();
-		List<Object> subEntityList = findAllSubObjectList(subEntityClass, id);
+		List<IE> subEntityList = findAllSubList(subEntityClass, id);
 
 		boolean exists = false;
-		for (Object subObject : subEntityList) {
-			Object castSubObject = subEntityClass.cast(subObject);
-			Method subGetId = castSubObject.getClass().getMethod(getDefaultGetIdMethodName());
+		for (IE item : subEntityList) {
+			Method subGetId = item.getClass().getMethod(getDefaultGetIdMethodName());
 
-			IID subObjectId = (IID) subGetId.invoke(castSubObject);
+			@SuppressWarnings("unchecked")
+			IID itemId = (IID) subGetId.invoke(item);
 
-			if (subObjectId == subEntityId) {
+			if (itemId == subEntityId) {
 				exists = true;
 			}
 		}
 
 		if (!exists) {
-			Object subObject = subService.find(subEntityId);
+			IE item = subService.find(subEntityId);
 
 			E entity = find(id);
 
 			String subListMethodName = getDefaultSubListInsertMethodPrefix() + subEntityClass.getSimpleName();
 			Method subListMethod = entity.getClass().getMethod(subListMethodName, subEntityClass);
-			subListMethod.invoke(entity, subObject);
+			subListMethod.invoke(entity, item);
 
 			update(entity);
 		}
@@ -199,35 +170,35 @@ public abstract class AbstractService<E extends AbstractEntity<ID>, ID, R extend
 		return ResponseEntity.noContent().build();
 	}
 
-	@SuppressWarnings("unchecked")
-	public <IS extends AbstractService<?, IID, ?>, IID> ResponseEntity<Void> deleteSubObjectList(ID id, IID subEntityId,
-			IS subService) throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public <IS extends AbstractService<IE, IID, ?>, IE extends AbstractEntity<IID>, IID> ResponseEntity<Void> deleteFromSubList(
+			ID id, IID subEntityId, IS subService, Class<IE> subEntityClass)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
 
-		Class<?> subEntityClass = subService.getEntityClass();
-		List<Object> subEntityList = findAllSubObjectList(subEntityClass, id);
+		List<IE> subEntityList = findAllSubList(subEntityClass, id);
 
 		Integer subPosition = null;
 		for (int i = 0; i < subEntityList.size(); i++) {
 
-			Object castSubObject = subEntityClass.cast(subEntityList.get(i));
-			Method subGetId = castSubObject.getClass().getMethod(getDefaultGetIdMethodName());
+			IE item = subEntityList.get(i);
+			Method itemGetId = item.getClass().getMethod(getDefaultGetIdMethodName());
 
-			IID subObjectId = (IID) subGetId.invoke(castSubObject);
+			@SuppressWarnings("unchecked")
+			IID itemId = (IID) itemGetId.invoke(item);
 
-			if (subObjectId == subEntityId) {
+			if (itemId == subEntityId) {
 				subPosition = i;
 			}
 		}
 
 		if (subPosition != null) {
-			Object subObject = subService.find(subEntityId);
+			IE item = subService.find(subEntityId);
 
 			E entity = find(id);
 
 			String subListMethodName = getDefaultSubListDeleteMethodPrefix() + subEntityClass.getSimpleName();
 			Method subListMethod = entity.getClass().getMethod(subListMethodName, subEntityClass);
-			subListMethod.invoke(entity, subObject);
+			subListMethod.invoke(entity, item);
 
 			update(entity);
 		}

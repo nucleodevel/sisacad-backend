@@ -106,4 +106,9 @@ public class Turma extends AbstractEntity<Integer> {
 		}
 	}
 
+	@Override
+	public String toComparableString() {
+		return getOfertaCurso().toComparableString() + "//" + getCodigo();
+	}
+
 }

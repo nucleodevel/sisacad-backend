@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.nucleodevel.sisacad.domain.Avaliacao;
 import org.nucleodevel.sisacad.domain.OfertaDisciplina;
+import org.nucleodevel.sisacad.domain.ParticipacaoAvaliacao;
 import org.nucleodevel.sisacad.dto.AvaliacaoDto;
 import org.nucleodevel.sisacad.dto.ParticipacaoAvaliacaoDto;
 import org.nucleodevel.sisacad.security.Role;
@@ -99,7 +100,8 @@ public class AvaliacaoResource extends AbstractResource<Avaliacao, AvaliacaoDto,
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(ParticipacaoAvaliacaoService.class, ParticipacaoAvaliacaoDto.class, id);
+		return findAllSubList(ParticipacaoAvaliacaoService.class, ParticipacaoAvaliacao.class,
+				ParticipacaoAvaliacaoDto.class, id);
 	}
 
 }

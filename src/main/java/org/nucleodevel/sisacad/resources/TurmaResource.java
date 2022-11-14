@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.nucleodevel.sisacad.domain.Discente;
 import org.nucleodevel.sisacad.domain.OfertaCurso;
+import org.nucleodevel.sisacad.domain.OfertaDisciplina;
 import org.nucleodevel.sisacad.domain.Turma;
 import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
 import org.nucleodevel.sisacad.dto.TurmaDto;
@@ -98,7 +99,7 @@ public class TurmaResource extends AbstractResource<Turma, TurmaDto, Integer, Tu
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id);
+		return findAllSubList(OfertaDisciplinaService.class, OfertaDisciplina.class, OfertaDisciplinaDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina/{itemId}", method = RequestMethod.POST)
@@ -107,7 +108,7 @@ public class TurmaResource extends AbstractResource<Turma, TurmaDto, Integer, Tu
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToWrite();
-		return insertSubList(id, itemId, ofertaDisciplinaService);
+		return insertSubList(id, itemId, ofertaDisciplinaService, OfertaDisciplina.class);
 	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina/{itemId}", method = RequestMethod.DELETE)
@@ -116,7 +117,7 @@ public class TurmaResource extends AbstractResource<Turma, TurmaDto, Integer, Tu
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToWrite();
-		return deleteSubList(id, itemId, ofertaDisciplinaService);
+		return deleteSubList(id, itemId, ofertaDisciplinaService, OfertaDisciplina.class);
 	}
 
 	@RequestMapping(value = "/oferta-curso/{ofertaCursoId}", method = RequestMethod.GET)

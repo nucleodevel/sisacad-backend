@@ -104,4 +104,9 @@ public class OfertaCurso extends AbstractEntity<Integer> {
 		return listVestibulando;
 	}
 
+	@Override
+	public String toComparableString() {
+		return getEstruturaCurricular().toComparableString() + "//" + getCodigo();
+	}
+
 }

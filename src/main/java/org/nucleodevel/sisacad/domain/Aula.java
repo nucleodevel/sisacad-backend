@@ -84,4 +84,9 @@ public class Aula extends AbstractEntity<Integer> {
 		return listParticipacaoAula;
 	}
 
+	@Override
+	public String toComparableString() {
+		return getOfertaDisciplina().toComparableString() + "//" + getInicio();
+	}
+
 }

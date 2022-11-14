@@ -4,7 +4,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.nucleodevel.sisacad.domain.Curso;
+import org.nucleodevel.sisacad.domain.Disciplina;
 import org.nucleodevel.sisacad.domain.EstruturaCurricular;
+import org.nucleodevel.sisacad.domain.OfertaCurso;
 import org.nucleodevel.sisacad.dto.DisciplinaDto;
 import org.nucleodevel.sisacad.dto.EstruturaCurricularDto;
 import org.nucleodevel.sisacad.dto.OfertaCursoDto;
@@ -99,7 +101,7 @@ public class EstruturaCurricularResource
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(OfertaCursoService.class, OfertaCursoDto.class, id);
+		return findAllSubList(OfertaCursoService.class, OfertaCurso.class, OfertaCursoDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/disciplina", method = RequestMethod.GET)
@@ -108,7 +110,7 @@ public class EstruturaCurricularResource
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(DisciplinaService.class, DisciplinaDto.class, id);
+		return findAllSubList(DisciplinaService.class, Disciplina.class, DisciplinaDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/disciplina/{itemId}", method = RequestMethod.POST)
@@ -117,7 +119,7 @@ public class EstruturaCurricularResource
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToWrite();
-		return insertSubList(id, itemId, disciplinaService);
+		return insertSubList(id, itemId, disciplinaService, Disciplina.class);
 	}
 
 	@RequestMapping(value = "/{id}/disciplina/{itemId}", method = RequestMethod.DELETE)
@@ -126,7 +128,7 @@ public class EstruturaCurricularResource
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToWrite();
-		return deleteSubList(id, itemId, disciplinaService);
+		return deleteSubList(id, itemId, disciplinaService, Disciplina.class);
 	}
 
 }

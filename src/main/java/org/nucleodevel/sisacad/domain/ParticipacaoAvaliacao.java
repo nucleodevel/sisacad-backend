@@ -73,4 +73,9 @@ public class ParticipacaoAvaliacao extends AbstractEntity<Integer> {
 		this.discente = discente;
 	}
 
+	@Override
+	public String toComparableString() {
+		return getDiscente().toComparableString() + "//" + getAvaliacao().toComparableString();
+	}
+
 }

@@ -138,4 +138,9 @@ public class EstruturaCurricular extends AbstractEntity<Integer> {
 		}
 	}
 
+	@Override
+	public String toComparableString() {
+		return getCurso().toComparableString() + "//" + getCodigo();
+	}
+
 }

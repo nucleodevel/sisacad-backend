@@ -130,4 +130,9 @@ public class Usuario extends AbstractEntity<Integer> {
 		}
 	}
 
+	@Override
+	public String toComparableString() {
+		return getNome() + "//" + getUsername();
+	}
+
 }

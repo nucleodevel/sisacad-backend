@@ -97,4 +97,9 @@ public class AvaliacaoVestibulando extends AbstractEntity<Integer> {
 		this.vestibulando = vestibulando;
 	}
 
+	@Override
+	public String toComparableString() {
+		return getVestibulando().toComparableString();
+	}
+
 }

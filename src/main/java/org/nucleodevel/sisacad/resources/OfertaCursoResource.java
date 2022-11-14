@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.nucleodevel.sisacad.domain.EstruturaCurricular;
 import org.nucleodevel.sisacad.domain.OfertaCurso;
+import org.nucleodevel.sisacad.domain.Vestibulando;
 import org.nucleodevel.sisacad.domain.Vestibular;
 import org.nucleodevel.sisacad.dto.OfertaCursoDto;
 import org.nucleodevel.sisacad.dto.VestibulandoDto;
@@ -107,7 +108,7 @@ public class OfertaCursoResource extends AbstractResource<OfertaCurso, OfertaCur
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(VestibulandoService.class, VestibulandoDto.class, id);
+		return findAllSubList(VestibulandoService.class, Vestibulando.class, VestibulandoDto.class, id);
 	}
 
 }

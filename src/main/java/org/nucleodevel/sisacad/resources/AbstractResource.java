@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -224,15 +225,13 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 		return ResponseEntity.ok().body(listAllDto);
 	}
 
-	public <IS extends AbstractService<?, ?, ?>, IDTO extends AbstractDto<?, ?>> ResponseEntity<List<IDTO>> findAllSubList(
-			Class<IS> subServiceClass, Class<IDTO> subDtoClass, ID id) throws NoSuchMethodException, SecurityException,
-			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public <IS extends AbstractService<IE, ?, ?>, IE extends AbstractEntity<?>, IDTO extends AbstractDto<IE, ?>> ResponseEntity<List<IDTO>> findAllSubList(
+			Class<IS> subServiceClass, Class<IE> subEntityClass, Class<IDTO> subDtoClass, ID id)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
 
-		Constructor<IS> subServiceConstructor = subServiceClass.getDeclaredConstructor();
-		IS subService = subServiceConstructor.newInstance();
-		Class<?> subEntityClass = subService.getEntityClass();
-
-		List<Object> subEntityList = service.findAllSubObjectList(subEntityClass, id);
+		List<IE> subEntityList = service.findAllSubList(subEntityClass, id);
+		Collections.sort(subEntityList);
 
 		List<IDTO> subDtoList = new ArrayList<>();
 		Constructor<IDTO> idtoConstructor = subDtoClass.getDeclaredConstructor();
@@ -246,19 +245,21 @@ public abstract class AbstractResource<E extends AbstractEntity<ID>, DTO extends
 		return ResponseEntity.ok().body(subDtoList);
 	}
 
-	public <IS extends AbstractService<?, ID, ?>> ResponseEntity<Void> insertSubList(ID id, ID subEntityId,
-			IS subService) throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public <IS extends AbstractService<IE, IID, ?>, IE extends AbstractEntity<IID>, IID> ResponseEntity<Void> insertSubList(
+			ID id, IID subEntityId, IS subService, Class<IE> subEntityClass)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
 
-		service.insertSubObjectList(id, subEntityId, subService);
+		service.insertIntoSubList(id, subEntityId, subService, subEntityClass);
 		return ResponseEntity.noContent().build();
 	}
 
-	public <IS extends AbstractService<?, ID, ?>> ResponseEntity<Void> deleteSubList(ID id, ID subEntityId,
-			IS subService) throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public <IS extends AbstractService<IE, IID, ?>, IE extends AbstractEntity<IID>, IID> ResponseEntity<Void> deleteSubList(
+			ID id, IID subEntityId, IS subService, Class<IE> subEntityClass)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
 
-		service.deleteSubObjectList(id, subEntityId, subService);
+		service.deleteFromSubList(id, subEntityId, subService, subEntityClass);
 		return ResponseEntity.noContent().build();
 	}
 

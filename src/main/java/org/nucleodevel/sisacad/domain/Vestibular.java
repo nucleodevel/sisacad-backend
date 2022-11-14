@@ -56,4 +56,11 @@ public class Vestibular extends AbstractEntity<Integer> {
 		return listOfertaCurso;
 	}
 
+	@Override
+	public int compareTo(AbstractEntity<Integer> o) {
+		Vestibular obj = (Vestibular) o;
+
+		return this.ano - obj.getAno();
+	}
+
 }

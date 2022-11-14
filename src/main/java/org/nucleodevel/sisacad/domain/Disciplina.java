@@ -112,4 +112,9 @@ public class Disciplina extends AbstractEntity<Integer> {
 		}
 	}
 
+	@Override
+	public String toComparableString() {
+		return getNome() + "//" + getCodigo();
+	}
+
 }

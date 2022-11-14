@@ -96,4 +96,9 @@ public class Avaliacao extends AbstractEntity<Integer> {
 		return listParticipacaoAvaliacao;
 	}
 
+	@Override
+	public String toComparableString() {
+		return getOfertaDisciplina().toComparableString() + "//" + getInicio();
+	}
+
 }

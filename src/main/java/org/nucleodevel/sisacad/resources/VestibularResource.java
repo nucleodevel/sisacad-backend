@@ -3,6 +3,7 @@ package org.nucleodevel.sisacad.resources;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import org.nucleodevel.sisacad.domain.OfertaCurso;
 import org.nucleodevel.sisacad.domain.Vestibular;
 import org.nucleodevel.sisacad.dto.OfertaCursoDto;
 import org.nucleodevel.sisacad.dto.VestibularDto;
@@ -69,7 +70,7 @@ public class VestibularResource extends AbstractResource<Vestibular, VestibularD
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(OfertaCursoService.class, OfertaCursoDto.class, id);
+		return findAllSubList(OfertaCursoService.class, OfertaCurso.class, OfertaCursoDto.class, id);
 	}
 
 }

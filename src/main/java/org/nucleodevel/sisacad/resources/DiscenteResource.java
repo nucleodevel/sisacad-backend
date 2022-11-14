@@ -9,6 +9,8 @@ import java.util.TreeMap;
 import org.nucleodevel.sisacad.domain.Aula;
 import org.nucleodevel.sisacad.domain.Discente;
 import org.nucleodevel.sisacad.domain.OfertaDisciplina;
+import org.nucleodevel.sisacad.domain.ParticipacaoAula;
+import org.nucleodevel.sisacad.domain.ParticipacaoAvaliacao;
 import org.nucleodevel.sisacad.domain.Turma;
 import org.nucleodevel.sisacad.domain.Usuario;
 import org.nucleodevel.sisacad.domain.Vestibulando;
@@ -20,6 +22,7 @@ import org.nucleodevel.sisacad.dto.ParticipacaoAvaliacaoDto;
 import org.nucleodevel.sisacad.security.Role;
 import org.nucleodevel.sisacad.services.AulaService;
 import org.nucleodevel.sisacad.services.DiscenteService;
+import org.nucleodevel.sisacad.services.MailService;
 import org.nucleodevel.sisacad.services.OfertaDisciplinaService;
 import org.nucleodevel.sisacad.services.ParticipacaoAulaService;
 import org.nucleodevel.sisacad.services.ParticipacaoAvaliacaoService;
@@ -37,6 +40,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/discente")
 public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, Integer, DiscenteService> {
+
+	@Autowired
+	private MailService mailService;
 
 	@Autowired
 	private AulaService aulaService;
@@ -103,6 +109,20 @@ public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, In
 			entity.setListOfertaDisciplina(new ArrayList<>(listaOfertaDisciplina));
 		}
 
+		Usuario usuario = entity.getVestibulando().getUsuario();
+		String turmaStr = turma.getOfertaCurso().getEstruturaCurricular().getCurso().getNome() + " - "
+				+ turma.getOfertaCurso().getAno();
+		String listaOfertaDisciplinaStr = "";
+		for (OfertaDisciplina item : entity.getListOfertaDisciplina()) {
+			listaOfertaDisciplinaStr += "\n - " + item.getDisciplina().getNome();
+		}
+
+		String mailText = "Discente matriculado com sucesso" + "\nDiscente: "
+				+ entity.getVestibulando().getUsuario().getNome() + "\nTurma: " + turmaStr + "\nDisciplinas: "
+				+ listaOfertaDisciplinaStr;
+
+		mailService.send(usuario.getEmail(), "Discente matriculado com sucesso", mailText);
+
 		service.update(entity);
 		return result;
 	}
@@ -145,7 +165,7 @@ public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, In
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id);
+		return findAllSubList(OfertaDisciplinaService.class, OfertaDisciplina.class, OfertaDisciplinaDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina/{itemId}", method = RequestMethod.POST)
@@ -154,7 +174,7 @@ public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, In
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToWrite();
-		return insertSubList(id, itemId, ofertaDisciplinaService);
+		return insertSubList(id, itemId, ofertaDisciplinaService, OfertaDisciplina.class);
 	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina/{itemId}", method = RequestMethod.DELETE)
@@ -163,7 +183,7 @@ public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, In
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToWrite();
-		return deleteSubList(id, itemId, ofertaDisciplinaService);
+		return deleteSubList(id, itemId, ofertaDisciplinaService, OfertaDisciplina.class);
 	}
 
 	@RequestMapping(value = "/{id}/participacao-aula", method = RequestMethod.GET)
@@ -172,7 +192,7 @@ public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, In
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(ParticipacaoAulaService.class, ParticipacaoAulaDto.class, id);
+		return findAllSubList(ParticipacaoAulaService.class, ParticipacaoAula.class, ParticipacaoAulaDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/participacao-avaliacao", method = RequestMethod.GET)
@@ -181,7 +201,8 @@ public class DiscenteResource extends AbstractResource<Discente, DiscenteDto, In
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(ParticipacaoAvaliacaoService.class, ParticipacaoAvaliacaoDto.class, id);
+		return findAllSubList(ParticipacaoAvaliacaoService.class, ParticipacaoAvaliacao.class,
+				ParticipacaoAvaliacaoDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/aula", method = RequestMethod.GET)

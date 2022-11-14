@@ -127,4 +127,9 @@ public class Vestibulando extends AbstractEntity<Integer> {
 		return discente;
 	}
 
+	@Override
+	public String toComparableString() {
+		return getUsuario().toComparableString();
+	}
+
 }

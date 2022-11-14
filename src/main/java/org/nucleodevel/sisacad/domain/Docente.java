@@ -108,4 +108,9 @@ public class Docente extends AbstractEntity<Integer> {
 		return listOfertaDisciplina;
 	}
 
+	@Override
+	public String toComparableString() {
+		return getUsuario().toComparableString();
+	}
+
 }

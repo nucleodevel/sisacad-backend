@@ -68,4 +68,9 @@ public class Curso extends AbstractEntity<Integer> {
 		return listEstruturaCurricular;
 	}
 
+	@Override
+	public String toComparableString() {
+		return getNome() + "//" + getCodigo();
+	}
+
 }

@@ -175,4 +175,9 @@ public class OfertaDisciplina extends AbstractEntity<Integer> {
 		}
 	}
 
+	@Override
+	public String toComparableString() {
+		return getDisciplina().toComparableString() + "//" + getCodigo();
+	}
+
 }

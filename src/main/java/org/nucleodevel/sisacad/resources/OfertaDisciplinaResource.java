@@ -3,9 +3,13 @@ package org.nucleodevel.sisacad.resources;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import org.nucleodevel.sisacad.domain.Aula;
+import org.nucleodevel.sisacad.domain.Avaliacao;
+import org.nucleodevel.sisacad.domain.Discente;
 import org.nucleodevel.sisacad.domain.Disciplina;
 import org.nucleodevel.sisacad.domain.Docente;
 import org.nucleodevel.sisacad.domain.OfertaDisciplina;
+import org.nucleodevel.sisacad.domain.Turma;
 import org.nucleodevel.sisacad.dto.AulaDto;
 import org.nucleodevel.sisacad.dto.AvaliacaoDto;
 import org.nucleodevel.sisacad.dto.DiscenteDto;
@@ -117,7 +121,7 @@ public class OfertaDisciplinaResource
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(AulaService.class, AulaDto.class, id);
+		return findAllSubList(AulaService.class, Aula.class, AulaDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/avaliacao", method = RequestMethod.GET)
@@ -126,7 +130,7 @@ public class OfertaDisciplinaResource
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(AvaliacaoService.class, AvaliacaoDto.class, id);
+		return findAllSubList(AvaliacaoService.class, Avaliacao.class, AvaliacaoDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/discente", method = RequestMethod.GET)
@@ -135,7 +139,7 @@ public class OfertaDisciplinaResource
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(DiscenteService.class, DiscenteDto.class, id);
+		return findAllSubList(DiscenteService.class, Discente.class, DiscenteDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/discente/{itemId}", method = RequestMethod.POST)
@@ -144,7 +148,7 @@ public class OfertaDisciplinaResource
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToWrite();
-		return insertSubList(id, itemId, discenteService);
+		return insertSubList(id, itemId, discenteService, Discente.class);
 	}
 
 	@RequestMapping(value = "/{id}/discente/{itemId}", method = RequestMethod.DELETE)
@@ -153,7 +157,7 @@ public class OfertaDisciplinaResource
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToWrite();
-		return deleteSubList(id, itemId, discenteService);
+		return deleteSubList(id, itemId, discenteService, Discente.class);
 	}
 
 	@RequestMapping(value = "/{id}/turma", method = RequestMethod.GET)
@@ -162,7 +166,7 @@ public class OfertaDisciplinaResource
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(TurmaService.class, TurmaDto.class, id);
+		return findAllSubList(TurmaService.class, Turma.class, TurmaDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/turma/{itemId}", method = RequestMethod.POST)
@@ -171,7 +175,7 @@ public class OfertaDisciplinaResource
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToWrite();
-		return insertSubList(id, itemId, turmaService);
+		return insertSubList(id, itemId, turmaService, Turma.class);
 	}
 
 	@RequestMapping(value = "/{id}/turma/{itemId}", method = RequestMethod.DELETE)
@@ -180,7 +184,7 @@ public class OfertaDisciplinaResource
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToWrite();
-		return deleteSubList(id, itemId, turmaService);
+		return deleteSubList(id, itemId, turmaService, Turma.class);
 	}
 
 }

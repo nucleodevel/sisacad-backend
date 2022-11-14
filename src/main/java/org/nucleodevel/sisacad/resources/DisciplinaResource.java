@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.nucleodevel.sisacad.domain.Disciplina;
+import org.nucleodevel.sisacad.domain.EstruturaCurricular;
+import org.nucleodevel.sisacad.domain.OfertaDisciplina;
 import org.nucleodevel.sisacad.dto.DisciplinaDto;
 import org.nucleodevel.sisacad.dto.EstruturaCurricularDto;
 import org.nucleodevel.sisacad.dto.OfertaDisciplinaDto;
@@ -76,7 +78,8 @@ public class DisciplinaResource extends AbstractResource<Disciplina, DisciplinaD
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(EstruturaCurricularService.class, EstruturaCurricularDto.class, id);
+		return findAllSubList(EstruturaCurricularService.class, EstruturaCurricular.class, EstruturaCurricularDto.class,
+				id);
 	}
 
 	@RequestMapping(value = "/{id}/estrutura-curricular/{itemId}", method = RequestMethod.POST)
@@ -85,7 +88,7 @@ public class DisciplinaResource extends AbstractResource<Disciplina, DisciplinaD
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToWrite();
-		return insertSubList(id, itemId, estruturaCurricularService);
+		return insertSubList(id, itemId, estruturaCurricularService, EstruturaCurricular.class);
 	}
 
 	@RequestMapping(value = "/{id}/estrutura-curricular/{itemId}", method = RequestMethod.DELETE)
@@ -94,7 +97,7 @@ public class DisciplinaResource extends AbstractResource<Disciplina, DisciplinaD
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToWrite();
-		return deleteSubList(id, itemId, estruturaCurricularService);
+		return deleteSubList(id, itemId, estruturaCurricularService, EstruturaCurricular.class);
 	}
 
 	@RequestMapping(value = "/{id}/oferta-disciplina", method = RequestMethod.GET)
@@ -103,7 +106,7 @@ public class DisciplinaResource extends AbstractResource<Disciplina, DisciplinaD
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id);
+		return findAllSubList(OfertaDisciplinaService.class, OfertaDisciplina.class, OfertaDisciplinaDto.class, id);
 	}
 
 }

@@ -10,6 +10,7 @@ import java.util.TreeMap;
 import org.nucleodevel.sisacad.domain.Aula;
 import org.nucleodevel.sisacad.domain.Discente;
 import org.nucleodevel.sisacad.domain.Docente;
+import org.nucleodevel.sisacad.domain.OfertaDisciplina;
 import org.nucleodevel.sisacad.dto.AulaDto;
 import org.nucleodevel.sisacad.dto.DiscenteDto;
 import org.nucleodevel.sisacad.dto.DocenteDto;
@@ -105,7 +106,7 @@ public class DocenteResource extends AbstractResource<Docente, DocenteDto, Integ
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(OfertaDisciplinaService.class, OfertaDisciplinaDto.class, id);
+		return findAllSubList(OfertaDisciplinaService.class, OfertaDisciplina.class, OfertaDisciplinaDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/discente", method = RequestMethod.GET)

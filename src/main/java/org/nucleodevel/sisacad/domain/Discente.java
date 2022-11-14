@@ -108,4 +108,9 @@ public class Discente extends AbstractEntity<Integer> {
 		}
 	}
 
+	@Override
+	public String toComparableString() {
+		return getVestibulando().toComparableString();
+	}
+
 }

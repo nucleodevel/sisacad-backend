@@ -9,6 +9,7 @@ import org.nucleodevel.sisacad.domain.Aula;
 import org.nucleodevel.sisacad.domain.Discente;
 import org.nucleodevel.sisacad.domain.Docente;
 import org.nucleodevel.sisacad.domain.OfertaDisciplina;
+import org.nucleodevel.sisacad.domain.ParticipacaoAula;
 import org.nucleodevel.sisacad.domain.Usuario;
 import org.nucleodevel.sisacad.dto.AulaDto;
 import org.nucleodevel.sisacad.dto.DiscenteDto;
@@ -155,7 +156,7 @@ public class AulaResource extends AbstractResource<Aula, AulaDto, Integer, AulaS
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(ParticipacaoAulaService.class, ParticipacaoAulaDto.class, id);
+		return findAllSubList(ParticipacaoAulaService.class, ParticipacaoAula.class, ParticipacaoAulaDto.class, id);
 	}
 
 	@RequestMapping(value = "/{id}/discente-participante", method = RequestMethod.GET)

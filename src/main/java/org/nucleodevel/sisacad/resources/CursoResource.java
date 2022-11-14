@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.nucleodevel.sisacad.domain.Curso;
+import org.nucleodevel.sisacad.domain.EstruturaCurricular;
 import org.nucleodevel.sisacad.dto.CursoDto;
 import org.nucleodevel.sisacad.dto.EstruturaCurricularDto;
 import org.nucleodevel.sisacad.security.Role;
@@ -70,7 +71,8 @@ public class CursoResource extends AbstractResource<Curso, CursoDto, Integer, Cu
 			IllegalArgumentException, InvocationTargetException {
 
 		validatePermissionsToRead();
-		return findAllSubList(EstruturaCurricularService.class, EstruturaCurricularDto.class, id);
+		return findAllSubList(EstruturaCurricularService.class, EstruturaCurricular.class, EstruturaCurricularDto.class,
+				id);
 	}
 
 }
