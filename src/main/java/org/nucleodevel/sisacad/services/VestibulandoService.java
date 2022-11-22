@@ -61,10 +61,10 @@ public class VestibulandoService extends AbstractService<Vestibulando, Integer, 
 
 		String myCpf = entity.getCpf();
 
-		Optional<Vestibulando> similar = repository.findSimilarByCpfAndOfertaCurso(entity.getId(), myCpf,
-				myOfertaCurso);
+		Optional<Vestibulando> similar = repository.findSimilarByCpfAndVestibular(entity.getId(), myCpf,
+				myOfertaCurso.getVestibular());
 		similar.ifPresent(obj -> {
-			throw new DataIntegrityException("Já existe um cadastro com esse CPF nessa oferta de curso!");
+			throw new DataIntegrityException("Já existe um cadastro com esse CPF nesse vestibular!");
 		});
 	}
 

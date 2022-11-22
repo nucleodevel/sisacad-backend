@@ -29,7 +29,7 @@ public class AulaService extends AbstractService<Aula, Integer, AulaRepository> 
 			error += "Data e hora de término pendente; ";
 		}
 
-		if (entity.getInicio() != null && entity.getTermino() == null
+		if (entity.getInicio() != null && entity.getTermino() != null
 				&& entity.getInicio().getTime() > entity.getTermino().getTime()) {
 			error += "Data e hora de início posterior à de término; ";
 		}
